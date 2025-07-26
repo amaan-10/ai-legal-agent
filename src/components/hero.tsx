@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import LadyJustice from "../../public/images/lady-justice.png";
 import Gavel from "../../public/images/gavel.png";
 import { easeInOut } from "framer-motion";
+import Link from "next/link";
 
 const heading =
   "Your AI Legal Agent for Effortless Compliance & Document Automation";
@@ -32,7 +33,10 @@ const wordAnimation = {
 
 const Hero = () => {
   return (
-    <section className="relative bg-white pt-24 pb-20 md:pt-32 md:pb-24 overflow-hidden w-full">
+    <section
+      className="relative bg-white pt-24 pb-20 md:pt-32 md:pb-24 overflow-hidden w-full"
+      id="hero"
+    >
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[150%] sm:w-[100%] aspect-square">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_40%_40%_at_50%_0%,rgba(255,87,34,0.15),rgba(255,255,255,0))]"></div>
       </div>
@@ -666,7 +670,7 @@ const Hero = () => {
             className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4 w-full max-w-sm sm:max-w-none font-urbanist"
           >
             <div className="relative group">
-              <a
+              <Link
                 className="flex flex-row flex-nowrap items-center justify-center content-center gap-[10px] px-7 py-[13px] h-min w-min relative overflow-visible cursor-pointer no-underline border-[0.5px] border-solid rounded-[18px] bg-[#111111] opacity-100"
                 data-border="true"
                 style={{
@@ -680,7 +684,7 @@ const Hero = () => {
       rgba(0, 0, 0, 0.2) 0px 0px 0px 2px
     `,
                 }}
-                href="./#valuable-feature"
+                href="/#valuable-feature"
                 data-framer-name="Button Dark Icon Down"
               >
                 <div
@@ -743,7 +747,7 @@ const Hero = () => {
                     </svg>
                   </div>
                 </div>
-              </a>
+              </Link>
             </div>
 
             <div className=" relative group">
@@ -760,7 +764,7 @@ const Hero = () => {
     0px 0px 0px 2px var(--token-caa7547d-cf57-44d3-92c2-01fcbf1068be, rgb(243, 243, 241))
   `,
                 }}
-                href="./contact"
+                href="/contact"
                 data-framer-name="Button Light Icon Up"
               >
                 <div

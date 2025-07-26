@@ -3,24 +3,24 @@ import * as React from "react";
 import Image from "next/image";
 
 const featuresLinks = [
-  { name: "Benefits", href: "#" },
-  { name: "Why Choose Us", href: "#" },
-  { name: "How To Use", href: "#" },
-  { name: "Pricing", href: "#" },
+  { name: "Benefits", href: "/#benefits" },
+  { name: "Why Choose Us", href: "/#why-choose-us" },
+  { name: "How To Use", href: "/#how-to-use" },
+  { name: "FAQ", href: "/#faq" },
 ];
 
 const pagesLinks = [
   { name: "Homepage", href: "/" },
-  { name: "Contact", href: "#" },
-  { name: "404 Page", href: "#" },
-  { name: "Terms & Conditions", href: "#" },
+  { name: "Contact", href: "/contact" },
+  { name: "404 Page", href: "/404" },
+  { name: "Terms & Conditions", href: "/terms-and-conditions" },
 ];
 
 const socialLinks = [
-  { name: "Twitter(X)", href: "#" },
-  { name: "Instagram", href: "#" },
-  { name: "LinkedIn", href: "#" },
-  { name: "GitHub", href: "#" },
+  { name: "Twitter(X)", href: "https://x.com" },
+  { name: "Instagram", href: "https://www.instagram.com" },
+  { name: "LinkedIn", href: "https://www.linkedin.com" },
+  { name: "GitHub", href: "https://github.com" },
 ];
 
 const Footer = () => {
@@ -67,9 +67,9 @@ const Footer = () => {
                 className="text-[#616161] font-normal text-lg"
                 data-styles-preset="UCvrJxnzN"
               >
-                Streamline workflows and grow your business
-                <br className="text-[#616161] font-normal text-lg" />
-                with effective lead management.
+                Streamline legal processes and enhance client service
+                <br />
+                with intelligent AI-powered assistance.
               </p>
             </div>
             <div
@@ -83,11 +83,11 @@ const Footer = () => {
                 <a
                   className="text-[#616161] hover:text-[#111111] font-normal text-lg"
                   data-styles-preset="zyClEo6vE"
-                  href="mailto:hello@gmail.com"
+                  href="mailto:hello.nyayik@gmail.com"
                   target="_blank"
                   rel="noopener"
                 >
-                  hello.active@gmail.com
+                  hello.nyayik@gmail.com
                 </a>
               </p>
             </div>
@@ -254,7 +254,7 @@ const Footer = () => {
                 <a
                   className="text-[#616161] hover:text-[#111111] font-normal text-base"
                   data-styles-preset="zyClEo6vE"
-                  href="./term-and-conditions"
+                  href="/terms-and-conditions"
                 >
                   Terms &amp; Conditions
                 </a>

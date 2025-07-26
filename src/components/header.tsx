@@ -9,7 +9,7 @@ const Header = () => {
   useEffect(() => {
     const handleScroll = () => {
       const scrollY = window.scrollY;
-      setScrolled(scrollY > 10); // transition after top-10
+      setScrolled(scrollY > 10);
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -59,7 +59,7 @@ const Header = () => {
               <Link
                 className="block aspect-[3.4545] flex-none h-[33px] w-[114px] overflow-visible relative no-underline"
                 data-framer-name="Logo"
-                href="./"
+                href="/"
                 data-framer-page-link-current="true"
                 style={{ transform: "none", transformOrigin: "50% 50% 0px" }}
               >
@@ -105,7 +105,7 @@ const Header = () => {
                   <Link
                     className="text-[#616161]"
                     data-styles-preset="zyClEo6vE"
-                    href="./#valuable-feature"
+                    href="/#valuable-feature"
                   >
                     Features
                   </Link>
@@ -122,7 +122,7 @@ const Header = () => {
                   <Link
                     className="text-[#616161]"
                     data-styles-preset="zyClEo6vE"
-                    href="./#valuable-feature"
+                    href="/#benefits"
                   >
                     Benefits
                   </Link>
@@ -139,9 +139,9 @@ const Header = () => {
                   <Link
                     className="text-[#616161]"
                     data-styles-preset="zyClEo6vE"
-                    href="./#valuable-feature"
+                    href="/#how-to-use"
                   >
-                    Pricing
+                    How to Use
                   </Link>
                 </p>
               </div>
@@ -200,8 +200,7 @@ const Header = () => {
                 className="relative flex flex-nowrap flex-row items-center justify-center gap-[10px] p-[8px_26px] h-min w-min cursor-pointer overflow-visible no-underline rounded-[999px] bg-white border border-solid border-[rgb(240,236,231)] shadow-[rgba(0,0,0,0.133)_0px_0px_0px_-2.5px,rgba(0,0,0,0)_0px_0px_0px_-5px,rgba(0,0,0,0.15)_0px_-1px_4px_0px_inset,rgba(242,242,240,0.4)_0px_0px_0px_2px]"
                 data-border="true"
                 data-framer-name="Button S - Nav"
-                href="https://framer.com/projects/new?duplicate=wNS6iZDwLdrLfxZ3ePkA&amp;via=propartner&amp;via=propartner&amp;fp_sid=rxactive"
-                target="_blank"
+                href="/auth/sign-up"
                 rel="noopener"
               >
                 <div
@@ -212,7 +211,7 @@ const Header = () => {
                     className="text-black text-[17px] font-medium"
                     data-styles-preset="huFE_kN6t"
                   >
-                    Get Active
+                    Sign Up
                   </p>
                 </div>
                 <div

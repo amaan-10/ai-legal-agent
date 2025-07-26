@@ -139,7 +139,10 @@ const BenefitCard: FC<BenefitCardProps> = ({ iconSrc, title, description }) => (
 
 const BenefitsSection = () => {
   return (
-    <section className="flex flex-col items-center justify-center gap-6 p-[90px_60px] w-full h-min overflow-visible relative">
+    <section
+      className="flex flex-col items-center justify-center gap-6 p-[90px_60px] w-full h-min overflow-visible relative"
+      id="benefits"
+    >
       <div className="flex flex-row items-start justify-center gap-[60px] w-full max-w-[1228px] h-min overflow-visible p-0 relative flex-none">
         <div className="flex flex-col items-start justify-center gap-6 w-px max-w-[530px] h-min overflow-visible p-0 sticky top-[60px] z-[1] will-change-transform flex-[1_0_0px]">
           <motion.div
