@@ -46,6 +46,20 @@ export default function ChatBotComponent() {
   const [hasAcceptedDisclaimer, setHasAcceptedDisclaimer] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
+  useEffect(() => {
+    const storedValue = localStorage.getItem("hasAcceptedDisclaimer");
+    if (storedValue === "true") {
+      setHasAcceptedDisclaimer(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem(
+      "hasAcceptedDisclaimer",
+      hasAcceptedDisclaimer.toString()
+    );
+  }, [hasAcceptedDisclaimer]);
+
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
