@@ -6,6 +6,7 @@ import LadyJustice from "../../public/images/lady-justice.png";
 import Gavel from "../../public/images/gavel.png";
 import { easeInOut } from "framer-motion";
 import Link from "next/link";
+import { useResponsiveState } from "@/lib/useResponsiveState";
 
 const heading =
   "Your AI Legal Agent for Effortless Compliance & Document Automation";
@@ -32,6 +33,8 @@ const wordAnimation = {
 };
 
 const Hero = () => {
+  const deviceType = useResponsiveState();
+
   return (
     <section
       className="relative bg-white pt-24 pb-20 md:pt-32 md:pb-24 overflow-hidden w-full"
@@ -40,7 +43,7 @@ const Hero = () => {
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[150%] sm:w-[100%] aspect-square">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_40%_40%_at_50%_0%,rgba(255,87,34,0.15),rgba(255,255,255,0))]"></div>
       </div>
-      <div className="absolute left-0 right-0 top-0 z-[1] flex flex-row flex-nowrap items-center justify-center gap-[10px] h-min min-h-[350px] overflow-hidden p-0 flex-none">
+      <div className="absolute -left-12 md:left-0 -right-12 md:right-0 -top-24 lg:top-0 z-[1] flex flex-row flex-nowrap items-center justify-center gap-[10px] h-min min-h-[350px] overflow-hidden p-0 flex-none">
         <div
           className="flex-none h-auto -left-3 absolute -top-5 w-[434px] z-[1]"
           style={{ transform: "rotateY(180deg)" }}
@@ -148,9 +151,9 @@ const Hero = () => {
               />
             </div>
             <div
-              className="absolute top-[-56px] left-[calc(48.47826086956524%-124.31040564373899px/2)] flex flex-row flex-nowrap items-center content-center justify-center gap-[10px] h-[312px] w-[124px] overflow-hidden p-0 flex-none"
+              className="absolute top-[-110px] md:top-[-56px] left-[calc(48.47826086956524%-124.31040564373899px/2)] flex flex-row flex-nowrap items-center content-center justify-center gap-[10px] h-[312px] w-[124px] overflow-hidden p-0 flex-none"
               data-framer-name="Light 3"
-              style={{ filter: "blur(8px)", opacity: 1 }}
+              style={{ filter: "blur(8px)", opacity:  1 }}
             >
               <div
                 data-framer-component-type="SVG"
@@ -168,7 +171,7 @@ const Hero = () => {
               />
             </div>
             <div
-              className="absolute top-[-50px] left-[90px] flex flex-row flex-nowrap items-center content-center justify-center gap-[10px] h-[304px] w-[125px] overflow-hidden p-0 flex-none"
+              className="absolute top-[-110px] md:top-[-50px] left-[90px] flex flex-row flex-nowrap items-center content-center justify-center gap-[10px] h-[304px] w-[125px] overflow-hidden p-0 flex-none"
               data-framer-name="Light 2"
               style={{
                 filter: "blur(6px)",
@@ -370,7 +373,7 @@ const Hero = () => {
               />
             </div>
             <div
-              className="absolute top-[-56px] left-[calc(48.47826086956524%-124.31040564373899px/2)] flex flex-row flex-nowrap items-center content-center justify-center gap-[10px] h-[312px] w-[124px] overflow-hidden p-0 flex-none"
+              className="absolute top-[-110px] md:top-[-56px] left-[calc(48.47826086956524%-124.31040564373899px/2)] flex flex-row flex-nowrap items-center content-center justify-center gap-[10px] h-[312px] w-[124px] overflow-hidden p-0 flex-none"
               data-framer-name="Light 3"
               style={{ filter: "blur(8px)", opacity: 1 }}
             >
@@ -390,7 +393,7 @@ const Hero = () => {
               />
             </div>
             <div
-              className="absolute top-[-50px] left-[90px] flex flex-row flex-nowrap items-center content-center justify-center gap-[10px] h-[304px] w-[125px] overflow-hidden p-0 flex-none"
+              className="absolute top-[-110px] md:top-[-50px] left-[90px] flex flex-row flex-nowrap items-center content-center justify-center gap-[10px] h-[304px] w-[125px] overflow-hidden p-0 flex-none"
               data-framer-name="Light 2"
               style={{
                 filter: "blur(6px)",
@@ -489,16 +492,16 @@ const Hero = () => {
         </div>
       </div>
 
-      <div className="relative container mx-auto px-5">
+      <div className="relative container mx-auto pt-5 md:pt-0 px-5">
         <div className="flex flex-col items-center text-center">
           <motion.div
-            className="inline-flex items-center border border-gray-200 rounded-full py-1 pl-1.5 pr-4 mb-6 text-sm font-semibold"
+            className="inline-flex items-center border border-gray-200 rounded-full py-1 pl-1.5 pr-4 mb-3 md:mb-6 text-sm font-semibold"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ type: "spring", stiffness: 80, damping: 12 }}
             viewport={{ once: true, amount: 0.6 }}
           >
-            <span className="bg-[#F3F3F1] font-normal text-[15px] text-[#37312f] rounded-full px-3 py-0.5 mr-2">
+            <span className="bg-[#F3F3F1] font-normal text-[13px] lg:text-[15px] text-[#37312f] rounded-full px-3 py-0.5 mr-2">
               New
             </span>
             <div className="flex items-center gap-1.5">
@@ -509,14 +512,14 @@ const Hero = () => {
                 height={20}
                 className="w-4 h-4"
               />
-              <span className="font-normal text-base text-[#37312f]">
+              <span className="font-normal text-sm lg:text-base text-[#37312f]">
                 AI-Powered Legal Automation
               </span>
             </div>
           </motion.div>
 
           <motion.h1
-            className="font-urbanist font-semibold text-[38px] leading-[44px] sm:text-5xl lg:text-[56px] lg:leading-[1.1] max-w-[800px] mx-auto tracking-tight"
+            className="font-urbanist font-semibold text-[32px] md:text-[38px] leading-[44px] sm:text-5xl lg:text-[56px] lg:leading-[1.1] max-w-[770px] md:max-w-[430px] lg:max-w-[800px] mx-auto tracking-tight"
             variants={container}
             initial="hidden"
             whileInView="visible"
@@ -543,7 +546,7 @@ const Hero = () => {
               delay: 1.25,
             }}
             viewport={{ once: true, amount: 0.6 }}
-            className="mt-6 text-[#616161] text-lg max-w-2xl mx-auto"
+            className="mt-4 md:mt-6 text-[#616161] text-lg max-w-[690px] md:max-w-[500px] lg:max-w-2xl mx-auto"
           >
             Streamline legal workflows, automate contract review, and ensure
             compliance — powered by the latest in AI legal technology.
@@ -559,7 +562,7 @@ const Hero = () => {
               delay: 1.5,
             }}
             viewport={{ once: true, amount: 0.6 }}
-            className="mt-6 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 font-urbanist"
+            className="mt-4 md:mt-6 flex flex-wrap flex-col md:flex-row items-center justify-center gap-x-6 gap-y-2 font-urbanist"
           >
             <div className="flex items-center gap-2 ">
               <div className="w-8 h-8 p-[7px] border rounded-full shadow-md flex items-center justify-center">
@@ -666,7 +669,7 @@ const Hero = () => {
               damping: 12,
               delay: 1.75,
             }}
-            viewport={{ once: true, amount: 0.6 }}
+            viewport={{ once: true, amount: 0.1 }}
             className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4 w-full max-w-sm sm:max-w-none font-urbanist"
           >
             <div className="relative group">
@@ -841,12 +844,30 @@ const Hero = () => {
             className="absolute"
             style={{
               left: "40px",
-              top: "75px",
-              width: "250px",
-              height: "230px",
+              top: deviceType === "mobile" ? "250px" : "125px",
+              width:
+                deviceType === "mobile"
+                  ? "120px"
+                  : deviceType === "tablet"
+                  ? "175px"
+                  : "250px",
+              height:
+                deviceType === "mobile"
+                  ? "110px"
+                  : deviceType === "tablet"
+                  ? "161px"
+                  : "230px",
             }}
-            initial={{ opacity: 0, x: -150, rotate: 0 }}
-            whileInView={{ opacity: 1, x: -80, rotate: -8 }}
+            initial={{
+              opacity: 0,
+              x: deviceType === "mobile" ? -100 : -150,
+              rotate: 0,
+            }}
+            animate={{
+              opacity: deviceType === "mobile" ? 0 : 1,
+              x: deviceType === "mobile" ? 0 : -80,
+              rotate: -8,
+            }}
             transition={{
               duration: 1,
               delay: 2,
@@ -855,7 +876,7 @@ const Hero = () => {
               stiffness: 210,
               damping: 70,
             }}
-            viewport={{ once: true, amount: 0.6 }}
+            viewport={{ once: true, amount: 0.1 }}
           >
             <Image
               src={LadyJustice}
@@ -870,12 +891,22 @@ const Hero = () => {
             className="absolute"
             style={{
               right: "50px",
-              top: "75px",
-              width: "250px",
-              height: "230px",
+              top: deviceType === "mobile" ? "200px" : "125px",
+              width:
+                deviceType === "mobile"
+                  ? "120px"
+                  : deviceType === "tablet"
+                  ? "175px"
+                  : "250px",
+              height:
+                deviceType === "mobile"
+                  ? "110px"
+                  : deviceType === "tablet"
+                  ? "161px"
+                  : "230px",
             }}
             initial={{ opacity: 0, x: 150, rotate: 0 }}
-            whileInView={{ opacity: 1, x: 80, rotate: 8 }}
+            animate={{ opacity: deviceType === "mobile" ? 0 : 1, x: 80, rotate: 8 }}
             transition={{
               duration: 1,
               delay: 2,
@@ -884,7 +915,7 @@ const Hero = () => {
               stiffness: 210,
               damping: 70,
             }}
-            viewport={{ once: true, amount: 0.6 }}
+            viewport={{ once: true, amount: 0.1 }}
           >
             <Image
               src={Gavel}

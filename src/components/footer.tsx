@@ -34,11 +34,11 @@ const Footer = () => {
         data-framer-name="Container"
       >
         <div
-          className="flex flex-row flex-nowrap items-start content-start justify-between w-full h-min overflow-visible pb-[90px] p-0 relative flex-none"
+          className="flex flex-col lg:flex-row flex-nowrap items-start md:items-center gap-10 lg:gap-0 lg:items-start content-start justify-between w-full h-min overflow-visible pb-[35px] md:pb-[60px] lg:pb-[90px] p-0 relative flex-none"
           data-framer-name="Content"
         >
           <div
-            className="flex flex-col flex-nowrap items-start content-start justify-center gap-6 h-min w-min overflow-visible p-0 relative flex-none"
+            className="flex flex-col flex-nowrap items-start md:items-center lg:items-start content-start justify-center gap-6 h-min w-min overflow-visible p-0 relative flex-none"
             data-framer-name="Right Content"
           >
             <div
@@ -64,11 +64,11 @@ const Footer = () => {
               data-framer-component-type="RichTextContainer"
             >
               <p
-                className="text-[#616161] font-normal text-lg"
+                className="text-[#616161] font-normal text-base lg:text-lg text-left md:text-center lg:text-left font-urbanist"
                 data-styles-preset="UCvrJxnzN"
               >
-                Streamline legal processes and enhance client service
-                <br />
+                Streamline legal processes and enhance client service{" "}
+                <br className="hidden md:block" />
                 with intelligent AI-powered assistance.
               </p>
             </div>
@@ -81,7 +81,7 @@ const Footer = () => {
                 data-styles-preset="UCvrJxnzN"
               >
                 <a
-                  className="text-[#616161] hover:text-[#111111] font-normal text-lg"
+                  className="text-[#616161] hover:text-[#111111] font-normal text-base lg:text-lg font-urbanist"
                   data-styles-preset="zyClEo6vE"
                   href="mailto:hello.nyayik@gmail.com"
                   target="_blank"
@@ -93,11 +93,11 @@ const Footer = () => {
             </div>
           </div>
           <div
-            className="flex flex-row flex-nowrap items-start content-start justify-center gap-[80px] w-min h-min overflow-visible p-0 relative flex-none"
+            className="flex flex-col md:flex-row flex-nowrap items-start content-start justify-start md:justify-around lg:justify-center gap-[32px] md:gap-0 lg:gap-[80px] w-full lg:w-min h-min overflow-visible p-0 relative flex-none"
             data-framer-name="Menu"
           >
             <div
-              className="flex flex-col flex-nowrap items-start content-start justify-center gap-[30px] w-min h-min overflow-visible p-0 relative flex-none"
+              className="flex flex-col flex-nowrap items-start md:items-center lg:items-start content-start justify-center gap-4 md:gap-[30px] w-min h-min overflow-visible p-0 relative flex-none"
               data-framer-name="Features Link"
             >
               <div
@@ -105,7 +105,7 @@ const Footer = () => {
                 data-framer-component-type="RichTextContainer"
               >
                 <p
-                  className="text-[#111111] font-normal text-lg"
+                  className="text-[#111111] font-normal text-base lg:text-lg font-urbanist"
                   data-styles-preset="UCvrJxnzN"
                 >
                   Features
@@ -116,18 +116,18 @@ const Footer = () => {
                 data-framer-name="Page Link Item"
               >
                 <div
-                  className="outline-none flex flex-col justify-start shrink-0 flex-none h-auto w-auto relative gap-3 whitespace-pre opacity-100 text-[#616161]"
+                  className="outline-none flex flex-col items-start md:items-center lg:items-start justify-start shrink-0 flex-none h-auto w-auto relative gap-3 whitespace-pre opacity-100 text-[#616161]"
                   data-framer-component-type="RichTextContainer"
                 >
                   {featuresLinks.map((link) => (
                     <p
                       key={link.name}
-                      className="text-[#616161] font-normal text-lg"
+                      className="text-[#616161] font-normal text-base lg:text-lg"
                       data-styles-preset="UCvrJxnzN"
                     >
                       <Link
                         href={link.href}
-                        className="text-[#616161] hover:text-[#111111] font-normal text-lg"
+                        className="text-[#616161] hover:text-[#111111] font-normal text-base lg:text-lg font-urbanist"
                         data-styles-preset="zyClEo6vE"
                       >
                         {link.name}
@@ -139,15 +139,15 @@ const Footer = () => {
             </div>
 
             <div
-              className="flex flex-col flex-nowrap items-start content-start justify-center gap-[30px] w-min h-min overflow-visible p-0 relative flex-none"
-              data-framer-name="Features Link"
+              className="flex flex-col flex-nowrap items-start md:items-center lg:items-start content-start justify-center gap-4 md:gap-[30px] w-min h-min overflow-visible p-0 relative flex-none"
+              data-framer-name="Pages Link"
             >
               <div
                 className="outline-none flex flex-col justify-start shrink-0 flex-none h-auto w-auto relative whitespace-pre opacity-100"
                 data-framer-component-type="RichTextContainer"
               >
                 <p
-                  className="text-[#111111] font-normal text-lg"
+                  className="text-[#111111] font-normal text-base lg:text-lg font-urbanist"
                   data-styles-preset="UCvrJxnzN"
                 >
                   Pages
@@ -158,18 +158,18 @@ const Footer = () => {
                 data-framer-name="Page Link Item"
               >
                 <div
-                  className="outline-none flex flex-col justify-start shrink-0 flex-none h-auto w-auto gap-3 relative whitespace-pre opacity-100 text-[#616161]"
+                  className="outline-none flex flex-col items-start md:items-center lg:items-start justify-start shrink-0 flex-none h-auto w-auto gap-3 relative whitespace-pre opacity-100 text-[#616161]"
                   data-framer-component-type="RichTextContainer"
                 >
                   {pagesLinks.map((link) => (
                     <p
                       key={link.name}
-                      className="text-[#616161] font-normal text-lg"
+                      className="text-[#616161] font-normal text-base lg:text-lg"
                       data-styles-preset="UCvrJxnzN"
                     >
                       <Link
                         href={link.href}
-                        className="text-[#616161] hover:text-[#111111] font-normal text-lg"
+                        className="text-[#616161] hover:text-[#111111] font-normal text-base lg:text-lg font-urbanist"
                         data-styles-preset="zyClEo6vE"
                       >
                         {link.name}
@@ -181,15 +181,15 @@ const Footer = () => {
             </div>
 
             <div
-              className="flex flex-col flex-nowrap items-start content-start justify-center gap-[30px] w-min h-min overflow-visible p-0 relative flex-none"
-              data-framer-name="Features Link"
+              className="flex flex-col flex-nowrap items-start md:items-center lg:items-start content-start justify-center gap-4 md:gap-[30px] w-min h-min overflow-visible p-0 relative flex-none"
+              data-framer-name="Socal Link"
             >
               <div
                 className="outline-none flex flex-col justify-start shrink-0 flex-none h-auto w-auto relative whitespace-pre opacity-100"
                 data-framer-component-type="RichTextContainer"
               >
                 <p
-                  className="text-[#111111] font-normal text-lg"
+                  className="text-[#111111] font-normal text-base lg:text-lg font-urbanist"
                   data-styles-preset="UCvrJxnzN"
                 >
                   Social
@@ -200,18 +200,18 @@ const Footer = () => {
                 data-framer-name="Page Link Item"
               >
                 <div
-                  className="outline-none flex flex-col justify-start shrink-0 flex-none h-auto w-auto relative gap-3 whitespace-pre opacity-100 text-[#616161]"
+                  className="outline-none flex flex-col items-start md:items-center lg:items-start justify-start shrink-0 flex-none h-auto w-auto relative gap-3 whitespace-pre opacity-100 text-[#616161]"
                   data-framer-component-type="RichTextContainer"
                 >
                   {socialLinks.map((link) => (
                     <p
                       key={link.name}
-                      className="text-[#616161] font-normal text-lg"
+                      className="text-[#616161] font-normal text-base lg:text-lg"
                       data-styles-preset="UCvrJxnzN"
                     >
                       <Link
                         href={link.href}
-                        className="text-[#616161] hover:text-[#111111] font-normal text-lg"
+                        className="text-[#616161] hover:text-[#111111] font-normal text-base lg:text-lg font-urbanist"
                         data-styles-preset="zyClEo6vE"
                       >
                         {link.name}
@@ -236,7 +236,7 @@ const Footer = () => {
           }}
         ></div>
         <div
-          className="flex flex-row flex-nowrap items-center content-center justify-between w-full h-min overflow-hidden pt-[24px] pb-0 px-0 relative flex-none"
+          className="flex flex-col md:flex-row flex-nowrap items-start md:items-center gap-2 md:gap-0 content-center justify-between w-full h-min overflow-hidden pt-[24px] pb-0 px-0 relative flex-none"
           data-framer-name="Copyright"
         >
           <div
