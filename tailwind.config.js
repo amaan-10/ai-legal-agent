@@ -13,6 +13,13 @@ module.exports = {
         urbanist: ["var(--font-urbanist)"],
       },
     },
+    screens: {
+      md: "810px",
+      lg: "1200px",
+      portrait: {
+        raw: "(orientation: portrait)",
+      },
+    },
   },
   plugins: [tailwindcssAnimate],
 };
