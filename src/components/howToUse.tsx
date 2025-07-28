@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 const HowToUse = () => {
   return (
     <section
-      className="flex flex-col items-center justify-center gap-[10px] w-full px-[60px] pt-[90px] pb-[120px] bg-[#fafaf7] overflow-visible h-min relative"
+      className="flex flex-col items-center justify-center gap-[10px] w-full px-5 md:px-[30px] lg:px-[60px] py-[90px] bg-[#fafaf7] overflow-visible h-min relative"
       data-framer-name="How To Use"
       id="how-to-use"
     >
@@ -45,7 +45,7 @@ const HowToUse = () => {
                   data-framer-component-type="RichTextContainer"
                 >
                   <p
-                    className="text-[#37312f] text-base font-normal font-urbanist"
+                    className="text-[#37312f] text-[15px] lg:text-base font-normal font-urbanist"
                     data-styles-preset="NFQi0OUa3"
                   >
                     How to Use?
@@ -65,11 +65,11 @@ const HowToUse = () => {
               duration: 0.3,
             }}
             viewport={{ once: true, amount: 0.6 }}
-            className="outline-none flex flex-col justify-start flex-shrink-0 flex-none h-auto w-auto relative whitespace-pre opacity-100 transform-none"
+            className="outline-none flex flex-col justify-start flex-shrink-0 flex-none h-auto w-auto relative lg:whitespace-pre opacity-100 transform-none"
             data-framer-component-type="RichTextContainer"
           >
             <h2
-              className="text-[52px] font-urbanist font-semibold text-[#111111]"
+              className="text-[33px] md:text-[43px] lg:text-[52px] font-urbanist font-semibold text-[#111111] text-center"
               data-styles-preset="o4SbqhkD9"
             >
               Simple Steps to Get Started
@@ -90,7 +90,7 @@ const HowToUse = () => {
             data-framer-component-type="RichTextContainer"
           >
             <p
-              className="font-normal text-lg text-[#616161] text-center"
+              className="font-normal text-base lg:text-lg text-[#616161] text-center"
               data-styles-preset="UCvrJxnzN"
             >
               Experience CRM at its finest with smooth integration, insightful
@@ -99,7 +99,7 @@ const HowToUse = () => {
           </motion.div>
         </div>
         <div
-          className="flex flex-row items-start justify-center gap-[32px] w-full h-min overflow-visible p-0 relative"
+          className="flex flex-row flex-wrap lg:flex-nowrap items-start justify-center gap-6 lg:gap-[32px] w-full h-min overflow-visible p-0 relative"
           data-framer-name="Content"
         >
           <div className="contents">
@@ -114,7 +114,7 @@ const HowToUse = () => {
                 duration: 0.3,
               }}
               viewport={{ once: true, amount: 0.6 }}
-              className="flex-[1_0_0px] h-auto w-[1px] relative"
+              className="flex-none lg:flex-[1_0_0px] h-auto w-full md:w-[44%] lg:w-[1px] relative"
             >
               <div
                 className="flex flex-col items-center justify-center gap-[10px] w-full h-min p-[4px] relative overflow-visible rounded-[31px] shadow-[0px_5px_20px_0px_rgba(0,0,0,0.07)] bg-white opacity-100"
@@ -136,7 +136,7 @@ const HowToUse = () => {
                   }}
                 >
                   <div
-                    className="flex flex-row items-center justify-between w-full h-min overflow-visible p-0 relative"
+                    className="flex flex-row flex-nowrap items-center justify-between w-full h-min overflow-visible p-0 relative"
                     data-framer-name="Image &amp; Text"
                   >
                     <div
@@ -230,7 +230,7 @@ const HowToUse = () => {
                 duration: 0.3,
               }}
               viewport={{ once: true, amount: 0.6 }}
-              className="flex-[1_0_0px] h-auto w-[1px] relative"
+              className="flex-none lg:flex-[1_0_0px] h-auto w-full md:w-[44%] lg:w-[1px] relative"
             >
               <div
                 className="flex flex-col items-center justify-center gap-[10px] w-full h-min p-[4px] relative overflow-visible rounded-[31px] shadow-[0px_5px_20px_0px_rgba(0,0,0,0.07)] bg-white opacity-100"
@@ -346,7 +346,7 @@ const HowToUse = () => {
                 duration: 0.3,
               }}
               viewport={{ once: true, amount: 0.6 }}
-              className="flex-[1_0_0px] h-auto w-[1px] relative"
+              className="flex-none lg:flex-[1_0_0px] h-auto w-full md:w-[44%] lg:w-[1px] relative"
             >
               <div
                 className="flex flex-col items-center justify-center gap-[10px] w-full h-min p-[4px] relative overflow-visible rounded-[31px] shadow-[0px_5px_20px_0px_rgba(0,0,0,0.07)] bg-white opacity-100"
@@ -462,7 +462,7 @@ const HowToUse = () => {
                 duration: 0.3,
               }}
               viewport={{ once: true, amount: 0.6 }}
-              className="flex-[1_0_0px] h-auto w-[1px] relative"
+              className="flex-none lg:flex-[1_0_0px] h-auto w-full md:w-[44%] lg:w-[1px] relative"
             >
               <div
                 className="flex flex-col items-center justify-center gap-[10px] w-full h-min p-[4px] relative overflow-visible rounded-[31px] shadow-[0px_5px_20px_0px_rgba(0,0,0,0.07)] bg-white opacity-100"

@@ -52,7 +52,7 @@ const FAQ = () => {
   });
   return (
     <section
-      className="flex flex-col items-center justify-center bg-white gap-0 p-[90px_60px] w-full h-min overflow-hidden relative"
+      className="flex flex-col items-center justify-center bg-white gap-0 px-5 md:px-[30px] lg:px-[60px] py-[90px] w-full h-min overflow-hidden relative"
       data-framer-name="FAQ"
       id="faq"
     >
@@ -61,7 +61,7 @@ const FAQ = () => {
         data-framer-name="Container"
       >
         <div
-          className="flex flex-col items-center justify-center flex-none flex-nowrap gap-6 h-min overflow-hidden p-0 relative w-min"
+          className="flex flex-col items-center justify-center flex-none flex-nowrap gap-6 h-min overflow-hidden p-0 relative w-auto"
           data-framer-name="Heading"
         >
           <motion.div
@@ -91,7 +91,7 @@ const FAQ = () => {
                   data-framer-component-type="RichTextContainer"
                 >
                   <p
-                    className="text-[#37312f] text-base font-normal font-urbanist"
+                    className="text-[#37312f] text-[15px] lg:text-base font-normal font-urbanist"
                     data-styles-preset="NFQi0OUa3"
                   >
                     Common Question
@@ -112,11 +112,11 @@ const FAQ = () => {
                 duration: 0.3,
               }}
               viewport={{ once: true, amount: 0.6 }}
-              className="outline-none flex flex-col justify-start flex-shrink-0 opacity-100 transform-none flex-none h-auto w-auto relative whitespace-pre"
+              className="outline-none flex flex-col justify-start flex-shrink-0 opacity-100 transform-none flex-none h-auto w-auto relative"
               data-framer-component-type="RichTextContainer"
             >
               <h2
-                className="text-[52px] font-semibold text-[#111111] font-urbanist"
+                className="text-[33px] md:text-[43px] lg:text-[52px] font-semibold text-[#111111] font-urbanist text-center"
                 data-styles-preset="o4SbqhkD9"
               >
                 Frequently Asked Questions
@@ -125,7 +125,7 @@ const FAQ = () => {
           </div>
         </div>
         <div
-          className="flex flex-col items-center justify-center flex-none flex-nowrap gap-5 h-min w-min max-w-[1018px] overflow-hidden p-0 relative"
+          className="flex flex-col items-center justify-center flex-none flex-nowrap gap-5 h-min lg:w-min max-w-[1018px] overflow-hidden p-0 relative"
           data-framer-name="Wrapper"
         >
           {faqData.map((faq, index) => (
@@ -142,7 +142,7 @@ const FAQ = () => {
               viewport={{ once: true, amount: 0.2 }}
               key={index}
               onClick={() => toggle(index)}
-              className="cursor-pointer rounded-[30px] w-[810px] overflow-hidden"
+              className="cursor-pointer rounded-[30px] w-full lg:w-[810px] overflow-hidden"
               style={
                 openStates[index]
                   ? {
@@ -156,7 +156,7 @@ const FAQ = () => {
             >
               <div className="p-6 flex flex-col gap-5">
                 <div className="flex justify-between items-start">
-                  <h3 className="text-2xl font-semibold text-[#111111] font-urbanist">
+                  <h3 className="text-xl md:text-[22px] lg:text-2xl font-semibold text-[#111111] font-urbanist">
                     {faq.question}
                   </h3>
                   <motion.svg
@@ -180,7 +180,7 @@ const FAQ = () => {
 
                 <div ref={parent}>
                   {openStates[index] && (
-                    <div className="text-[#616161] text-lg font-normal">
+                    <div className="text-[#616161] text-base lg:text-lg font-normal">
                       <p>{faq.answer.slice(0, 1)}</p>
                       {faq.answer.length > 1 && (
                         <>

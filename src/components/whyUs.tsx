@@ -6,20 +6,19 @@ import { motion } from "framer-motion";
 const WhyUs = () => {
   return (
     <section
-      className="flex flex-col items-center justify-center gap-6 w-full min-h-0 p-[90px_60px]"
+      className="flex flex-col items-center justify-center gap-6 w-full min-h-0 px-5 md:px-[30px] lg:px-[60px] py-[90px]"
       style={{
-        backgroundColor:
-          "var(--token-21001bb2-95fc-4899-93cf-7cca6736a1a2, #fafaf7)",
+        backgroundColor: "#fafaf7",
       }}
       data-framer-name="Why Choose Us"
       id="why-choose-us"
     >
       <div
-        className="flex flex-row flex-nowrap items-start justify-center gap-[60px] w-full max-w-[1228px] relative overflow-visible"
+        className="flex flex-col lg:flex-row flex-nowrap items-center lg:items-start justify-center gap-[60px] w-full max-w-[1228px] relative overflow-visible"
         data-framer-name="Container"
       >
         <div
-          className="flex flex-col flex-nowrap flex-1 gap-6 h-min justify-center items-start content-start max-w-[530px] overflow-visible p-0 relative w-px z-[1]"
+          className="flex flex-col flex-nowrap flex-1 gap-6 h-min justify-center items-center lg:items-start content-start max-w-full lg:max-w-[530px] overflow-visible p-0 relative lg:w-px z-[1]"
           data-framer-name="Heading"
         >
           <motion.div
@@ -70,11 +69,11 @@ const WhyUs = () => {
                 duration: 0.3,
               }}
               viewport={{ once: true, amount: 0.6 }}
-              className="outline-none  flex flex-col justify-start  flex-shrink-0 flex-none  h-auto w-full  relative  whitespace-pre-wrap  break-words  opacity-100"
+              className="outline-none  flex flex-col justify-start items-center lg:items-start flex-shrink-0 flex-none  h-auto w-full  relative  whitespace-pre-wrap  break-words  opacity-100"
               data-framer-component-type="RichTextContainer"
             >
               <h2
-                className="text-[52px] font-semibold text-[#111111] font-urbanist"
+                className="text-[33px] md:text-[43px] lg:text-[52px] font-semibold text-[#111111] font-urbanist text-center lg:text-left"
                 data-styles-preset="o4SbqhkD9"
               >
                 Your Trusted AI Legal Partner for Every Case
@@ -93,11 +92,11 @@ const WhyUs = () => {
                 duration: 0.3,
               }}
               viewport={{ once: true, amount: 0.6 }}
-              className="outline-none flex flex-col justify-start flex-shrink-0 opacity-100 transform-none flex-none h-auto relative whitespace-pre-wrap w-full break-words"
+              className="outline-none flex flex-col justify-start items-center lg:items-start flex-shrink-0 opacity-100 transform-none flex-none h-auto relative whitespace-pre-wrap w-full max-w-full md:max-w-[500px] lg:max-w-full break-words"
               data-framer-component-type="RichTextContainer"
             >
               <p
-                className="text-lg text-[#616161] font-normal"
+                className="text-base lg:text-lg text-[#616161] font-normal text-center lg:text-left"
                 data-styles-preset="UCvrJxnzN"
               >
                 We deliver intelligent legal support customized to your specific
@@ -116,12 +115,12 @@ const WhyUs = () => {
               duration: 0.3,
             }}
             viewport={{ once: true, amount: 0.6 }}
-            className="flex flex-none flex-row flex-wrap items-center content-center justify-start gap-[27px] h-min w-full relative overflow-visible py-3 opacity-100"
+            className="flex flex-none flex-row flex-wrap items-center content-center justify-center lg:justify-start gap-5 md:gap-[27px] h-min w-full relative overflow-visible py-3 opacity-100"
             data-framer-name="Counter Wrapper"
           >
             <div className="contents">
               <div
-                className="flex-none h-auto relative w-[100px]"
+                className="flex-none h-auto relative w-[80px] md:w-[100px]"
                 data-framer-name="Counter"
               >
                 <div
@@ -133,7 +132,7 @@ const WhyUs = () => {
                     data-framer-component-type="RichTextContainer"
                   >
                     <h3
-                      className="font-semibold font-urbanist text-4xl text-[#37312f]"
+                      className="font-semibold font-urbanist text-[28px] md:text-4xl text-[#37312f]"
                       data-styles-preset="ywPM9lqZT"
                     >
                       100k+
@@ -144,7 +143,7 @@ const WhyUs = () => {
                     data-framer-component-type="RichTextContainer"
                   >
                     <p
-                      className="text-lg font-normal text-[#616161]"
+                      className="text-base lg:text-lg font-normal text-[#616161]"
                       data-styles-preset="UCvrJxnzN"
                     >
                       Positive Reviews
@@ -166,7 +165,7 @@ const WhyUs = () => {
             ></div>
             <div className="contents">
               <div
-                className="flex-none h-auto relative w-[100px]"
+                className="flex-none h-auto relative w-[80px] md:w-[100px]"
                 data-framer-name="Counter"
               >
                 <div
@@ -178,7 +177,7 @@ const WhyUs = () => {
                     data-framer-component-type="RichTextContainer"
                   >
                     <h3
-                      className="font-semibold font-urbanist text-4xl text-[#37312f]"
+                      className="font-semibold font-urbanist text-[28px] md:text-4xl text-[#37312f]"
                       data-styles-preset="ywPM9lqZT"
                     >
                       78k+
@@ -189,7 +188,7 @@ const WhyUs = () => {
                     data-framer-component-type="RichTextContainer"
                   >
                     <p
-                      className="text-lg font-normal text-[#616161]"
+                      className="text-base lg:text-lg font-normal text-[#616161]"
                       data-styles-preset="UCvrJxnzN"
                     >
                       Users Satisfied
@@ -211,7 +210,7 @@ const WhyUs = () => {
             ></div>
             <div className="contents">
               <div
-                className="flex-none h-auto relative w-[100px]"
+                className="flex-none h-auto relative w-[80px] md:w-[100px]"
                 data-framer-name="Counter"
               >
                 <div
@@ -223,7 +222,7 @@ const WhyUs = () => {
                     data-framer-component-type="RichTextContainer"
                   >
                     <h3
-                      className="font-semibold font-urbanist text-4xl text-[#37312f]"
+                      className="font-semibold font-urbanist text-[28px] md:text-4xl text-[#37312f]"
                       data-styles-preset="ywPM9lqZT"
                     >
                       4.9/5
@@ -234,7 +233,7 @@ const WhyUs = () => {
                     data-framer-component-type="RichTextContainer"
                   >
                     <p
-                      className="text-lg font-normal text-[#616161]"
+                      className="text-base lg:text-lg font-normal text-[#616161]"
                       data-styles-preset="UCvrJxnzN"
                     >
                       Overall Ratings
@@ -246,7 +245,7 @@ const WhyUs = () => {
           </motion.div>
         </div>
         <div
-          className="flex flex-col flex-[1_0_0px] flex-nowrap items-center content-center justify-center gap-8 h-min overflow-visible p-0 relative w-px"
+          className="flex flex-col md:flex-row lg:flex-col flex-[1_0_0px] flex-nowrap items-center content-center justify-center gap-8 h-min overflow-visible p-0 relative w-full lg:w-px"
           data-framer-name="Wrapper"
         >
           <motion.div
@@ -260,7 +259,7 @@ const WhyUs = () => {
               duration: 0.3,
             }}
             viewport={{ once: true, amount: 0.6 }}
-            className="flex flex-row flex-nowrap items-center content-center justify-center gap-[10px] p-1 w-full h-min relative flex-none rounded-[31px] bg-white shadow-[0_0_14px_0_rgba(0,0,0,0.05)]"
+            className="flex flex-row flex-nowrap items-center content-center justify-center gap-[10px] p-1 w-full md:w-px lg:w-full h-min relative flex-[1_0_0px] lg:flex-none rounded-[31px] bg-white shadow-[0_0_14px_0_rgba(0,0,0,0.05)]"
             data-framer-name="Card"
           >
             <div
@@ -317,7 +316,7 @@ const WhyUs = () => {
                       data-framer-component-type="RichTextContainer"
                     >
                       <h3
-                        className="text-2xl font-semibold font-urbanist text-[#111111]"
+                        className="text-[20px] md:text-[22px] lg:text-2xl font-semibold font-urbanist text-[#111111]"
                         data-styles-preset="mnefNh2fC"
                       >
                         Smart Legal Automation
@@ -331,7 +330,7 @@ const WhyUs = () => {
                   data-framer-component-type="RichTextContainer"
                 >
                   <p
-                    className="text-lg font-normal text-[#616161]"
+                    className="text-base lg:text-lg font-normal text-[#616161]"
                     data-styles-preset="UCvrJxnzN"
                   >
                     Streamline legal research, document drafting, and compliance
@@ -353,7 +352,7 @@ const WhyUs = () => {
               duration: 0.3,
             }}
             viewport={{ once: true, amount: 0.6 }}
-            className="flex flex-row flex-nowrap items-center content-center justify-center gap-[10px] p-1 w-full h-min relative flex-none rounded-[31px] bg-white shadow-[0_0_14px_0_rgba(0,0,0,0.05)]"
+            className="flex flex-row flex-nowrap items-center content-center justify-center gap-[10px] p-1 w-full md:w-px lg:w-full h-min relative flex-[1_0_0px] lg:flex-none rounded-[31px] bg-white shadow-[0_0_14px_0_rgba(0,0,0,0.05)]"
             data-framer-name="Card"
           >
             <div
@@ -410,7 +409,7 @@ const WhyUs = () => {
                       data-framer-component-type="RichTextContainer"
                     >
                       <h3
-                        className="text-2xl font-semibold font-urbanist text-[#111111]"
+                        className="text-[20px] md:text-[22px] lg:text-2xl font-semibold font-urbanist text-[#111111]"
                         data-styles-preset="mnefNh2fC"
                       >
                         Mobile-First Legal Assistance
@@ -424,7 +423,7 @@ const WhyUs = () => {
                   data-framer-component-type="RichTextContainer"
                 >
                   <p
-                    className="text-lg font-normal text-[#616161]"
+                    className="text-base lg:text-lg font-normal text-[#616161]"
                     data-styles-preset="UCvrJxnzN"
                   >
                     Manage consultations, track case updates, and review

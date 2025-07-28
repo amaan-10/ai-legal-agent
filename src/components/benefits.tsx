@@ -111,7 +111,7 @@ const BenefitCard: FC<BenefitCardProps> = ({ iconSrc, title, description }) => (
           </div>
         </div>
         <div
-          className="flex flex-col justify-start shrink-0 transform-none opacity-100 relative whitespace-pre w-auto h-auto outline-none"
+          className="flex flex-col justify-start transform-none opacity-100 relative w-auto h-auto outline-none"
           data-framer-component-type="RichTextContainer"
         >
           <h3
@@ -140,11 +140,11 @@ const BenefitCard: FC<BenefitCardProps> = ({ iconSrc, title, description }) => (
 const BenefitsSection = () => {
   return (
     <section
-      className="flex flex-col items-center justify-center gap-6 p-[90px_60px] w-full h-min overflow-visible relative"
+      className="flex flex-col items-center justify-center gap-6 px-5 md:px-[30px] lg:px-[60px] py-[90px] w-full h-min overflow-visible relative"
       id="benefits"
     >
-      <div className="flex flex-row items-start justify-center gap-[60px] w-full max-w-[1228px] h-min overflow-visible p-0 relative flex-none">
-        <div className="flex flex-col items-start justify-center gap-6 w-px max-w-[530px] h-min overflow-visible p-0 sticky top-[60px] z-[1] will-change-transform flex-[1_0_0px]">
+      <div className="flex flex-col lg:flex-row items-start justify-center gap-[60px] w-full max-w-[1228px] h-min overflow-visible p-0 relative flex-none">
+        <div className="flex flex-col items-start justify-center gap-6 lg:w-px lg:max-w-[530px] h-min overflow-visible p-0 lg:sticky top-[60px] z-[1] will-change-transform flex-[1_0_0px]">
           <motion.div
             initial={{ opacity: 0, y: 15 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -196,7 +196,7 @@ const BenefitsSection = () => {
                 duration: 0.3,
               }}
               viewport={{ once: true, amount: 0.6 }}
-              className=" text-[52px] font-urbanist text-[#111111] font-semibold"
+              className=" text-[33px] md:text-[43px] lg:text-[52px] font-urbanist text-[#111111] font-semibold"
               data-styles-preset="o4SbqhkD9"
             >
               AI Legal Operations, Automated Compliance, & Secure Document
@@ -205,7 +205,7 @@ const BenefitsSection = () => {
           </div>
 
           <div
-            className="flex flex-col justify-start flex-shrink-0 flex-none h-auto w-full relative whitespace-pre-wrap break-words outline-none opacity-100 transform-none"
+            className="flex flex-col justify-start flex-shrink-0 flex-none h-auto w-full max-w-full md:max-w-[500px] lg:max-w-full relative whitespace-pre-wrap break-words outline-none opacity-100 transform-none"
             data-framer-component-type="RichTextContainer"
           >
             <motion.p
@@ -238,7 +238,7 @@ const BenefitsSection = () => {
               duration: 0.3,
             }}
             viewport={{ once: true, amount: 0.6 }}
-            className="flex flex-row flex-wrap items-start justify-start gap-[10px] p-[12px_20px] w-full h-min overflow-visible relative flex-none opacity-100 transform-none"
+            className="flex flex-row flex-wrap items-start justify-start gap-[10px] p-0 md:p-[10px_0px] lg:p-[12px_20px] w-full h-min overflow-visible relative flex-none opacity-100 transform-none"
           >
             {tags.map((tag) => (
               <div key={tag} className="flex-none h-auto w-auto relative">
@@ -273,7 +273,7 @@ const BenefitsSection = () => {
           </motion.div>
         </div>
 
-        <div className="flex flex-col flex-[1_0_0px] flex-nowrap items-center justify-center gap-[54px] h-min w-px relative overflow-visible p-0 opacity-100 transform-none">
+        <div className="flex flex-col flex-[1_0_0px] flex-nowrap items-center justify-center gap-[54px] h-min lg:w-px relative overflow-visible p-0 opacity-100 transform-none">
           <motion.div
             initial={{ opacity: 0, y: 15 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -284,7 +284,7 @@ const BenefitsSection = () => {
               delay: 0.8,
               duration: 0.3,
             }}
-            viewport={{ once: true, amount: 0.3 }}
+            viewport={{ once: true, amount: 0.1 }}
             className="flex flex-col flex-none flex-nowrap items-center justify-center gap-[54px] h-min w-full relative overflow-visible pb-[90px] pt-0 px-0"
           >
             <div

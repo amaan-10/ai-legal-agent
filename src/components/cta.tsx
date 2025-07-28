@@ -6,7 +6,7 @@ import Image from "next/image";
 const CTA = () => {
   return (
     <section
-      className="flex flex-col items-center justify-center flex-none flex-nowrap gap-0 min-h-fit w-full overflow-hidden px-[60px] pt-[90px] pb-[60px] bg-[#fefefe] relative"
+      className="flex flex-col items-center justify-center flex-none flex-nowrap gap-0 min-h-fit w-full overflow-hidden  px-5 md:px-[30px] lg:px-[60px] py-[90px] bg-[#fefefe] relative"
       data-framer-name="CTA"
       id="cta"
     >
@@ -30,7 +30,7 @@ const CTA = () => {
                 data-framer-name="Border"
               >
                 <div
-                  className="relative flex flex-row flex-nowrap items-center justify-center gap-0 overflow-hidden px-[52px] py-[90px] w-[1px] h-min rounded-[40px] bg-white border border-solid border-[#f3f3f1] flex-[1_0_0px] opacity-100 will-change-transform"
+                  className="relative flex flex-row flex-nowrap items-center justify-center gap-0 overflow-hidden px-[30px] md:px-[52px] py-[45px] md:py-[90px] w-[1px] h-min rounded-[40px] bg-white border border-solid border-[#f3f3f1] flex-[1_0_0px] opacity-100 will-change-transform"
                   data-border="true"
                   data-framer-name="Content"
                 >
@@ -39,11 +39,11 @@ const CTA = () => {
                     data-framer-name="Wrapper"
                   >
                     <div
-                      className="relative flex flex-col flex-nowrap items-center justify-center gap-[60px] overflow-visible p-0 w-min h-min"
+                      className="relative flex flex-col flex-nowrap items-center justify-center gap-[60px] overflow-visible p-0 md:w-min h-min"
                       data-framer-name="Content"
                     >
                       <div
-                        className="relative flex flex-col flex-nowrap items-center justify-center gap-[24px] overflow-hidden p-0 w-[1110px] h-min flex-none"
+                        className="relative flex flex-col flex-nowrap items-center justify-center gap-5 md:gap-[24px] overflow-hidden p-0 w-full lg:w-[1110px] h-min flex-none"
                         data-framer-name="Heading"
                       >
                         <motion.div
@@ -73,7 +73,7 @@ const CTA = () => {
                                 data-framer-component-type="RichTextContainer"
                               >
                                 <p
-                                  className="text-[#37312f] text-base font-normal font-urbanist"
+                                  className="text-[#37312f] text-[15px] lg:text-base font-normal font-urbanist"
                                   data-styles-preset="NFQi0OUa3"
                                 >
                                   Empower Your Legal Practice
@@ -97,7 +97,7 @@ const CTA = () => {
                           data-framer-component-type="RichTextContainer"
                         >
                           <h2
-                            className="text-[52px] font-urbanist font-semibold text-[#111111] text-center"
+                            className="text-[33px] md:text-[43px] lg:text-[52px] font-urbanist font-semibold text-[#111111] text-center"
                             data-styles-preset="o4SbqhkD9"
                           >
                             Ready to Revolutionize
@@ -116,11 +116,11 @@ const CTA = () => {
                             duration: 0.3,
                           }}
                           viewport={{ once: true, amount: 0.2 }}
-                          className="outline-none flex flex-col justify-start flex-shrink-0 flex-none h-auto w-full max-w-[650px] relative whitespace-pre-wrap break-words"
+                          className="outline-none flex flex-col justify-start flex-shrink-0 flex-none h-auto w-full max-w-[500px] lg:max-w-[650px] relative whitespace-pre-wrap break-words"
                           data-framer-component-type="RichTextContainer"
                         >
                           <p
-                            className="font-normal text-lg text-[#616161] text-center"
+                            className="font-normal text-base lg:text-lg text-[#616161] text-center"
                             data-styles-preset="UCvrJxnzN"
                           >
                             Sign up today and experience how our AI Legal Agent
@@ -130,7 +130,7 @@ const CTA = () => {
                         </motion.div>
                       </div>
                       <motion.form
-                        initial={{ opacity: 0, x: 15 }}
+                        initial={{ opacity: 0, y: 15 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         transition={{
                           type: "spring",
@@ -140,22 +140,22 @@ const CTA = () => {
                           duration: 0.3,
                         }}
                         viewport={{ once: true, amount: 0.6 }}
-                        className="relative flex flex-row flex-nowrap items-start justify-center gap-0 p-0 w-[485px] h-min flex-none overflow-visible rounded-[17px] opacity-100"
+                        className="relative flex flex-row flex-nowrap items-start justify-center gap-0 p-0 w-full md:w-[485px] h-min flex-none overflow-visible rounded-[17px] opacity-100"
                       >
                         <label
                           data-border="true"
-                          className="relative flex flex-row flex-nowrap items-center justify-center gap-6 p-[7px] h-min w-[1px] flex-[1_0_0px] rounded-[23px] opacity-100 shadow-[0_2px_20px_0_rgba(0,0,0,0.07)] bg-[linear-gradient(180deg,rgba(255,255,255,1)_50%,rgba(254,254,254,1)_100%)] border border-solid border-[rgb(240,236,231)]"
+                          className="relative flex flex-col md:flex-row flex-nowrap items-center justify-center gap-[7px] md:gap-6 p-[7px] h-min w-[1px] flex-[1_0_0px] rounded-[23px] opacity-100 shadow-[0_2px_20px_0_rgba(0,0,0,0.07)] bg-[linear-gradient(180deg,rgba(255,255,255,1)_50%,rgba(254,254,254,1)_100%)] border border-solid border-[rgb(240,236,231)]"
                         >
-                          <div className="flex-[1_0_0px] relative h-auto w-[1px] opacity-100 ">
+                          <div className="flex-[1_0_0px] relative text-center md:text-left h-auto w-full md:w-[1px] opacity-100 ">
                             <input
                               type="email"
                               required
                               name="Email"
-                              placeholder="Your Email Addres"
-                              className="p-[12px_20px_12px_20px] bg-transparent font-inter font-normal text-[#111111] w-full focus-visible:outline-none"
+                              placeholder="Your Email Address"
+                              className="p-[12px_20px_12px_20px] bg-transparent text-center md:text-left font-inter font-normal text-[#111111] w-full focus-visible:outline-none"
                             />
                           </div>
-                          <div className="flex-none h-auto relative w-[146px]">
+                          <div className="flex-none h-auto relative w-full md:w-[146px]">
                             <button
                               type="submit"
                               className="w-full opacity-100 rounded-[20px] bg-[#111111] hover:bg-[#494949] border border-solid border-[#989897]
@@ -168,7 +168,7 @@ const CTA = () => {
                             >
                               <div
                                 className="outline-none flex flex-col justify-start shrink-0
-            text-white [--framer-link-text-color:rgb(0,153,255)] [--framer-link-text-decoration:underline]
+            text-white 
             transform-none opacity-100 select-none
             flex-none h-auto w-auto relative whitespace-pre"
                                 data-framer-component-type="RichTextContainer"
@@ -196,8 +196,8 @@ const CTA = () => {
                       delay: 1.4,
                       duration: 0.7,
                     }}
-                    viewport={{ once: true, amount: 0.6 }}
-                    className="cursor-none flex-none h-auto w-auto absolute left-0 top-0 z-[1]"
+                    viewport={{ once: true, amount: 0.1 }}
+                    className="cursor-none flex-none h-auto w-auto absolute left-[-131px] md:left-[-70px] lg:left-0 top-[-96px] md:top-[-48px] lg:top-0 z-[1]"
                   >
                     <div
                       className="h-[321px] w-[439px] overflow-hidden relative"
@@ -320,8 +320,8 @@ const CTA = () => {
                       delay: 1.4,
                       duration: 0.7,
                     }}
-                    viewport={{ once: true, amount: 0.6 }}
-                    className="cursor-none flex-none h-auto w-auto absolute right-0 top-0 z-[1]"
+                    viewport={{ once: true, amount: 0.1 }}
+                    className="cursor-none flex-none h-auto w-auto absolute right-[-131px] md:right-[-70px] lg:right-0 top-[-96px] md:top-[-48px] lg:top-0 z-[1]"
                     style={{ transform: "rotateY(180deg)" }}
                   >
                     <div
@@ -446,7 +446,7 @@ const CTA = () => {
                       duration: 0.3,
                     }}
                     viewport={{ once: true, amount: 0.6 }}
-                    className="absolute bottom-[98px] left-[20%] w-[65px] h-[58px] flex-none overflow-visible z-[1]"
+                    className="absolute hidden md:block top-[97px] md:top-auto bottom-auto md:bottom-[181px] lg:bottom-[98px] left-[10px] md:left-[77px] lg:left-[20%] w-[65px] h-[58px] flex-none overflow-visible z-[1]"
                     style={{
                       aspectRatio: "1.1206896551724137 / 1",
                       cursor: "none",
@@ -484,7 +484,7 @@ const CTA = () => {
                     }}
                     viewport={{ once: true, amount: 0.6 }}
                     data-framer-name="Cursor 2"
-                    className="aspect-[1.0526] cursor-none flex-none h-[var(--framer-aspect-ratio-supported,57px)] w-[60px] overflow-visible absolute left-[76%] top-[100px] z-[1] will-change-transform opacity-100 translate-x-[-50%]"
+                    className="aspect-[1.0526] hidden md:block cursor-none flex-none h-[var(--framer-aspect-ratio-supported,57px)] w-[60px] overflow-visible absolute right-[9px] md:right-[69px] lg:right-auto left-auto lg:left-[76%] top-[75px] md:top-[105px] lg:top-[100px] z-[1] will-change-transform opacity-100 translate-x-[-50%]"
                   >
                     <div
                       className="absolute inset-0 rounded-inherit"

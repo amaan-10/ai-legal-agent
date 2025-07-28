@@ -146,7 +146,7 @@ const FeatureCard = ({
             </div>
           </div>
           <div className="aspect-[1.456140350877193/1] flex-none h-[228px] overflow-visible relative w-full">
-            <div className="absolute inset-0">
+            <div className="absolute inset-0 flex lg:block justify-center lg:justify-start">
               <Image
                 className="block rounded-inherit object-contain object-[center_top]"
                 src={imageSrc}
@@ -166,7 +166,7 @@ export default function Features() {
   return (
     <section
       id="valuable-feature"
-      className="flex flex-col items-center justify-center gap-[10px] px-[60px] py-[90px] h-min overflow-hidden relative w-full"
+      className="flex flex-col items-center justify-center gap-[10px] px-5 md:px-[30px] lg:px-[60px] py-[90px] h-min overflow-hidden relative w-full"
     >
       <div className="flex flex-col items-center justify-center gap-[60px] w-full h-min max-w-[1228px] overflow-hidden p-0 relative">
         <div
@@ -194,7 +194,7 @@ export default function Features() {
                   data-framer-component-type="RichTextContainer"
                 >
                   <p
-                    className=" text-[#37312f] font-normal font-urbanist"
+                    className=" text-[#37312f] font-normal font-urbanist text-[15px] lg:text-base"
                     data-styles-preset="NFQi0OUa3"
                   >
                     Valuable Feutures
@@ -204,7 +204,7 @@ export default function Features() {
             </span>
           </motion.div>
           <div
-            className="flex flex-col justify-start flex-shrink-0 flex-none h-auto w-auto relative whitespace-pre outline-none opacity-100"
+            className="flex flex-col justify-start flex-shrink-0 flex-none h-auto w-auto relative md:whitespace-pre outline-none opacity-100"
             data-framer-component-type="RichTextContainer"
           >
             <motion.h2
@@ -218,7 +218,7 @@ export default function Features() {
                 duration: 0.7,
               }}
               viewport={{ once: true, amount: 0.6 }}
-              className="text-[52px] font-urbanist font-semibold"
+              className="text-[33px] md:text-[43px] lg:text-[52px] font-urbanist font-semibold text-center"
               data-styles-preset="o4SbqhkD9"
             >
               Customizable Solutions for Every Need
@@ -239,7 +239,7 @@ export default function Features() {
                 duration: 0.7,
               }}
               viewport={{ once: true, amount: 0.6 }}
-              className=" text-[#616161] font-normal text-lg text-center"
+              className=" text-[#616161] font-normal text-base lg:text-lg text-center"
               data-styles-preset="UCvrJxnzN"
             >
               Empower your legal operations with an AI Agent Advisor offering
@@ -249,12 +249,12 @@ export default function Features() {
           </div>
         </div>
         <div className="flex flex-col flex-nowrap items-center content-center justify-center gap-10 h-min w-full overflow-hidden p-0 relative">
-          <div className="flex flex-row flex-nowrap items-start content-start justify-center gap-8 h-min w-full overflow-hidden p-0 relative">
+          <div className="flex flex-row flex-wrap lg:flex-nowrap items-start content-start justify-center gap-8 h-min w-full overflow-hidden p-0 relative">
             {features.slice(0, 3).map((feature, index) => (
               <FeatureCard key={index} {...feature} delay={0 + 0.2 * index} />
             ))}
           </div>
-          <div className="flex flex-row flex-nowrap items-center content-center justify-center gap-8 h-min w-full overflow-hidden p-0 relative">
+          <div className="flex flex-row flex-wrap lg:flex-nowrap items-center content-center justify-center gap-8 h-min w-full overflow-hidden p-0 relative">
             {features.slice(3, 5).map((feature, index) => (
               <FeatureCard key={index} {...feature} delay={0 + 0.2 * index} />
             ))}

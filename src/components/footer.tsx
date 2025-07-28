@@ -26,7 +26,7 @@ const socialLinks = [
 const Footer = () => {
   return (
     <footer
-      className="bg-[rgb(250,250,247)] opacity-100 flex flex-col flex-nowrap items-center justify-center content-center gap-0 h-min overflow-hidden px-[60px] pt-[60px] pb-[24px] relative w-full"
+      className="bg-[rgb(250,250,247)] opacity-100 flex flex-col flex-nowrap items-center justify-center content-center gap-0 h-min overflow-hidden px-5 md:px-[30px] lg:px-[60px] pt-[60px] pb-[24px] relative w-full"
       data-framer-name="Desktop"
     >
       <div

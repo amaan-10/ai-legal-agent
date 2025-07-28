@@ -153,7 +153,7 @@ const Hero = () => {
             <div
               className="absolute top-[-110px] md:top-[-56px] left-[calc(48.47826086956524%-124.31040564373899px/2)] flex flex-row flex-nowrap items-center content-center justify-center gap-[10px] h-[312px] w-[124px] overflow-hidden p-0 flex-none"
               data-framer-name="Light 3"
-              style={{ filter: "blur(8px)", opacity:  1 }}
+              style={{ filter: "blur(8px)", opacity: 1 }}
             >
               <div
                 data-framer-component-type="SVG"
@@ -906,7 +906,11 @@ const Hero = () => {
                   : "230px",
             }}
             initial={{ opacity: 0, x: 150, rotate: 0 }}
-            animate={{ opacity: deviceType === "mobile" ? 0 : 1, x: 80, rotate: 8 }}
+            animate={{
+              opacity: deviceType === "mobile" ? 0 : 1,
+              x: 80,
+              rotate: 8,
+            }}
             transition={{
               duration: 1,
               delay: 2,
