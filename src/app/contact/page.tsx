@@ -5,14 +5,17 @@ import Header from "@/components/header";
 import Link from "next/link";
 import React from "react";
 import { motion } from "framer-motion";
+import { useResponsiveState } from "@/lib/useResponsiveState";
 
 const Contact = () => {
+  const deviceType = useResponsiveState();
+
   return (
     <div>
       <main className=" min-h-[100vh] w-full relative flex flex-col flex-nowrap items-center justify-start gap-0 h-min overflow-visible bg-[#fefefe]">
         <Header />
         <section
-          className="flex flex-col flex-none items-center place-content-center gap-[10px] overflow-hidden p-[120px_60px_60px] relative w-full h-min z-[3] mt-5"
+          className="flex flex-col flex-none items-center place-content-center gap-[10px] overflow-hidden p-[100px_20px_45px] md:p-[90px_35px_60px] lg:p-[120px_60px_60px] relative w-full h-min z-[3] mt-5"
           data-framer-name="Contact"
           id="contact"
         >
@@ -45,7 +48,7 @@ const Contact = () => {
                       data-framer-component-type="RichTextContainer"
                     >
                       <p
-                        className=" text-[#37312f] font-normal font-urbanist"
+                        className=" text-[15px] lg:text-base text-[#37312f] font-normal font-urbanist"
                         data-styles-preset="NFQi0OUa3"
                       >
                         Contact
@@ -69,7 +72,7 @@ const Contact = () => {
                     duration: 0.7,
                   }}
                   viewport={{ once: true, amount: 0.6 }}
-                  className="text-[64px] font-urbanist font-semibold"
+                  className="text-[32px] md:text-[38px] lg:text-[64px] font-urbanist font-semibold"
                   data-styles-preset="o4SbqhkD9"
                 >
                   Get In Touch
@@ -90,7 +93,7 @@ const Contact = () => {
                     duration: 0.7,
                   }}
                   viewport={{ once: true, amount: 0.1 }}
-                  className=" text-[#616161] font-normal text-lg text-center"
+                  className=" text-[#616161] font-normal text-base lg:text-lg text-center"
                   data-styles-preset="UCvrJxnzN"
                 >
                   We are here ready to solve your problem.
@@ -112,11 +115,11 @@ const Contact = () => {
               data-framer-appear-id="1rhzgu0"
               data-framer-name="Border"
             >
-              <div className="flex-[1_0_0px] h-auto relative w-px">
+              <div className="lg:flex-[1_0_0px] h-auto relative w-full lg:w-px">
                 <div
                   data-border="true"
                   data-framer-name="Desktop"
-                  className="flex flex-row items-start gap-[54px] h-min w-full overflow-hidden p-[72px_64px_52px] relative rounded-[35px] opacity-100"
+                  className="flex flex-col-reverse lg:flex-row items-start gap-[54px] h-min w-full overflow-hidden p-[30px] md:p-[42px_42px_52px] lg:p-[72px_64px_52px] relative rounded-[35px] opacity-100"
                   style={{
                     background: `linear-gradient(180deg, var(--token-f395e90f-e08f-456b-b155-0974850affb9, #fff) 52%, var(--token-21001bb2-95fc-4899-93cf-7cca6736a1a2, #fafaf7) 100%)`,
                     borderStyle: "solid",
@@ -127,7 +130,7 @@ const Contact = () => {
                   }}
                 >
                   <div
-                    className="flex flex-col flex-none items-center gap-[26px] h-min max-w-[39%] w-[36%] overflow-hidden p-0 relative"
+                    className="flex flex-col flex-none items-center gap-[26px] h-min lg:max-w-[39%] w-full lg:w-[36%] overflow-hidden p-0 relative"
                     data-framer-name="Contact Content"
                   >
                     <div
@@ -135,11 +138,11 @@ const Contact = () => {
                       data-framer-name="Head Content"
                     >
                       <div
-                        className="outline-none flex flex-col justify-start flex-shrink-0 flex-none h-auto w-auto relative whitespace-pre opacity-100"
+                        className="outline-none flex flex-col justify-center md:justify-start flex-shrink-0 flex-none h-auto w-full md:w-auto relative whitespace-pre opacity-100"
                         data-framer-component-type="RichTextContainer"
                       >
                         <h5
-                          className="font-urbanist text-xl font-semibold text-black"
+                          className="font-urbanist text-xl font-semibold text-black text-center md:text-left"
                           data-styles-preset="pBsAQV3Su"
                         >
                           Contact Information
@@ -150,7 +153,7 @@ const Contact = () => {
                         data-framer-component-type="RichTextContainer"
                       >
                         <p
-                          className="text-lg font-inter font-normal text-[#616161]"
+                          className="text-lg font-inter font-normal text-[#616161] text-center md:text-left"
                           data-styles-preset="UCvrJxnzN"
                         >
                           Contact us. Your feedback matters. Let&apos;s build a
@@ -159,7 +162,10 @@ const Contact = () => {
                       </div>
                     </div>
                     <div
-                      className="flex flex-col flex-none items-center gap-[28px] h-min w-full overflow-hidden p-0 relative"
+                      className={`flex md:grid lg:flex flex-col flex-none lg:items-center gap-[28px] h-min w-full overflow-hidden p-0 relative ${
+                        deviceType === "tablet" &&
+                        "grid auto-rows-[minmax(0px,1fr)] grid-cols-[repeat(2,minmax(50px,1fr))] grid-rows-[repeat(2,minmax(0px,1fr))]"
+                      }`}
                       data-framer-name="Contact Detail"
                     >
                       <div
@@ -175,7 +181,7 @@ const Contact = () => {
                             data-framer-component-type="RichTextContainer"
                           >
                             <h5
-                              className="text-xl font-urbanist font-semibold text-black"
+                              className="text-xl font-urbanist font-semibold text-black text-center md:text-left"
                               data-styles-preset="pBsAQV3Su"
                             >
                               Head Office
@@ -187,10 +193,11 @@ const Contact = () => {
                           data-framer-component-type="RichTextContainer"
                         >
                           <p
-                            className="text-lg font-inter font-normal text-[#616161]"
+                            className="text-lg font-inter font-normal text-[#616161] text-center md:text-left"
                             data-styles-preset="UCvrJxnzN"
                           >
-                            Pune, Maharashtra, <br />
+                            Pune, Maharashtra,{" "}
+                            <br className="hidden lg:block" />
                             India
                           </p>
                         </div>
@@ -208,7 +215,7 @@ const Contact = () => {
                             data-framer-component-type="RichTextContainer"
                           >
                             <h5
-                              className="text-xl font-urbanist font-semibold text-black"
+                              className="text-xl font-urbanist font-semibold text-black text-center md:text-left"
                               data-styles-preset="pBsAQV3Su"
                             >
                               Phone
@@ -220,7 +227,7 @@ const Contact = () => {
                           data-framer-component-type="RichTextContainer"
                         >
                           <p
-                            className="text-lg font-inter font-normal text-[#616161]"
+                            className="text-lg font-inter font-normal text-[#616161] text-center md:text-left"
                             data-styles-preset="UCvrJxnzN"
                           >
                             <Link
@@ -246,7 +253,7 @@ const Contact = () => {
                             data-framer-component-type="RichTextContainer"
                           >
                             <h5
-                              className="text-xl font-urbanist font-semibold text-black"
+                              className="text-xl font-urbanist font-semibold text-black text-center md:text-left"
                               data-styles-preset="pBsAQV3Su"
                             >
                               Email
@@ -258,7 +265,7 @@ const Contact = () => {
                           data-framer-component-type="RichTextContainer"
                         >
                           <p
-                            className="text-lg font-inter font-normal text-[#616161]"
+                            className="text-lg font-inter font-normal text-[#616161] text-center md:text-left"
                             data-styles-preset="UCvrJxnzN"
                           >
                             <Link
@@ -274,7 +281,7 @@ const Contact = () => {
                     </div>
                   </div>
                   <div
-                    className="flex flex-col flex-[1_0_0px] items-center gap-5 h-min w-px overflow-visible p-0 relative"
+                    className="flex flex-col lg:flex-[1_0_0px] items-center gap-5 h-min w-full lg:w-px overflow-visible p-0 relative"
                     data-framer-name="Form Content"
                   >
                     <form className="flex flex-col items-start gap-5 flex-[0_0_auto] h-min w-full overflow-visible p-0 relative">
@@ -283,11 +290,11 @@ const Contact = () => {
                         data-framer-name="Input Content"
                       >
                         <div
-                          className="flex flex-row items-center gap-6 flex-none h-min w-full overflow-visible p-0 relative"
+                          className="flex flex-col md:flex-row items-center gap-6 flex-none h-min w-full overflow-visible p-0 relative"
                           data-framer-name="Name"
                         >
                           <div
-                            className="flex flex-col items-start justify-start flex-1 gap-[10px] h-min w-px overflow-visible p-0 relative"
+                            className="flex flex-col items-start justify-start flex-1 gap-[10px] h-min w-full md:w-px overflow-visible p-0 relative"
                             data-framer-name="First Name"
                           >
                             <label
@@ -317,7 +324,7 @@ const Contact = () => {
                             </label>
                           </div>
                           <div
-                            className="flex flex-col items-start justify-start flex-1 gap-[10px] h-min w-px overflow-visible p-0 relative"
+                            className="flex flex-col items-start justify-start flex-1 gap-[10px] h-min w-full md:w-px overflow-visible p-0 relative"
                             data-framer-name="Last Name"
                           >
                             <label
@@ -349,11 +356,11 @@ const Contact = () => {
                         </div>
 
                         <div
-                          className="flex flex-row items-center gap-6 flex-none h-min w-full overflow-visible p-0 relative"
+                          className="flex flex-col md:flex-row items-center gap-6 flex-none h-min w-full overflow-visible p-0 relative"
                           data-framer-name="Phone + Email"
                         >
                           <div
-                            className="flex flex-col items-start justify-start flex-1 gap-[10px] h-min w-px overflow-visible p-0 relative"
+                            className="flex flex-col items-start justify-start flex-1 gap-[10px] h-min w-full md:w-px overflow-visible p-0 relative"
                             data-framer-name="Phone"
                           >
                             <label
@@ -383,7 +390,7 @@ const Contact = () => {
                             </label>
                           </div>
                           <div
-                            className="flex flex-col items-start justify-start flex-1 gap-[10px] h-min w-px overflow-visible p-0 relative"
+                            className="flex flex-col items-start justify-start flex-1 gap-[10px] h-min w-full md:w-px overflow-visible p-0 relative"
                             data-framer-name="Email"
                           >
                             <label
