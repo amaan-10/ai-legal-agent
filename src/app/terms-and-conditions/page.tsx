@@ -340,7 +340,7 @@ const TnC = () => {
             data-framer-name="Container"
           >
             <div
-              className="flex flex-col flex-none place-content-center items-center gap-4 h-min overflow-hidden p-0 relative w-min"
+              className="flex flex-col flex-none place-content-center items-center gap-4 h-min overflow-hidden p-0 relative md:w-min"
               data-framer-name="Heading"
             >
               <motion.div
@@ -354,7 +354,7 @@ const TnC = () => {
                   duration: 0.7,
                   bounce: 0.2,
                 }}
-                viewport={{ once: true, amount: 0.6 }}
+                viewport={{ once: true, amount: 0.2 }}
                 className="outline-none flex flex-col justify-start opacity-100 shrink-0 will-change-transform transform-none"
                 data-framer-appear-id="1y0grpn"
                 data-framer-component-type="RichTextContainer"
@@ -377,8 +377,8 @@ const TnC = () => {
                   duration: 0.7,
                   bounce: 0.2,
                 }}
-                viewport={{ once: true, amount: 0.6 }}
-                className="outline-none flex flex-col justify-start opacity-100 shrink-0 will-change-transform flex-none h-auto relative whitespace-pre-wrap w-[700px] break-words"
+                viewport={{ once: true, amount: 0.2 }}
+                className="outline-none flex flex-col justify-start opacity-100 will-change-transform flex-none h-auto relative whitespace-pre-wrap md:w-[700px] break-words"
                 data-framer-appear-id="1o3v7nt"
                 data-framer-component-type="RichTextContainer"
               >

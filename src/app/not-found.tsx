@@ -12,7 +12,7 @@ export default function NotFound() {
           data-framer-name="Light"
         >
           <div
-            className="absolute left-[-80px] top-[-70px] z-[1] w-[434px] h-auto flex-none cursor-none"
+            className="absolute left-[-100px] md:left-[-120px] lg:left-[-80px] top-[-100px] md:top-[-100px] lg:top-[-70px] z-[1] w-[434px] scale-90 md:scale-50 lg:scale-0 h-auto flex-none cursor-none"
             style={{ transform: "rotateY(180deg)" }}
           >
             <div
@@ -170,7 +170,7 @@ export default function NotFound() {
               </div>
             </div>
           </div>
-          <div className="absolute right-[-80px] top-[-70px] z-[1] w-[434px] h-auto flex-none cursor-none">
+          <div className="absolute right-[-182px] md:right-[-120px] lg:right-[-80px] top-[-100px] md:top-[-100px] lg:top-[-70px] z-[1] w-[434px] scale-[0.49] md:scale-50 lg:scale-0 h-auto flex-none cursor-none">
             <div
               className="relative h-[331px] w-full overflow-hidden opacity-100"
               data-framer-name="Variant 1"
@@ -329,12 +329,11 @@ export default function NotFound() {
         </div>
         <Header />
         <section
-          className="flex flex-col flex-none items-center justify-center gap-0 overflow-hidden w-full mt-5"
+          className="flex flex-col flex-none items-center justify-center gap-0 p-[100px_20px_45px] md:p-[90px_35px_60px] lg:p-[120px_60px_60px] overflow-hidden w-full mt-5"
           style={{
             backgroundColor:
               "var(--token-f395e90f-e08f-456b-b155-0974850affb9, #ffffff)",
             height: "min-content",
-            padding: "120px 60px 60px",
             position: "relative",
           }}
           data-framer-name="404 Not Found"
@@ -379,7 +378,7 @@ export default function NotFound() {
                     bounce: 0.2,
                   }}
                   data-framer-appear-id="8tw8ga"
-                  className="absolute top-0 left-[calc(50%-485.5px)] w-[971px] h-[280px] opacity-100 will-change-transform flex-[0_0_auto] z-0"
+                  className="absolute top-[-98px] md:top-[-43px] lg:top-0 left-[calc(50%-485.5px)] w-[971px] h-[280px] scale-[0.4] md:scale-[0.7] lg:scale-0 opacity-100 will-change-transform flex-[0_0_auto] z-0"
                 >
                   <div
                     className="flex flex-col items-center place-content-center gap-[13px] overflow-hidden p-0 relative w-full h-full bg-white opacity-100"
@@ -583,7 +582,7 @@ export default function NotFound() {
                   </div>
                 </motion.div>
                 <div
-                  className="flex flex-col items-center justify-center flex-[0_0_auto] gap-4 w-min h-min overflow-hidden p-0 relative"
+                  className="flex flex-col items-center justify-center flex-[0_0_auto] gap-4 w-full md:w-min h-min overflow-hidden p-0 relative"
                   data-framer-name="Heading"
                 >
                   <motion.div
@@ -602,7 +601,7 @@ export default function NotFound() {
                     data-framer-component-type="RichTextContainer"
                   >
                     <h1
-                      className="font-urbanist font-semibold text-black text-[160px] text-center"
+                      className="font-urbanist font-semibold text-black text-[118px] md:text-[160px] lg:text-[160px] text-center"
                       data-styles-preset="g8YtoR0G8"
                     >
                       404
@@ -624,7 +623,7 @@ export default function NotFound() {
                     data-framer-component-type="RichTextContainer"
                   >
                     <h3
-                      className="font-urbanist font-semibold text-black text-[26px]"
+                      className="font-urbanist font-semibold text-black text-[20px] md:text-[26px] lg:text-[32px]"
                       data-styles-preset="qy8rc3iGr"
                     >
                       Oops page not found
@@ -641,16 +640,16 @@ export default function NotFound() {
                       duration: 0.7,
                       bounce: 0.2,
                     }}
-                    className="flex flex-col justify-start opacity-100 shrink-0 will-change-transform flex-[0_0_auto] h-auto relative whitespace-pre-wrap w-[600px] break-words"
+                    className="flex flex-col justify-start opacity-100 will-change-transform flex-[0_0_auto] h-auto relative whitespace-pre-wrap w-full md:w-[600px] break-words"
                     data-framer-appear-id="18hgfnc"
                     data-framer-component-type="RichTextContainer"
                   >
                     <p
-                      className="font-inter text-lg font-normal text-[#616161] text-center"
+                      className="font-inter text-base lg:text-lg font-normal text-[#616161] text-center"
                       data-styles-preset="UCvrJxnzN"
                     >
                       The page is missing. It may have moved or been deleted.
-                      <br />
+                      <br className="hidden md:block" />
                       Please check the URL or return home.
                     </p>
                   </motion.div>
