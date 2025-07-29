@@ -14,7 +14,7 @@ const TnC = () => {
           data-framer-name="Light"
         >
           <div
-            className="absolute left-[-80px] top-[-70px] z-[1] w-[434px] h-auto flex-none cursor-none"
+            className="absolute left-[-100px] md:left-[-120px] lg:left-[-80px] top-[-100px] md:top-[-100px] lg:top-[-70px] z-[1] w-[434px] scale-90 md:scale-50 lg:scale-0 h-auto flex-none cursor-none"
             style={{ transform: "rotateY(180deg)" }}
           >
             <div
@@ -172,7 +172,7 @@ const TnC = () => {
               </div>
             </div>
           </div>
-          <div className="absolute right-[-80px] top-[-70px] z-[1] w-[434px] h-auto flex-none cursor-none">
+          <div className="absolute right-[-182px] md:right-[-120px] lg:right-[-80px] top-[-100px] md:top-[-100px] lg:top-[-70px] z-[1] w-[434px] scale-[0.49] md:scale-50 lg:scale-0 h-auto flex-none cursor-none">
             <div
               className="relative h-[331px] w-full overflow-hidden opacity-100"
               data-framer-name="Variant 1"
@@ -331,12 +331,12 @@ const TnC = () => {
         </div>
         <Header />
         <section
-          className="flex flex-row flex-none place-content-center items-center gap-0 h-min overflow-hidden px-[60px] pt-[175px] pb-[90px] relative w-full z-[1]"
+          className="flex flex-row flex-none place-content-center items-center gap-0 h-min overflow-hidden p-[100px_20px_45px] md:p-[90px_35px_60px] lg:p-[120px_60px_60px] relative w-full z-[1]"
           data-framer-name="T&amp;C"
           id="TnC"
         >
           <div
-            className="flex flex-col flex-[1_0_0px] place-content-center items-center gap-[90px] h-min max-w-[880px] overflow-hidden p-0 relative w-[1px]"
+            className="flex flex-col flex-[1_0_0px] place-content-center items-center gap-[40px] md:gap-[60px] lg:gap-[90px] h-min max-w-[880px] overflow-hidden p-0 relative w-[1px]"
             data-framer-name="Container"
           >
             <div
@@ -360,7 +360,7 @@ const TnC = () => {
                 data-framer-component-type="RichTextContainer"
               >
                 <h1
-                  className="text-[64px] font-urbanist font-bold text-[#111111]"
+                  className="text-[32px] md:text-[38px] lg:text-[64px] font-urbanist font-bold text-[#111111]"
                   data-styles-preset="GgqUQ2id8"
                 >
                   Terms &amp; Conditions
@@ -410,7 +410,7 @@ const TnC = () => {
                 data-framer-component-type="RichTextContainer"
               >
                 <p
-                  className="text-2xl font-semibold text-[#111111] font-urbanist"
+                  className="text-[20px] md:text-[22px] lg:text-2xl font-semibold text-[#111111] font-urbanist"
                   data-styles-preset="mnefNh2fC"
                 >
                   1. Introduction
@@ -425,7 +425,7 @@ const TnC = () => {
                   features.
                 </p>
                 <p
-                  className="text-2xl font-semibold text-[#111111] font-urbanist mt-10"
+                  className="text-[20px] md:text-[22px] lg:text-2xl font-semibold text-[#111111] font-urbanist mt-10"
                   data-styles-preset="mnefNh2fC"
                 >
                   2. Our Services
@@ -440,7 +440,7 @@ const TnC = () => {
                   services at our discretion, without prior notice.
                 </p>
                 <p
-                  className="text-2xl font-semibold text-[#111111] font-urbanist mt-10"
+                  className="text-[20px] md:text-[22px] lg:text-2xl font-semibold text-[#111111] font-urbanist mt-10"
                   data-styles-preset="mnefNh2fC"
                 >
                   3. Acceptable Use
@@ -456,7 +456,7 @@ const TnC = () => {
                   using our services.
                 </p>
                 <p
-                  className="text-2xl font-semibold text-[#111111] font-urbanist mt-10"
+                  className="text-[20px] md:text-[22px] lg:text-2xl font-semibold text-[#111111] font-urbanist mt-10"
                   data-styles-preset="mnefNh2fC"
                 >
                   4. Account and Security
@@ -471,7 +471,7 @@ const TnC = () => {
                   account.
                 </p>
                 <p
-                  className="text-2xl font-semibold text-[#111111] font-urbanist mt-10"
+                  className="text-[20px] md:text-[22px] lg:text-2xl font-semibold text-[#111111] font-urbanist mt-10"
                   data-styles-preset="mnefNh2fC"
                 >
                   5. Intellectual Property
@@ -486,7 +486,7 @@ const TnC = () => {
                   materials without explicit written consent.
                 </p>
                 <p
-                  className="text-2xl font-semibold text-[#111111] font-urbanist mt-10"
+                  className="text-[20px] md:text-[22px] lg:text-2xl font-semibold text-[#111111] font-urbanist mt-10"
                   data-styles-preset="mnefNh2fC"
                 >
                   6. Disclaimer & Limitation of Liability
@@ -502,7 +502,7 @@ const TnC = () => {
                   qualified legal professional for final decisions.
                 </p>
                 <p
-                  className="text-2xl font-semibold text-[#111111] font-urbanist mt-10"
+                  className="text-[20px] md:text-[22px] lg:text-2xl font-semibold text-[#111111] font-urbanist mt-10"
                   data-styles-preset="mnefNh2fC"
                 >
                   7. Updates to Terms
@@ -517,7 +517,7 @@ const TnC = () => {
                   accept those modifications.
                 </p>
                 <p
-                  className="text-2xl font-semibold text-[#111111] font-urbanist mt-10"
+                  className="text-[20px] md:text-[22px] lg:text-2xl font-semibold text-[#111111] font-urbanist mt-10"
                   data-styles-preset="mnefNh2fC"
                 >
                   8. Contact Us
