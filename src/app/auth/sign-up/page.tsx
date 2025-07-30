@@ -29,7 +29,7 @@ export default function SignUpComponent() {
 
   return (
     <section
-      className="flex flex-col flex-none items-center place-content-center gap-[10px] max-w-[1080px] overflow-hidden p-[120px_60px_60px] relative w-full h-min z-[3]"
+      className="flex flex-col flex-none items-center place-content-center gap-[10px] max-w-[1080px] overflow-hidden p-[100px_20px_45px] md:p-[90px_35px_60px] lg:p-[120px_60px_60px] relative w-full h-min z-[3]"
       data-framer-name="SignUp"
       id="signup"
     >
@@ -62,7 +62,7 @@ export default function SignUpComponent() {
                   data-framer-component-type="RichTextContainer"
                 >
                   <p
-                    className="text-[#37312f] font-normal font-urbanist"
+                    className="text-[#37312f] font-normal font-urbanist text-[15px] lg:text-base"
                     data-styles-preset="NFQi0OUa3"
                   >
                     Sign Up
@@ -86,33 +86,12 @@ export default function SignUpComponent() {
                 duration: 0.7,
               }}
               viewport={{ once: true, amount: 0.6 }}
-              className="text-[64px] font-urbanist font-semibold"
+              className="text-[32px] md:text-[38px] lg:text-[64px] font-urbanist font-semibold"
               data-styles-preset="o4SbqhkD9"
             >
               Create Account
             </motion.h2>
           </div>
-          {/* <div
-            className="flex flex-col justify-start flex-shrink-0 flex-none h-auto w-full relative whitespace-pre-wrap break-words outline-none opacity-100"
-            data-framer-component-type="RichTextContainer"
-          >
-            <motion.p
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{
-                type: "spring",
-                stiffness: 210,
-                damping: 70,
-                delay: 0.4,
-                duration: 0.7,
-              }}
-              viewport={{ once: true, amount: 0.1 }}
-              className="text-[#616161] font-normal text-lg text-center"
-              data-styles-preset="UCvrJxnzN"
-            >
-              Join us today and start your journey with our platform.
-            </motion.p>
-          </div> */}
         </div>
         <motion.div
           initial={{ opacity: 0, y: 15 }}
@@ -133,7 +112,7 @@ export default function SignUpComponent() {
             <div
               data-border="true"
               data-framer-name="Desktop"
-              className="flex flex-col items-center gap-[54px] h-min w-full overflow-hidden p-[72px_64px_52px] relative rounded-[35px] opacity-100"
+              className="flex flex-col items-center gap-[54px] h-min w-full overflow-hidden p-[30px] md:p-[42px_42px_52px] lg:p-[72px_64px_52px] relative rounded-[35px] opacity-100"
               style={{
                 background: `linear-gradient(180deg, var(--token-f395e90f-e08f-456b-b155-0974850affb9, #fff) 52%, var(--token-21001bb2-95fc-4899-93cf-7cca6736a1a2, #fafaf7) 100%)`,
                 borderStyle: "solid",
@@ -167,7 +146,7 @@ export default function SignUpComponent() {
                     data-framer-component-type="RichTextContainer"
                   >
                     <p
-                      className="text-lg font-inter font-normal text-[#616161]"
+                      className="text-base lg:text-lg font-inter font-normal text-[#616161]"
                       data-styles-preset="UCvrJxnzN"
                     >
                       Fill in your details to create your new account.
@@ -188,11 +167,11 @@ export default function SignUpComponent() {
                     data-framer-name="Input Content"
                   >
                     <div
-                      className="flex flex-row items-center gap-6 flex-none h-min w-full overflow-visible p-0 relative"
+                      className="flex flex-col md:flex-row items-center gap-6 flex-none h-min w-full overflow-visible p-0 relative"
                       data-framer-name="Name"
                     >
                       <div
-                        className="flex flex-col items-start justify-start flex-1 gap-[10px] h-min w-px overflow-visible p-0 relative"
+                        className="flex flex-col items-start justify-start flex-1 gap-[10px] h-min w-full md:w-px overflow-visible p-0 relative"
                         data-framer-name="First Name"
                       >
                         <label
@@ -224,7 +203,7 @@ export default function SignUpComponent() {
                         </label>
                       </div>
                       <div
-                        className="flex flex-col items-start justify-start flex-1 gap-[10px] h-min w-px overflow-visible p-0 relative"
+                        className="flex flex-col items-start justify-start flex-1 gap-[10px] h-min w-full md:w-px overflow-visible p-0 relative"
                         data-framer-name="Last Name"
                       >
                         <label
@@ -286,11 +265,11 @@ export default function SignUpComponent() {
                       </label>
                     </div>
                     <div
-                      className="flex flex-row items-center gap-6 flex-none h-min w-full overflow-visible p-0 relative"
+                      className="flex flex-col md:flex-row items-center gap-6 flex-none h-min w-full overflow-visible p-0 relative"
                       data-framer-name="Passwords"
                     >
                       <div
-                        className="flex flex-col items-start justify-start flex-1 gap-[10px] h-min w-px overflow-visible p-0 relative"
+                        className="flex flex-col items-start justify-start flex-1 gap-[10px] h-min w-full md:w-px overflow-visible p-0 relative"
                         data-framer-name="Password"
                       >
                         <label
@@ -322,7 +301,7 @@ export default function SignUpComponent() {
                         </label>
                       </div>
                       <div
-                        className="flex flex-col items-start justify-start flex-1 gap-[10px] h-min w-px overflow-visible p-0 relative"
+                        className="flex flex-col items-start justify-start flex-1 gap-[10px] h-min w-full md:w-px overflow-visible p-0 relative"
                         data-framer-name="Confirm Password"
                       >
                         <label
@@ -387,7 +366,7 @@ export default function SignUpComponent() {
                     data-framer-component-type="RichTextContainer"
                   >
                     <p
-                      className="text-[#616161] font-normal text-lg text-center"
+                      className="text-[#616161] font-normal text-base lg:text-lg text-center"
                       data-styles-preset="UCvrJxnzN"
                     >
                       Already have an account?{" "}

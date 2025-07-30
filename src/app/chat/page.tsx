@@ -1,8 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
-
-import type React from "react";
-
 import { motion } from "framer-motion";
 import { useChat } from "ai/react";
 import { useRef, useEffect, useState } from "react";
@@ -19,12 +16,14 @@ import {
   Plus,
   Settings,
   HelpCircle,
-  Sparkles,
   MessageSquare,
   RefreshCw,
+  Menu,
+  X,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useResponsiveState } from "@/lib/useResponsiveState";
 
 export default function ChatBotComponent() {
   const {
@@ -41,10 +40,12 @@ export default function ChatBotComponent() {
       console.error("Chat error:", error);
     },
   });
+
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const [copiedMessageId, setCopiedMessageId] = useState<string | null>(null);
   const [hasAcceptedDisclaimer, setHasAcceptedDisclaimer] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const storedValue = localStorage.getItem("hasAcceptedDisclaimer");
@@ -129,12 +130,7 @@ export default function ChatBotComponent() {
 
   const handleSuggestionClick = (suggestion: string) => {
     handleInputChange({ target: { value: suggestion } } as any);
-  };
-
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    console.log("Form submitted with input:", input);
-    handleSubmit(e);
+    setMobileMenuOpen(false); // Close mobile menu when suggestion is clicked
   };
 
   const handleRetry = () => {
@@ -143,22 +139,36 @@ export default function ChatBotComponent() {
     }
   };
 
+  const deviceType = useResponsiveState();
+
+  // Close mobile menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        mobileMenuOpen &&
+        !(event.target as Element).closest(".mobile-sidebar")
+      ) {
+        setMobileMenuOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [mobileMenuOpen]);
+
   if (!hasAcceptedDisclaimer) {
     return (
-      <section
-        className="flex flex-col flex-none items-center justify-center place-content-center gap-[10px] overflow-hidden px-[60px] py-auto relative w-full h-[100vh] z-[3]"
-        data-framer-name="LegalDisclaimer"
-      >
-        <div className="flex flex-col flex-none items-center gap-[90px] h-min max-w-[800px] overflow-visible p-0 relative w-full">
+      <section className="flex flex-col flex-none items-center justify-center place-content-center gap-[10px] overflow-hidden px-4 sm:px-8 md:px-[60px] py-auto relative w-full h-[100vh] z-[3]">
+        <div className="flex flex-col flex-none items-center gap-8 sm:gap-[90px] h-min max-w-[800px] overflow-visible p-0 relative w-full">
           <motion.div
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ type: "spring", stiffness: 210, damping: 70 }}
-            className="flex flex-row flex-none items-center gap-[13px] h-min w-full overflow-visible p-[7px] relative rounded-[45px] bg-white shadow-[0_0_14px_0_rgba(0,0,0,0.05)] opacity-100"
+            className="flex flex-row flex-none items-center gap-[13px] h-min w-full overflow-visible p-[7px] relative rounded-[25px] sm:rounded-[45px] bg-white shadow-[0_0_14px_0_rgba(0,0,0,0.05)] opacity-100"
           >
             <div className="flex-[1_0_0px] h-auto relative w-px">
               <div
-                className="flex flex-col items-center gap-[32px] h-min w-full overflow-hidden p-[48px] relative rounded-[35px] opacity-100"
+                className="flex flex-col items-center gap-6 sm:gap-[32px] h-min w-full overflow-hidden p-6 sm:p-[48px] relative rounded-[20px] sm:rounded-[35px] opacity-100"
                 style={{
                   background: `linear-gradient(180deg, #fff 52%, #fafaf7 100%)`,
                   borderStyle: "solid",
@@ -166,24 +176,10 @@ export default function ChatBotComponent() {
                   borderColor: "rgb(240, 236, 231)",
                 }}
               >
-                <div
-                  className="flex items-center justify-center flex-row flex-nowrap gap-[10px] h-min w-min overflow-visible p-0 relative transition-transform duration-500 ease-in-out"
-                  data-framer-name="Logo Wrapper"
-                  style={{
-                    borderRadius: 0,
-                    transform: "translateX(0)",
-                    transformOrigin: "50% 50% 0px",
-                  }}
-                >
+                <div className="flex items-center justify-center flex-row flex-nowrap gap-[10px] h-min w-min overflow-visible p-0 relative transition-transform duration-500 ease-in-out">
                   <Link
-                    className="block aspect-[3.4545] flex-none h-[49px] w-[171px] overflow-visible relative no-underline"
-                    data-framer-name="Logo"
+                    className="block aspect-[3.4545] flex-none h-[35px] sm:h-[49px] w-[120px] sm:w-[171px] overflow-visible relative no-underline"
                     href="/"
-                    data-framer-page-link-current="true"
-                    style={{
-                      transform: "none",
-                      transformOrigin: "50% 50% 0px",
-                    }}
                   >
                     <div
                       data-framer-background-image-wrapper="true"
@@ -212,14 +208,14 @@ export default function ChatBotComponent() {
                   </Link>
                 </div>
 
-                <div className="bg-red-50 border border-red-200 rounded-[20px] p-6 w-full">
+                <div className="bg-red-50 border border-red-200 rounded-[15px] sm:rounded-[20px] p-4 sm:p-6 w-full">
                   <div className="flex items-start gap-3">
-                    <AlertTriangle className="w-6 h-6 text-red-600 flex-shrink-0 mt-1" />
+                    <AlertTriangle className="w-5 h-5 sm:w-6 sm:h-6 text-red-600 flex-shrink-0 mt-1" />
                     <div>
-                      <h3 className="text-lg font-urbanist font-semibold text-red-800 mb-3">
+                      <h3 className="text-base sm:text-lg font-urbanist font-semibold text-red-800 mb-3">
                         Important Legal Disclaimer
                       </h3>
-                      <div className="space-y-3 text-sm text-red-700 font-inter leading-relaxed">
+                      <div className="space-y-3 text-xs sm:text-sm text-red-700 font-inter leading-relaxed">
                         <p>
                           <strong>
                             This AI Legal Advisor is for informational purposes
@@ -230,7 +226,7 @@ export default function ChatBotComponent() {
                           laws and should not be relied upon for specific legal
                           decisions.
                         </p>
-                        <ul className="list-disc list-inside space-y-2 ml-4">
+                        <ul className="list-disc list-inside space-y-2 ml-2 sm:ml-4">
                           <li>
                             Always consult with a qualified lawyer for specific
                             legal matters
@@ -265,12 +261,12 @@ export default function ChatBotComponent() {
                 <div className="flex gap-4 w-full">
                   <button
                     onClick={() => setHasAcceptedDisclaimer(true)}
-                    className="flex-1 opacity-100 rounded-[20px] bg-[#111111] hover:bg-[#37312f] border border-solid border-[#989897]
+                    className="flex-1 opacity-100 rounded-[15px] sm:rounded-[20px] bg-[#111111] hover:bg-[#37312f] border border-solid border-[#989897]
                       shadow-[0px_0.48175px_1.25255px_-1.16667px_rgba(0,0,0,0.1),0px_1.83083px_4.76015px_-2.33333px_rgba(0,0,0,0.09),0px_8px_20.8px_-3.5px_rgba(0,0,0,0.043),0px_-2px_9px_0px_inset_rgba(255,255,255,0.49),0px_0px_0px_2px_rgba(0,0,0,0.2)]
-                      flex flex-row flex-nowrap items-center justify-center content-center gap-2 
-                      cursor-pointer h-[52px] px-[28px] py-[13px] relative overflow-visible transition-all duration-200"
+                      flex flex-row flex-nowrap items-center justify-center content-center gap-2
+                       cursor-pointer h-[48px] sm:h-[52px] px-6 sm:px-[28px] py-[13px] relative overflow-visible transition-all duration-200 active:scale-95"
                   >
-                    <span className="text-[17px] text-white font-urbanist font-medium">
+                    <span className="text-sm sm:text-[17px] text-white font-urbanist font-medium">
                       I Understand & Proceed
                     </span>
                   </button>
@@ -284,68 +280,79 @@ export default function ChatBotComponent() {
   }
 
   return (
-    <div className="h-screen bg-gray-50 flex">
+    <div className="h-screen bg-gray-50 flex relative">
+      {/* Mobile Menu Button */}
+      <button
+        onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+        className="md:hidden fixed top-4 left-4 z-50 p-2 bg-white rounded-lg shadow-lg border border-gray-200"
+      >
+        {mobileMenuOpen ? (
+          <X className="w-5 h-5 text-gray-600" />
+        ) : (
+          <Menu className="w-5 h-5 text-gray-600" />
+        )}
+      </button>
+
+      {/* Mobile Overlay */}
+      {mobileMenuOpen && (
+        <div
+          className="md:hidden fixed inset-0 bg-black bg-opacity-50 z-40"
+          onClick={() => setMobileMenuOpen(false)}
+        />
+      )}
+
       {/* Sidebar */}
       <div
-        className={`${
-          sidebarCollapsed ? "w-16" : "w-80"
+        className={`mobile-sidebar ${
+          // Mobile: slide in from left when open, hidden when closed
+          mobileMenuOpen
+            ? "fixed left-0 top-0 h-full w-80 z-50 transform translate-x-0"
+            : "fixed left-0 top-0 h-full w-80 z-50 transform -translate-x-full"
+        } md:relative md:transform-none md:z-auto ${
+          // Desktop: normal sidebar behavior
+          sidebarCollapsed ? "md:w-20" : "md:w-60 lg:w-80"
         } bg-white border-r border-gray-200 flex flex-col transition-all duration-300`}
       >
         {/* Sidebar Header */}
         <div className="p-4 border-b border-gray-200">
           <div className="flex items-center justify-between">
-            {!sidebarCollapsed && (
+            {(!sidebarCollapsed || mobileMenuOpen) && (
               <div className="flex items-center gap-3">
-                <div
-                  className="flex items-center justify-center flex-row flex-nowrap gap-[10px] h-min w-min overflow-visible p-0 relative transition-transform duration-500 ease-in-out"
-                  data-framer-name="Logo Wrapper"
-                  style={{
-                    borderRadius: 0,
-                    transform: "translateX(0)",
-                    transformOrigin: "50% 50% 0px",
-                  }}
+                <Link
+                  className="block aspect-[3.4545] flex-none h-[28px] sm:h-[33px] w-[96px] sm:w-[114px] overflow-visible relative no-underline"
+                  href="/"
+                  onClick={() => setMobileMenuOpen(false)}
                 >
-                  <Link
-                    className="block aspect-[3.4545] flex-none h-[33px] w-[114px] overflow-visible relative no-underline"
-                    data-framer-name="Logo"
-                    href="/"
-                    data-framer-page-link-current="true"
+                  <div
+                    data-framer-background-image-wrapper="true"
                     style={{
-                      transform: "none",
-                      transformOrigin: "50% 50% 0px",
+                      position: "absolute",
+                      borderRadius: "inherit",
+                      inset: 0,
                     }}
                   >
-                    <div
-                      data-framer-background-image-wrapper="true"
+                    <Image
+                      decoding="async"
+                      src="/images/Nyāyik.png"
+                      alt="Logo"
                       style={{
-                        position: "absolute",
+                        display: "block",
+                        width: "100%",
+                        height: "100%",
                         borderRadius: "inherit",
-                        inset: 0,
+                        objectPosition: "center center",
+                        objectFit: "cover",
                       }}
-                    >
-                      <Image
-                        decoding="async"
-                        src="/images/Nyāyik.png"
-                        alt="Logo"
-                        style={{
-                          display: "block",
-                          width: "100%",
-                          height: "100%",
-                          borderRadius: "inherit",
-                          objectPosition: "center center",
-                          objectFit: "cover",
-                        }}
-                        width={100}
-                        height={100}
-                      />
-                    </div>
-                  </Link>
-                </div>
+                      width={100}
+                      height={100}
+                    />
+                  </div>
+                </Link>
               </div>
             )}
             <button
               onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
-              className="p-1.5 hover:bg-gray-100 rounded-lg transition-colors"
+              className="hidden md:block p-1.5 hover:bg-gray-100 rounded-lg transition-colors"
             >
               <ChevronRight
                 className={`w-4 h-4 text-gray-500 transition-transform ${
@@ -359,21 +366,24 @@ export default function ChatBotComponent() {
         {/* New Chat Button */}
         <div className="p-4">
           <button
-            onClick={() => setHasAcceptedDisclaimer(true)}
-            className="flex-1 opacity-100 rounded-[20px] bg-[#111111] hover:bg-[#37312f] border border-solid border-[#989897]
+            onClick={() => {
+              setHasAcceptedDisclaimer(true);
+              setMobileMenuOpen(false);
+            }}
+            className="flex-1 opacity-100 rounded-[15px] sm:rounded-[20px] bg-[#111111] hover:bg-[#37312f] active:bg-[#37312f] border border-solid border-[#989897]
                       shadow-[0px_0.48175px_1.25255px_-1.16667px_rgba(0,0,0,0.1),0px_1.83083px_4.76015px_-2.33333px_rgba(0,0,0,0.09),0px_8px_20.8px_-3.5px_rgba(0,0,0,0.043),0px_-2px_9px_0px_inset_rgba(255,255,255,0.49),0px_0px_0px_2px_rgba(0,0,0,0.2)]
-                      flex flex-row flex-nowrap items-center justify-center content-center gap-2 
-                      cursor-pointer h-[52px] py-2.5 px-4 relative overflow-visible transition-all duration-200 w-full"
+                      flex flex-row flex-nowrap items-center justify-center content-center gap-2
+                       cursor-pointer h-[48px] sm:h-[52px] py-2.5 px-4 relative overflow-visible transition-all duration-200 w-full active:scale-95"
           >
-            <span className="text-[17px] text-white font-urbanist font-medium flex gap-2">
-              <Plus className="w-5 h-5" />
-              {!sidebarCollapsed && "New Legal Query"}
+            <span className="text-sm sm:text-[15px] lg:text-[17px] text-white font-urbanist font-medium flex gap-2">
+              <Plus className="w-4 lg:w-5 h-4 lg:h-5" />
+              {(!sidebarCollapsed || mobileMenuOpen) && "New Legal Query"}
             </span>
           </button>
         </div>
 
         {/* Quick Actions */}
-        {!sidebarCollapsed && (
+        {(!sidebarCollapsed || mobileMenuOpen) && (
           <div className="px-4 pb-4">
             <h3 className="text-sm font-medium text-gray-700 mb-3">
               Quick Actions
@@ -383,7 +393,7 @@ export default function ChatBotComponent() {
                 <button
                   key={index}
                   onClick={() => handleSuggestionClick(action.query)}
-                  className="w-full text-left p-3 hover:bg-gray-50 rounded-lg transition-colors flex items-center gap-3 group"
+                  className="w-full text-left p-3 hover:bg-gray-50 active:bg-gray-100 rounded-lg transition-colors flex items-center gap-3 group"
                 >
                   <action.icon className="w-4 h-4 text-amber-600" />
                   <span className="text-sm text-gray-700 group-hover:text-gray-900">
@@ -401,15 +411,15 @@ export default function ChatBotComponent() {
         {/* Sidebar Footer */}
         <div className="p-4 border-t border-gray-200">
           <div className="space-y-2">
-            <button className="w-full text-left p-2 hover:bg-gray-50 rounded-lg transition-colors flex items-center gap-3">
+            <button className="w-full text-left p-2 hover:bg-gray-50 active:bg-gray-100 rounded-lg transition-colors flex items-center gap-3">
               <Settings className="w-4 h-4 text-gray-500" />
-              {!sidebarCollapsed && (
+              {(!sidebarCollapsed || mobileMenuOpen) && (
                 <span className="text-sm text-gray-700">Settings</span>
               )}
             </button>
-            <button className="w-full text-left p-2 hover:bg-gray-50 rounded-lg transition-colors flex items-center gap-3">
+            <button className="w-full text-left p-2 hover:bg-gray-50 active:bg-gray-100 rounded-lg transition-colors flex items-center gap-3">
               <HelpCircle className="w-4 h-4 text-gray-500" />
-              {!sidebarCollapsed && (
+              {(!sidebarCollapsed || mobileMenuOpen) && (
                 <span className="text-sm text-gray-700">Help & Support</span>
               )}
             </button>
@@ -418,14 +428,12 @@ export default function ChatBotComponent() {
       </div>
 
       {/* Main Chat Area */}
-      <div className="flex-1 flex flex-col">
-        {/* Chat Header */}
-
+      <div className="flex-1 flex flex-col min-w-0">
         {/* Legal Disclaimer Banner */}
-        <div className="bg-amber-50 border-b border-amber-200 p-3">
-          <div className="flex items-center gap-2 max-w-4xl mx-auto">
+        <div className="bg-amber-50 border-b border-amber-200 p-6 md:p-3">
+          <div className="flex items-center justify-center md:justify-start gap-2 max-w-4xl mx-auto pl-9 md:pl-0">
             <AlertTriangle className="w-4 h-4 text-amber-600 flex-shrink-0" />
-            <p className="text-sm text-amber-800">
+            <p className="text-xs sm:text-sm text-amber-800">
               <strong>Reminder:</strong> This is informational guidance only.
               Consult a qualified lawyer for legal advice.
             </p>
@@ -433,14 +441,11 @@ export default function ChatBotComponent() {
         </div>
 
         {/* Chat Messages */}
-        <div className="flex-1 overflow-y-auto">
-          <div className="max-w-4xl mx-auto p-6">
+        <div className="flex flex-1 overflow-y-auto">
+          <div className="max-w-4xl mx-auto p-3 sm:p-6">
             {messages.length === 0 ? (
-              <div className="flex flex-col items-center justify-center h-full text-center py-12">
-                <div
-                  className="flex flex-col items-center justify-center gap-6 w-full h-min overflow-hidden pb-3 relative"
-                  data-framer-name="Heading"
-                >
+              <div className="flex flex-col items-center justify-center h-full text-center py-8 sm:py-12">
+                <div className="flex flex-col items-center justify-center gap-4 sm:gap-6 w-full h-min overflow-hidden pb-3 relative">
                   <motion.div
                     initial={{ opacity: 0, y: 15 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -448,34 +453,19 @@ export default function ChatBotComponent() {
                     viewport={{ once: true, amount: 0.6 }}
                     className="flex-none h-auto w-auto relative opacity-100"
                   >
-                    <span
-                      className="flex flex-row items-center justify-center gap-[10px] p-[8px_25px] w-min h-min relative overflow-hidden rounded-[30px] opacity-100 border-[1.5px] border-solid border-[#f3f3f1] bg-[#fefefe] shadow-none no-underline"
-                      data-border="true"
-                      data-framer-name="Label Section"
-                    >
-                      <div
-                        className="flex flex-row items-center justify-center gap-2 w-min h-min relative overflow-visible p-0 flex-none order-1 opacity-100"
-                        data-framer-name="Right"
-                      >
+                    <span className="flex flex-row items-center justify-center gap-[10px] p-[6px_20px] sm:p-[8px_25px] w-min h-min relative overflow-hidden rounded-[25px] sm:rounded-[30px] opacity-100 border-[1.5px] border-solid border-[#f3f3f1] bg-[#fefefe] shadow-none no-underline">
+                      <div className="flex flex-row items-center justify-center gap-2 w-min h-min relative overflow-visible p-0 flex-none order-1 opacity-100">
                         <Scale className="w-4 h-4 text-[#37312f]" />
-                        <div
-                          className="flex flex-col justify-start flex-shrink-0 flex-none h-auto w-auto relative whitespace-pre outline-none opacity-100"
-                          data-framer-component-type="RichTextContainer"
-                        >
-                          <p
-                            className="text-[#37312f] font-normal font-urbanist"
-                            data-styles-preset="NFQi0OUa3"
-                          >
+                        <div className="flex flex-col justify-start flex-shrink-0 flex-none h-auto w-auto relative whitespace-pre outline-none opacity-100">
+                          <p className="text-[#37312f] font-normal font-urbanist text-sm sm:text-[15px] lg:text-base">
                             Legal AI
                           </p>
                         </div>
                       </div>
                     </span>
                   </motion.div>
-                  <div
-                    className="flex flex-col justify-start flex-shrink-0 flex-none h-auto w-auto relative whitespace-pre outline-none opacity-100"
-                    data-framer-component-type="RichTextContainer"
-                  >
+
+                  <div className="flex flex-col justify-start flex-shrink-0 flex-none h-auto w-auto relative whitespace-pre outline-none opacity-100">
                     <motion.h2
                       initial={{ opacity: 0, y: 15 }}
                       whileInView={{ opacity: 1, y: 0 }}
@@ -487,16 +477,13 @@ export default function ChatBotComponent() {
                         duration: 0.7,
                       }}
                       viewport={{ once: true, amount: 0.6 }}
-                      className="text-5xl font-urbanist font-semibold"
-                      data-styles-preset="o4SbqhkD9"
+                      className="text-2xl sm:text-[32px] md:text-[38px] lg:text-[48px] font-urbanist font-semibold px-4"
                     >
                       Welcome to Legal AI Advisor!
                     </motion.h2>
                   </div>
-                  <div
-                    className="flex flex-col justify-start flex-shrink-0 flex-none h-auto w-full max-w-[650px] relative whitespace-pre-wrap break-words outline-none opacity-100"
-                    data-framer-component-type="RichTextContainer"
-                  >
+
+                  <div className="flex flex-col justify-start flex-shrink-0 flex-none h-auto w-full max-w-[650px] relative whitespace-pre-wrap break-words outline-none opacity-100 px-4">
                     <motion.p
                       initial={{ opacity: 0, y: 15 }}
                       whileInView={{ opacity: 1, y: 0 }}
@@ -508,8 +495,7 @@ export default function ChatBotComponent() {
                         duration: 0.7,
                       }}
                       viewport={{ once: true, amount: 0.1 }}
-                      className="text-[#616161] font-normal text-base text-center"
-                      data-styles-preset="UCvrJxnzN"
+                      className="text-[#616161] font-normal text-sm lg:text-base text-center"
                     >
                       I can help you understand Indian laws and legal
                       procedures. Ask me about various legal topics or choose
@@ -529,10 +515,10 @@ export default function ChatBotComponent() {
                     duration: 0.7,
                   }}
                   viewport={{ once: true, amount: 0.6 }}
-                  className="flex items-center gap-2 text-xs text-amber-700 bg-amber-50 px-3 py-2 mb-3 rounded-full"
+                  className="flex items-center gap-2 text-xs text-amber-700 bg-amber-50 px-3 py-2 mb-3 rounded-full mx-4"
                 >
                   <FileText className="w-3 h-3" />
-                  <span>
+                  <span className="text-center">
                     Based on Indian Constitution, IPC, CPC, CrPC & other acts
                   </span>
                 </motion.div>
@@ -548,23 +534,24 @@ export default function ChatBotComponent() {
                     duration: 0.7,
                   }}
                   viewport={{ once: true, amount: 0.6 }}
-                  className="grid grid-cols-1 md:grid-cols-3 gap-3 w-full max-w-2xl pb-3"
+                  className="grid grid-cols-1 md:grid-cols-3 gap-3 w-full max-w-2xl pb-3 px-4"
                 >
                   {legalSuggestions.slice(0, 3).map((suggestion, index) => (
                     <button
                       key={index}
                       onClick={() => handleSuggestionClick(suggestion)}
-                      className="p-4 bg-white border border-gray-200 rounded-full hover:border-amber-300 hover:bg-amber-50 transition-all duration-200 text-left group"
+                      className="p-3 sm:p-4 bg-white border border-gray-200 rounded-2xl hover:border-amber-300 hover:bg-amber-50 active:bg-amber-100 transition-all duration-200 text-left group"
                     >
                       <div className="flex items-center gap-3">
                         <MessageSquare className="w-4 h-4 text-amber-600" />
-                        <span className="text-xs text-gray-700 group-hover:text-gray-900">
+                        <span className="text-xs sm:text-sm text-gray-700 group-hover:text-gray-900">
                           {suggestion}
                         </span>
                       </div>
                     </button>
                   ))}
                 </motion.div>
+
                 <motion.div
                   initial={{ opacity: 0, y: 15 }}
                   whileInView={{ opacity: 1, y: 0 }}
@@ -576,17 +563,17 @@ export default function ChatBotComponent() {
                     duration: 0.7,
                   }}
                   viewport={{ once: true, amount: 0.6 }}
-                  className="grid grid-cols-1 md:grid-cols-2 gap-3 w-full max-w-2xl"
+                  className="grid grid-cols-1 md:grid-cols-2 gap-3 w-full max-w-2xl px-4"
                 >
                   {legalSuggestions.slice(3, 5).map((suggestion, index) => (
                     <button
                       key={index}
                       onClick={() => handleSuggestionClick(suggestion)}
-                      className="p-4 bg-white border border-gray-200 rounded-full hover:border-amber-300 hover:bg-amber-50 transition-all duration-200 text-left group"
+                      className="p-3 sm:p-4 bg-white border border-gray-200 rounded-2xl hover:border-amber-300 hover:bg-amber-50 active:bg-amber-100 transition-all duration-200 text-left group"
                     >
                       <div className="flex items-center gap-3">
                         <MessageSquare className="w-4 h-4 text-amber-600" />
-                        <span className="text-xs text-gray-700 group-hover:text-gray-900">
+                        <span className="text-xs sm:text-sm text-gray-700 group-hover:text-gray-900">
                           {suggestion}
                         </span>
                       </div>
@@ -595,38 +582,38 @@ export default function ChatBotComponent() {
                 </motion.div>
               </div>
             ) : (
-              <div className="space-y-6">
+              <div className="space-y-4 sm:space-y-6">
                 {messages.map((message, index) => (
                   <motion.div
                     key={message.id}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.3, delay: index * 0.1 }}
-                    className={`flex gap-4 ${
+                    className={`flex gap-3 sm:gap-4 ${
                       message.role === "user" ? "flex-row-reverse" : "flex-row"
                     }`}
                   >
                     {/* Avatar */}
                     <div className="flex-shrink-0">
                       {message.role === "user" ? (
-                        <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center">
-                          <User className="w-4 h-4 text-white" />
+                        <div className="w-7 h-7 sm:w-8 sm:h-8 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center">
+                          <User className="w-3 h-3 sm:w-4 sm:h-4 text-white" />
                         </div>
                       ) : (
-                        <div className="w-8 h-8 bg-gradient-to-br from-amber-500 to-orange-600 rounded-lg flex items-center justify-center">
-                          <Scale className="w-4 h-4 text-white" />
+                        <div className="w-7 h-7 sm:w-8 sm:h-8 bg-gradient-to-br from-amber-500 to-orange-600 rounded-lg flex items-center justify-center">
+                          <Scale className="w-3 h-3 sm:w-4 sm:h-4 text-white" />
                         </div>
                       )}
                     </div>
 
                     {/* Message Content */}
                     <div
-                      className={`flex flex-col gap-2 max-w-[80%] ${
+                      className={`flex flex-col gap-2 max-w-[85%] sm:max-w-[80%] ${
                         message.role === "user" ? "items-end" : "items-start"
                       }`}
                     >
                       <div className="flex items-center gap-2">
-                        <span className="text-sm font-medium text-gray-900">
+                        <span className="text-xs sm:text-sm font-medium text-gray-900">
                           {message.role === "user" ? "You" : "Legal AI Advisor"}
                         </span>
                         <span className="text-xs text-gray-500">
@@ -635,7 +622,7 @@ export default function ChatBotComponent() {
                       </div>
 
                       <div
-                        className={`relative group p-4 rounded-2xl ${
+                        className={`relative group p-3 sm:p-4 rounded-2xl ${
                           message.role === "user"
                             ? "bg-gradient-to-br from-blue-500 to-blue-600 text-white"
                             : "bg-white border border-gray-200 text-gray-900"
@@ -666,7 +653,7 @@ export default function ChatBotComponent() {
                                 onClick={() =>
                                   copyToClipboard(message.content, message.id)
                                 }
-                                className="p-1.5 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors"
+                                className="p-1.5 bg-gray-100 hover:bg-gray-200 active:bg-gray-300 rounded-lg transition-colors"
                                 title="Copy message"
                               >
                                 <Copy className="w-3 h-3 text-gray-600" />
@@ -689,16 +676,16 @@ export default function ChatBotComponent() {
                   <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="flex gap-4"
+                    className="flex gap-3 sm:gap-4"
                   >
-                    <div className="w-8 h-8 bg-gradient-to-br from-amber-500 to-orange-600 rounded-lg flex items-center justify-center">
-                      <Scale className="w-4 h-4 text-white" />
+                    <div className="w-7 h-7 sm:w-8 sm:h-8 bg-gradient-to-br from-amber-500 to-orange-600 rounded-lg flex items-center justify-center">
+                      <Scale className="w-3 h-3 sm:w-4 sm:h-4 text-white" />
                     </div>
                     <div className="flex flex-col gap-2">
-                      <span className="text-sm font-medium text-gray-900">
+                      <span className="text-xs sm:text-sm font-medium text-gray-900">
                         Legal AI Advisor
                       </span>
-                      <div className="bg-white border border-gray-200 p-4 rounded-2xl">
+                      <div className="bg-white border border-gray-200 p-3 sm:p-4 rounded-2xl">
                         <div className="flex items-center gap-1">
                           <div className="w-2 h-2 bg-amber-600 rounded-full animate-bounce"></div>
                           <div
@@ -727,7 +714,7 @@ export default function ChatBotComponent() {
                       </div>
                       <button
                         onClick={handleRetry}
-                        className="flex items-center gap-2 px-3 py-2 bg-red-100 hover:bg-red-200 rounded-lg text-sm text-red-700 transition-colors"
+                        className="flex items-center gap-2 px-3 py-2 bg-red-100 hover:bg-red-200 active:bg-red-300 rounded-lg text-sm text-red-700 transition-colors"
                       >
                         <RefreshCw className="w-3 h-3" />
                         Try Again
@@ -735,7 +722,6 @@ export default function ChatBotComponent() {
                     </div>
                   </div>
                 )}
-
                 <div ref={messagesEndRef} />
               </div>
             )}
@@ -743,14 +729,25 @@ export default function ChatBotComponent() {
         </div>
 
         {/* Chat Input */}
-        <div className="bg-white border-t border-gray-200 p-4">
+        <div className="bg-white border-t border-gray-200 p-3 sm:p-4 safe-area-inset-bottom">
           <div className="max-w-4xl mx-auto">
-            <form onSubmit={handleSubmit} className="flex items-end gap-3">
+            <form
+              onSubmit={handleSubmit}
+              className="flex items-end gap-2 sm:gap-3"
+            >
               <div className="flex-1 relative">
                 <textarea
                   value={input}
                   onChange={handleInputChange}
-                  placeholder="Ask about Indian laws, legal procedures, rights, or regulations..."
+                  placeholder={
+                    deviceType === "desktop"
+                      ? "Ask about Indian laws, legal procedures, rights, or regulations..."
+                      : deviceType === "tablet"
+                      ? "Ask about Indian laws or legal procedures..."
+                      : deviceType === "mobile"
+                      ? "Ask about Indian laws procedures..."
+                      : ""
+                  }
                   disabled={isLoading}
                   rows={1}
                   onKeyDown={(e) => {
@@ -759,10 +756,10 @@ export default function ChatBotComponent() {
                       handleSubmit(e as any);
                     }
                   }}
-                  className="w-full resize-none border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent disabled:opacity-50 text-sm leading-relaxed min-h-[48px] max-h-[120px] overflow-hidden"
+                  className="w-full resize-none border border-gray-300 rounded-xl px-3 sm:px-4 py-3 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent disabled:opacity-50 text-sm leading-relaxed min-h-[44px] sm:min-h-[48px] max-h-[120px] overflow-hidden"
                   style={{
                     height: "auto",
-                    minHeight: "48px",
+                    minHeight: window.innerWidth < 640 ? "44px" : "48px",
                   }}
                   onInput={(e) => {
                     const target = e.target as HTMLTextAreaElement;
@@ -772,20 +769,13 @@ export default function ChatBotComponent() {
                   }}
                 />
               </div>
-
               <button
                 type="submit"
                 disabled={isLoading || !input.trim()}
-                className="opacity-100 rounded-[20px] bg-gradient-to-r from-amber-600 to-orange-700 hover:from-amber-700 hover:to-orange-800 disabled:from-[#989897] disabled:to-[#989897] border border-solid border-[#989897]
-            shadow-[0px_0.48175px_1.25255px_-1.16667px_rgba(0,0,0,0.1),0px_1.83083px_4.76015px_-2.33333px_rgba(0,0,0,0.09),0px_8px_20.8px_-3.5px_rgba(0,0,0,0.043),0px_-2px_9px_0px_inset_rgba(255,255,255,0.49),0px_0px_0px_2px_rgba(0,0,0,0.2)]
-            flex flex-row flex-nowrap items-center justify-center content-center gap-2 
-            cursor-pointer h-[52px] px-[20px] py-[13px] relative overflow-visible disabled:cursor-not-allowed transition-all duration-200 hover:scale-105 active:scale-95"
-                data-border="true"
-                data-framer-name="Default"
-                data-reset="button"
+                className="opacity-100 rounded-[15px] md:rounded-[20px] bg-gradient-to-r from-amber-600 to-orange-700 hover:from-amber-700 hover:to-orange-800 active:from-amber-800 active:to-orange-900 disabled:from-[#989897] disabled:to-[#989897] border border-solid border-[#989897] shadow-[0px_0.48175px_1.25255px_-1.16667px_rgba(0,0,0,0.1),0px_1.83083px_4.76015px_-2.33333px_rgba(0,0,0,0.09),0px_8px_20.8px_-3.5px_rgba(0,0,0,0.043),0px_-2px_9px_0px_inset_rgba(255,255,255,0.49),0px_0px_0px_2px_rgba(0,0,0,0.2)] flex flex-row flex-nowrap items-center self-center justify-center content-center gap-2 cursor-pointer h-[44px] sm:h-[52px] px-[22px] md:px-[20px] py-[22px] md:py-[13px] relative overflow-visible disabled:cursor-not-allowed transition-all duration-200 hover:scale-105 active:scale-95 touch-manipulation"
               >
                 <Send className="w-4 h-4 text-white" />
-                <span className="text-[15px] text-white font-urbanist font-medium">
+                <span className="text-sm md:text-[15px] text-white font-urbanist font-medium hidden md:inline">
                   Ask Legal AI
                 </span>
               </button>
