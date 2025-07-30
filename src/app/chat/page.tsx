@@ -431,7 +431,7 @@ export default function ChatBotComponent() {
       <div className="flex-1 flex flex-col min-w-0">
         {/* Legal Disclaimer Banner */}
         <div className="bg-amber-50 border-b border-amber-200 p-6 md:p-3">
-          <div className="flex items-center justify-center md:justify-start gap-2 max-w-4xl mx-auto pl-9 md:pl-0">
+          <div className="flex items-center justify-center md:justify-start gap-2 pl-9 md:pl-0">
             <AlertTriangle className="w-4 h-4 text-amber-600 flex-shrink-0" />
             <p className="text-xs sm:text-sm text-amber-800">
               <strong>Reminder:</strong> This is informational guidance only.
@@ -730,55 +730,72 @@ export default function ChatBotComponent() {
 
         {/* Chat Input */}
         <div className="bg-white border-t border-gray-200 p-3 sm:p-4 safe-area-inset-bottom">
-          <div className="max-w-4xl mx-auto">
+          <div className="w-full">
             <form
               onSubmit={handleSubmit}
-              className="flex items-end gap-2 sm:gap-3"
+              className="relative flex flex-row flex-nowrap items-start justify-center gap-0 p-0 w-full h-min flex-none overflow-visible rounded-[17px] opacity-100"
             >
-              <div className="flex-1 relative">
-                <textarea
-                  value={input}
-                  onChange={handleInputChange}
-                  placeholder={
-                    deviceType === "desktop"
-                      ? "Ask about Indian laws, legal procedures, rights, or regulations..."
-                      : deviceType === "tablet"
-                      ? "Ask about Indian laws or legal procedures..."
-                      : deviceType === "mobile"
-                      ? "Ask about Indian laws procedures..."
-                      : ""
-                  }
-                  disabled={isLoading}
-                  rows={1}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter" && !e.shiftKey) {
-                      e.preventDefault();
-                      handleSubmit(e as any);
-                    }
-                  }}
-                  className="w-full resize-none border border-gray-300 rounded-xl px-3 sm:px-4 py-3 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent disabled:opacity-50 text-sm leading-relaxed min-h-[44px] sm:min-h-[48px] max-h-[120px] overflow-hidden"
-                  style={{
-                    height: "auto",
-                    minHeight: window.innerWidth < 640 ? "44px" : "48px",
-                  }}
-                  onInput={(e) => {
-                    const target = e.target as HTMLTextAreaElement;
-                    target.style.height = "auto";
-                    target.style.height =
-                      Math.min(target.scrollHeight, 120) + "px";
-                  }}
-                />
-              </div>
-              <button
-                type="submit"
-                disabled={isLoading || !input.trim()}
-                className="opacity-100 rounded-[15px] md:rounded-[20px] bg-gradient-to-r from-amber-600 to-orange-700 hover:from-amber-700 hover:to-orange-800 active:from-amber-800 active:to-orange-900 disabled:from-[#989897] disabled:to-[#989897] border border-solid border-[#989897] shadow-[0px_0.48175px_1.25255px_-1.16667px_rgba(0,0,0,0.1),0px_1.83083px_4.76015px_-2.33333px_rgba(0,0,0,0.09),0px_8px_20.8px_-3.5px_rgba(0,0,0,0.043),0px_-2px_9px_0px_inset_rgba(255,255,255,0.49),0px_0px_0px_2px_rgba(0,0,0,0.2)] flex flex-row flex-nowrap items-center self-center justify-center content-center gap-2 cursor-pointer h-[44px] sm:h-[52px] px-[22px] md:px-[20px] py-[22px] md:py-[13px] relative overflow-visible disabled:cursor-not-allowed transition-all duration-200 hover:scale-105 active:scale-95 touch-manipulation"
+              <label
+                data-border="true"
+                className="relative flex flex-row flex-nowrap items-center justify-center gap-[7px] md:gap-6 py-[2px] pr-[7px] h-min w-[1px] flex-[1_0_0px] rounded-[23px] opacity-100 shadow-[0_2px_20px_0_rgba(0,0,0,0.07)] bg-[linear-gradient(180deg,rgba(255,255,255,1)_50%,rgba(254,254,254,1)_100%)] border border-solid border-[rgb(240,236,231)]"
               >
-                <Send className="w-4 h-4 text-white" />
-                <span className="text-sm md:text-[15px] text-white font-urbanist font-medium hidden md:inline">
-                  Ask Legal AI
-                </span>
-              </button>
+                <div className="flex-[1_0_0px] relative text-left h-auto w-full md:w-[1px] opacity-100 ">
+                  <textarea
+                    value={input}
+                    onChange={handleInputChange}
+                    placeholder={
+                      deviceType === "desktop"
+                        ? "Ask about Indian laws, legal procedures, rights, or regulations..."
+                        : deviceType === "tablet"
+                        ? "Ask about Indian laws or legal procedures..."
+                        : deviceType === "mobile"
+                        ? "Ask about Indian laws procedures..."
+                        : ""
+                    }
+                    disabled={isLoading}
+                    rows={1}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" && !e.shiftKey) {
+                        e.preventDefault();
+                        handleSubmit(e as any);
+                      }
+                    }}
+                    className="w-full p-[12px_20px_12px_20px] bg-transparent text-left font-inter font-normal text-[#111111] focus-visible:outline-none resize-none focus:outline-none focus:border-transparent disabled:opacity-50 text-base leading-relaxed min-h-[44px] overflow-hidden"
+                    style={{
+                      height: "auto",
+                      minHeight: window.innerWidth < 640 ? "44px" : "48px",
+                    }}
+                    onInput={(e) => {
+                      const target = e.target as HTMLTextAreaElement;
+                      target.style.height = "auto";
+                      const lineHeight = 24;
+                      const maxRows = 4;
+                      const maxHeight = lineHeight * maxRows;
+
+                      if (target.scrollHeight <= maxHeight) {
+                        target.style.overflowY = "hidden";
+                      } else {
+                        target.style.overflowY = "auto";
+                      }
+
+                      target.style.height =
+                        Math.min(target.scrollHeight, maxHeight) + "px";
+                    }}
+                  />
+                </div>
+                <div className="flex-none h-auto relative">
+                  <button
+                    type="submit"
+                    disabled={isLoading || !input.trim()}
+                    className="opacity-100 rounded-[15px] md:rounded-[20px] bg-gradient-to-r from-[#111111] to-[#111111] hover:from-[#494949] hover:to-[#494949] active:from-[#494949] active:to-[#494949] disabled:from-[#989897] disabled:to-[#989897] border border-solid border-[#989897] shadow-[0px_0.48175px_1.25255px_-1.16667px_rgba(0,0,0,0.1),0px_1.83083px_4.76015px_-2.33333px_rgba(0,0,0,0.09),0px_8px_20.8px_-3.5px_rgba(0,0,0,0.043),0px_-2px_9px_0px_inset_rgba(255,255,255,0.49),0px_0px_0px_2px_rgba(0,0,0,0.2)] flex flex-row flex-nowrap items-center self-center justify-center content-center gap-2 cursor-pointer h-[44px] px-[22px] md:px-[20px] py-[22px] md:py-[13px] relative overflow-visible disabled:cursor-not-allowed transition-all duration-200 hover:scale-[1.025] active:scale-[0.975] touch-manipulation"
+                  >
+                    <Send className="w-4 h-4 text-white" />
+                    <span className="text-sm md:text-[15px] text-white font-urbanist font-medium hidden md:inline">
+                      Ask Legal AI
+                    </span>
+                  </button>
+                </div>
+              </label>
             </form>
           </div>
         </div>
