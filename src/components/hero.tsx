@@ -546,7 +546,7 @@ const Hero = () => {
               delay: 1.25,
             }}
             viewport={{ once: true, amount: 0.6 }}
-            className="mt-4 md:mt-6 text-[#616161] text-lg max-w-[690px] md:max-w-[500px] lg:max-w-2xl mx-auto"
+            className="mt-4 md:mt-6 text-[#616161] text-base lg:text-lg max-w-[690px] md:max-w-[500px] lg:max-w-2xl mx-auto"
           >
             Streamline legal workflows, automate contract review, and ensure
             compliance — powered by the latest in AI legal technology.

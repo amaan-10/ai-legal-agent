@@ -38,7 +38,7 @@ const Footer = () => {
           data-framer-name="Content"
         >
           <div
-            className="flex flex-col flex-nowrap items-start md:items-center lg:items-start content-start justify-center gap-6 h-min w-min overflow-visible p-0 relative flex-none"
+            className="flex flex-col flex-nowrap items-start md:items-center lg:items-start content-start justify-center gap-6 h-min w-full md:w-min overflow-visible p-0 relative flex-none"
             data-framer-name="Right Content"
           >
             <div
@@ -60,7 +60,7 @@ const Footer = () => {
               </div>
             </div>
             <div
-              className="outline-none flex flex-col justify-start shrink-0 flex-none h-auto w-auto relative whitespace-pre opacity-100"
+              className="outline-none flex flex-col justify-start md:shrink-0 flex-none h-auto w-auto relative md:whitespace-pre opacity-100"
               data-framer-component-type="RichTextContainer"
             >
               <p
