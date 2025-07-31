@@ -670,7 +670,7 @@ const Hero = () => {
               delay: 1.75,
             }}
             viewport={{ once: true, amount: 0.1 }}
-            className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4 w-full max-w-sm sm:max-w-none font-urbanist"
+            className="mt-8 flex flex-col md:flex-row items-center justify-center gap-4 w-full max-w-sm sm:max-w-none font-urbanist"
           >
             <div className="relative group">
               <Link
