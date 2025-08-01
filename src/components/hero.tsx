@@ -7,6 +7,7 @@ import Gavel from "../../public/images/gavel.png";
 import { easeInOut } from "framer-motion";
 import Link from "next/link";
 import { useResponsiveState } from "@/lib/useResponsiveState";
+import { useSession } from "next-auth/react";
 
 const heading =
   "Your AI Legal Agent for Effortless Compliance & Document Automation";
@@ -34,6 +35,7 @@ const wordAnimation = {
 
 const Hero = () => {
   const deviceType = useResponsiveState();
+  const { data: session } = useSession();
 
   return (
     <section
@@ -708,7 +710,7 @@ const Hero = () => {
                   }
                   data-framer-component-type="RichTextContainer"
                 >
-                  <p className=" font-medium text-[#FAFAF7]">Explore Active</p>
+                  <p className=" font-medium text-[#FAFAF7]">Explore Nyayik</p>
                 </div>
                 <div
                   className="flex items-center justify-center flex-row flex-nowrap gap-[10px] flex-none h-min w-min min-h-[20px] min-w-[20px] overflow-hidden p-0 relative"
@@ -767,7 +769,7 @@ const Hero = () => {
     0px 0px 0px 2px var(--token-caa7547d-cf57-44d3-92c2-01fcbf1068be, rgb(243, 243, 241))
   `,
                 }}
-                href="/contact"
+                href={session ? "/chat" : "/auth/sign-up"}
                 data-framer-name="Button Light Icon Up"
               >
                 <div
@@ -793,7 +795,7 @@ const Hero = () => {
                     className="font-medium text-black"
                     data-styles-preset="huFE_kN6t"
                   >
-                    Request a Demo
+                    {session ? "Ask Nyayik" : "Get Started"}
                   </p>
                 </div>
                 <div

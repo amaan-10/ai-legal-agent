@@ -605,8 +605,14 @@ export default function ChatBotComponent() {
                           <User className="w-5 h-5 text-white" />
                         </div>
                       ) : (
-                        <div className="w-10 h-10 bg-gradient-to-br from-amber-500 to-orange-600 rounded-full flex items-center justify-center">
-                          <Scale className="w-5 h-5 text-white" />
+                        <div className="w-10 h-10 bg-[#FE6A2E] rounded-full flex items-center justify-center">
+                          <Image
+                            src="/images/logo-orange.png"
+                            alt="Logo"
+                            className="w-8 h-8 rounded-full"
+                            width={50}
+                            height={50}
+                          />
                         </div>
                       )}
                     </div>

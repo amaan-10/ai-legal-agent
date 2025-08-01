@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Inter, Urbanist } from "next/font/google";
+import SessionProvider from "@/providers/SessionProvider";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -29,7 +30,7 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${urbanist.variable} antialiased font-inter`}
       >
-        {children}
+        <SessionProvider>{children}</SessionProvider>
       </body>
     </html>
   );

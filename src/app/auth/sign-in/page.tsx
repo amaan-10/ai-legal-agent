@@ -5,6 +5,7 @@ import type React from "react";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import Link from "next/link";
+import { signIn } from "next-auth/react";
 
 export default function SignInComponent() {
   const [formData, setFormData] = useState({
@@ -12,10 +13,15 @@ export default function SignInComponent() {
     password: "",
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    console.log("Sign in form submitted:", formData);
-  };
+    await signIn("credentials", {
+      email: formData.email,
+      password: formData.password,
+      redirect: true,
+      callbackUrl: "/",
+    });
+  }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData((prev) => ({
@@ -262,6 +268,47 @@ export default function SignInComponent() {
                           data-styles-preset="huFE_kN6t"
                         >
                           Sign In
+                        </p>
+                      </div>
+                    </button>
+
+                    <div className="relative my-4">
+                      <div className="absolute inset-0 flex items-center">
+                        <div
+                          data-orientation="horizontal"
+                          role="none"
+                          data-slot="separator"
+                          className="bg-[#e5e5e5] shrink-0 h-px w-full"
+                        ></div>
+                      </div>
+                      <div className="relative flex justify-center text-xs uppercase">
+                        <span className="bg-[#fafaf7] px-2 text-muted-foreground">
+                          Or
+                        </span>
+                      </div>
+                    </div>
+
+                    <button
+                      onClick={() => signIn("google", { callbackUrl: "/" })}
+                      className="w-full opacity-100 rounded-[20px] bg-[#FE6A2E] hover:bg-[#E85E27] border border-solid border-[#989897]
+            shadow-[0px_0.48175px_1.25255px_-1.16667px_rgba(0,0,0,0.1),0px_1.83083px_4.76015px_-2.33333px_rgba(0,0,0,0.09),0px_8px_20.8px_-3.5px_rgba(0,0,0,0.043),0px_-2px_9px_0px_inset_rgba(255,255,255,0.49),0px_0px_0px_2px_rgba(0,0,0,0.2)]
+            flex flex-row flex-nowrap items-center justify-center content-center gap-0 
+            cursor-pointer h-[46px] px-[28px] py-[13px] relative overflow-visible"
+                      data-border="true"
+                      data-framer-name="Default"
+                      data-reset="button"
+                    >
+                      <div
+                        className="outline-none flex flex-col justify-start shrink-0
+            text-white transform-none opacity-100 select-none
+            flex-none h-auto w-auto relative whitespace-pre"
+                        data-framer-component-type="RichTextContainer"
+                      >
+                        <p
+                          className="text-[17px] text-white font-urbanist font-medium"
+                          data-styles-preset="huFE_kN6t"
+                        >
+                          Sign In with Google
                         </p>
                       </div>
                     </button>

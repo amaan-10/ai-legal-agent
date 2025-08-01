@@ -4,10 +4,12 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { useResponsiveState } from "@/lib/useResponsiveState";
+import { signOut, useSession } from "next-auth/react";
 
 const Header = () => {
   const [scrolled, setScrolled] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const { data: session } = useSession();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -234,10 +236,13 @@ const Header = () => {
                   >
                     <Link
                       className="relative flex flex-nowrap flex-row items-center justify-center gap-[10px] p-[8px_26px] h-min w-min cursor-pointer overflow-visible no-underline rounded-[999px] bg-white border border-solid border-[rgb(240,236,231)] shadow-[rgba(0,0,0,0.133)_0px_0px_0px_-2.5px,rgba(0,0,0,0)_0px_0px_0px_-5px,rgba(0,0,0,0.15)_0px_-1px_4px_0px_inset,rgba(242,242,240,0.4)_0px_0px_0px_2px]"
-                      data-border="true"
-                      data-framer-name="Button S - Nav"
-                      href="/auth/sign-up"
-                      rel="noopener"
+                      href={session ? "#" : "/auth/sign-up"}
+                      onClick={(e) => {
+                        if (session) {
+                          e.preventDefault();
+                          signOut({ callbackUrl: "/login" });
+                        }
+                      }}
                     >
                       <div
                         className="flex flex-col justify-start flex-shrink-0 outline-none flex-none h-auto relative whitespace-pre w-auto"
@@ -247,7 +252,7 @@ const Header = () => {
                           className="text-black text-[17px] font-medium"
                           data-styles-preset="huFE_kN6t"
                         >
-                          Sign Up
+                          {session ? "Logout" : "Sign Up"}
                         </p>
                       </div>
                       <div
@@ -428,45 +433,52 @@ const Header = () => {
                   </p>
                 </div>
 
-                <div
-                  className="flex items-center justify-center flex-row flex-nowrap gap-[3px] p-0 relative w-min h-min overflow-visible cursor-pointer flex-none opacity-100"
-                  data-framer-name="Sub Menu"
-                  data-highlight="true"
-                  id="undefined-1811ejt"
-                >
-                  <div
-                    className="outline-none flex flex-col justify-start shrink-0 opacity-100 flex-none h-auto relative whitespace-pre w-auto"
-                    data-framer-component-type="RichTextContainer"
-                  >
-                    <p
-                      className="text-[#616161] text-lg font-normal"
-                      data-styles-preset="H0bugeDms"
+                <div className="relative inline-flex flex-col items-start group">
+                  {/* Trigger */}
+                  <div className="flex items-center gap-[3px] cursor-pointer">
+                    <p className="text-[#616161] text-lg font-medium">Pages</p>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="20"
+                      height="20"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="rgb(97, 97, 97)"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      className="w-5 h-5"
                     >
-                      Pages
-                    </p>
+                      <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
                   </div>
+
+                  {/* Transparent hover bridge */}
+                  <div className="absolute left-0 top-full h-2 w-full bg-transparent pointer-events-auto group-hover:pointer-events-auto"></div>
+
+                  {/* Overlay menu */}
                   <div
-                    className="flex flex-col flex-nowrap items-center justify-center gap-[10px] h-[23px] overflow-hidden p-0 relative w-min flex-none opacity-100"
-                    data-framer-name="Icon"
+                    id="overlay"
+                    className="absolute -left-5 top-[calc(100%+0.5rem)] flex flex-col gap-3 p-6 w-max bg-white shadow-2xl rounded-2xl opacity-0 pointer-events-none transition-all duration-200 group-hover:opacity-100 group-hover:pointer-events-auto"
                   >
-                    <div className="flex-none h-[23px] w-[20px] relative opacity-100">
-                      <div className="contents">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="24"
-                          height="24"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="var(--token-976d8519-4529-425a-83b6-fc169b0e21bc, rgb(97, 97, 97))"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          className="w-full h-full"
-                        >
-                          <polyline points="6 9 12 15 18 9"></polyline>
-                        </svg>
-                      </div>
-                    </div>
+                    <Link
+                      href="/contact"
+                      className="text-[#616161] hover:text-black text-lg"
+                    >
+                      Contact
+                    </Link>
+                    <Link
+                      href="/404"
+                      className="text-[#616161] hover:text-black text-lg"
+                    >
+                      404 Page
+                    </Link>
+                    <Link
+                      href="/terms-and-conditions"
+                      className="text-[#616161] hover:text-black text-lg"
+                    >
+                      Terms & Conditions
+                    </Link>
                   </div>
                 </div>
               </div>
@@ -480,10 +492,13 @@ const Header = () => {
               >
                 <Link
                   className="relative flex flex-nowrap flex-row items-center justify-center gap-[10px] p-[8px_26px] h-min w-min cursor-pointer overflow-visible no-underline rounded-[999px] bg-white border border-solid border-[rgb(240,236,231)] shadow-[rgba(0,0,0,0.133)_0px_0px_0px_-2.5px,rgba(0,0,0,0)_0px_0px_0px_-5px,rgba(0,0,0,0.15)_0px_-1px_4px_0px_inset,rgba(242,242,240,0.4)_0px_0px_0px_2px]"
-                  data-border="true"
-                  data-framer-name="Button S - Nav"
-                  href="/auth/sign-up"
-                  rel="noopener"
+                  href={session ? "#" : "/auth/sign-up"}
+                  onClick={(e) => {
+                    if (session) {
+                      e.preventDefault();
+                      signOut({ callbackUrl: "/auth/sign-up" });
+                    }
+                  }}
                 >
                   <div
                     className="flex flex-col justify-start flex-shrink-0 outline-none flex-none h-auto relative whitespace-pre w-auto"
@@ -493,7 +508,7 @@ const Header = () => {
                       className="text-black text-[17px] font-medium"
                       data-styles-preset="huFE_kN6t"
                     >
-                      Sign Up
+                      {session ? "Logout" : "Sign Up"}
                     </p>
                   </div>
                   <div
