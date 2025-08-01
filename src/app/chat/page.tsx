@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import { motion } from "framer-motion";
-import { useChat } from "ai/react";
 import { useRef, useEffect, useState } from "react";
 import {
   Send,
@@ -20,10 +19,14 @@ import {
   RefreshCw,
   Menu,
   X,
+  SquarePen,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useResponsiveState } from "@/lib/useResponsiveState";
+import { useStreamChat } from "@/hooks/useStreamChat";
+import ReactMarkdown from "react-markdown";
+import TypingMarkdown from "@/components/TypingMarkdown";
 
 export default function ChatBotComponent() {
   const {
@@ -34,12 +37,7 @@ export default function ChatBotComponent() {
     isLoading,
     error,
     reload,
-  } = useChat({
-    api: "/api/chat",
-    onError: (error) => {
-      console.error("Chat error:", error);
-    },
-  });
+  } = useStreamChat();
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const [copiedMessageId, setCopiedMessageId] = useState<string | null>(null);
@@ -71,6 +69,7 @@ export default function ChatBotComponent() {
 
   useEffect(() => {
     console.log("Messages updated:", messages.length);
+    console.log("Message:", messages);
     console.log("Is loading:", isLoading);
     console.log("Error:", error);
   }, [messages, isLoading, error]);
@@ -85,13 +84,19 @@ export default function ChatBotComponent() {
     }
   };
 
-  const formatTime = (timestamp: Date) => {
-    return new Intl.DateTimeFormat("en-IN", {
-      hour: "2-digit",
-      minute: "2-digit",
-      hour12: true,
-      timeZone: "Asia/Kolkata",
-    }).format(timestamp);
+  const formatTime = (timestamp: string | Date) => {
+    try {
+      const date = timestamp instanceof Date ? timestamp : new Date(timestamp);
+      if (isNaN(date.getTime())) return ""; // invalid date
+      return new Intl.DateTimeFormat("en-IN", {
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: true,
+        timeZone: "Asia/Kolkata",
+      }).format(date);
+    } catch {
+      return "";
+    }
   };
 
   const legalSuggestions = [
@@ -310,7 +315,7 @@ export default function ChatBotComponent() {
             : "fixed left-0 top-0 h-full w-80 z-50 transform -translate-x-full"
         } md:relative md:transform-none md:z-auto ${
           // Desktop: normal sidebar behavior
-          sidebarCollapsed ? "md:w-20" : "md:w-60 lg:w-80"
+          sidebarCollapsed ? "md:w-20" : "md:w-60 lg:w-64"
         } bg-white border-r border-gray-200 flex flex-col transition-all duration-300`}
       >
         {/* Sidebar Header */}
@@ -375,8 +380,8 @@ export default function ChatBotComponent() {
                       flex flex-row flex-nowrap items-center justify-center content-center gap-2
                        cursor-pointer h-[48px] sm:h-[52px] py-2.5 px-4 relative overflow-visible transition-all duration-200 w-full active:scale-95"
           >
-            <span className="text-sm sm:text-[15px] lg:text-[17px] text-white font-urbanist font-medium flex gap-2">
-              <Plus className="w-4 lg:w-5 h-4 lg:h-5" />
+            <span className="text-sm sm:text-[15px] lg:text-[17px] text-white font-urbanist font-medium flex items-center gap-2">
+              <SquarePen className="w-4 lg:w-5 h-4 lg:h-5" />
               {(!sidebarCollapsed || mobileMenuOpen) && "New Legal Query"}
             </span>
           </button>
@@ -442,9 +447,9 @@ export default function ChatBotComponent() {
 
         {/* Chat Messages */}
         <div className="flex flex-1 overflow-y-auto">
-          <div className="max-w-4xl mx-auto p-3 sm:p-6">
+          <div className="w-full h-max max-w-4xl m-auto p-3 md:p-6">
             {messages.length === 0 ? (
-              <div className="flex flex-col items-center justify-center h-full text-center py-8 sm:py-12">
+              <div className="flex flex-col justify-self-center self-center items-center justify-center h-full text-center py-8 sm:py-12">
                 <div className="flex flex-col items-center justify-center gap-4 sm:gap-6 w-full h-min overflow-hidden pb-3 relative">
                   <motion.div
                     initial={{ opacity: 0, y: 15 }}
@@ -596,41 +601,30 @@ export default function ChatBotComponent() {
                     {/* Avatar */}
                     <div className="flex-shrink-0">
                       {message.role === "user" ? (
-                        <div className="w-7 h-7 sm:w-8 sm:h-8 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center">
-                          <User className="w-3 h-3 sm:w-4 sm:h-4 text-white" />
+                        <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center">
+                          <User className="w-5 h-5 text-white" />
                         </div>
                       ) : (
-                        <div className="w-7 h-7 sm:w-8 sm:h-8 bg-gradient-to-br from-amber-500 to-orange-600 rounded-lg flex items-center justify-center">
-                          <Scale className="w-3 h-3 sm:w-4 sm:h-4 text-white" />
+                        <div className="w-10 h-10 bg-gradient-to-br from-amber-500 to-orange-600 rounded-full flex items-center justify-center">
+                          <Scale className="w-5 h-5 text-white" />
                         </div>
                       )}
                     </div>
 
                     {/* Message Content */}
                     <div
-                      className={`flex flex-col gap-2 max-w-[85%] sm:max-w-[80%] ${
+                      className={`flex flex-col gap-2 max-w-[85%] sm:max-w-[80%] group ${
                         message.role === "user" ? "items-end" : "items-start"
                       }`}
                     >
-                      <div className="flex items-center gap-2">
-                        <span className="text-xs sm:text-sm font-medium text-gray-900">
-                          {message.role === "user" ? "You" : "Legal AI Advisor"}
-                        </span>
-                        <span className="text-xs text-gray-500">
-                          {formatTime(message.createdAt || new Date())}
-                        </span>
-                      </div>
-
                       <div
-                        className={`relative group p-3 sm:p-4 rounded-2xl ${
+                        className={`relative rounded-2xl ${
                           message.role === "user"
-                            ? "bg-gradient-to-br from-blue-500 to-blue-600 text-white"
-                            : "bg-white border border-gray-200 text-gray-900"
+                            ? " bg-white shadow-md text-[#494949] font-urbanist py-4 px-5 font-medium"
+                            : "bg-white border border-gray-200 py-4 px-5"
                         }`}
                       >
-                        <div className="text-sm leading-relaxed whitespace-pre-wrap">
-                          {message.content}
-                        </div>
+                        <TypingMarkdown content={message.content} />
 
                         {/* Legal Disclaimer for AI responses */}
                         {message.role === "assistant" && (
@@ -644,29 +638,47 @@ export default function ChatBotComponent() {
                             </div>
                           </div>
                         )}
-
-                        {/* Message Actions */}
-                        {message.role === "assistant" && (
-                          <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                            <div className="flex items-center gap-1">
-                              <button
-                                onClick={() =>
-                                  copyToClipboard(message.content, message.id)
-                                }
-                                className="p-1.5 bg-gray-100 hover:bg-gray-200 active:bg-gray-300 rounded-lg transition-colors"
-                                title="Copy message"
-                              >
-                                <Copy className="w-3 h-3 text-gray-600" />
-                              </button>
-                              {copiedMessageId === message.id && (
-                                <span className="text-xs text-green-600 ml-2">
-                                  Copied!
-                                </span>
-                              )}
-                            </div>
-                          </div>
-                        )}
                       </div>
+                      {/* Message Actions */}
+                      {message.role === "assistant" ? (
+                        <div className="opacity-100 transition-opacity">
+                          <div className="flex items-center gap-1">
+                            <button
+                              onClick={() =>
+                                copyToClipboard(message.content, message.id)
+                              }
+                              className="p-1.5 bg-transparent hover:bg-gray-200 active:bg-gray-300 rounded-lg transition-colors"
+                              title="Copy message"
+                            >
+                              <Copy className="w-3 md:w-4 h-3 md:h-4 text-gray-600" />
+                            </button>
+                            {copiedMessageId === message.id && (
+                              <span className="text-xs text-green-600 ml-2">
+                                Copied!
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="opacity-0 group-hover:opacity-100 transition-opacity">
+                          <div className="flex items-center gap-1">
+                            {copiedMessageId === message.id && (
+                              <span className="text-xs text-green-600 mr-2">
+                                Copied!
+                              </span>
+                            )}
+                            <button
+                              onClick={() =>
+                                copyToClipboard(message.content, message.id)
+                              }
+                              className="p-1.5 bg-transparent hover:bg-gray-200 active:bg-gray-300 rounded-lg transition-colors"
+                              title="Copy message"
+                            >
+                              <Copy className="w-3 md:w-4 h-3 md:h-4 text-gray-600" />
+                            </button>
+                          </div>
+                        </div>
+                      )}
                     </div>
                   </motion.div>
                 ))}
@@ -729,8 +741,8 @@ export default function ChatBotComponent() {
         </div>
 
         {/* Chat Input */}
-        <div className="bg-white border-t border-gray-200 p-3 sm:p-4 safe-area-inset-bottom">
-          <div className="w-full">
+        <div className="px-4 pb-4 safe-area-inset-bottom">
+          <div className="w-full max-w-4xl flex justify-self-center">
             <form
               onSubmit={handleSubmit}
               className="relative flex flex-row flex-nowrap items-start justify-center gap-0 p-0 w-full h-min flex-none overflow-visible rounded-[17px] opacity-100"

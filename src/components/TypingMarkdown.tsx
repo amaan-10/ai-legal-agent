@@ -2,46 +2,42 @@
 
 import { motion } from "framer-motion";
 import ReactMarkdown from "react-markdown";
+import { useState, useEffect } from "react";
 
 interface TypingMarkdownProps {
   content: string;
-  delayPerChar?: number;
+  delayPerChunk?: number; // ms per chunk
+  chunkSize?: number; // characters revealed per step
 }
 
 export default function TypingMarkdown({
   content,
-  delayPerChar = 0.015,
+  delayPerChunk = 5, // super fast
+  chunkSize = 4, // reveal 4 chars at a time
 }: TypingMarkdownProps) {
-  const lines = content.split("\n");
+  const [displayedText, setDisplayedText] = useState("");
+
+  useEffect(() => {
+    let i = 0;
+    const interval = setInterval(() => {
+      i += chunkSize;
+      setDisplayedText(content.slice(0, i)); // ✅ take from start → no skipping
+      if (i >= content.length) {
+        clearInterval(interval);
+      }
+    }, delayPerChunk);
+
+    return () => clearInterval(interval);
+  }, [content, chunkSize, delayPerChunk]);
 
   return (
-    <div className="space-y-2">
-      {lines.map((line, index) => {
-        // Animate paragraph character-by-character
-        return (
-          <motion.div
-            key={index}
-            className="inline-block"
-            initial="hidden"
-            animate="visible"
-            variants={{
-              visible: { transition: { staggerChildren: delayPerChar } },
-            }}
-          >
-            {line.split("").map((char, i) => (
-              <motion.span
-                key={i}
-                variants={{
-                  hidden: { opacity: 0 },
-                  visible: { opacity: 1 },
-                }}
-              >
-                {char}
-              </motion.span>
-            ))}
-          </motion.div>
-        );
-      })}
-    </div>
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.1 }}
+      className="prose prose-neutral max-w-none"
+    >
+      <ReactMarkdown>{displayedText}</ReactMarkdown>
+    </motion.div>
   );
 }
