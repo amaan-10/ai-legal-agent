@@ -408,6 +408,7 @@ export default function SignUpComponent() {
                     </div>
 
                     <button
+                      type="button"
                       onClick={() => signIn("google", { callbackUrl: "/" })}
                       className="w-full opacity-100 rounded-[20px] bg-[#FE6A2E] hover:bg-[#E85E27] border border-solid border-[#989897]
                                 shadow-[0px_0.48175px_1.25255px_-1.16667px_rgba(0,0,0,0.1),0px_1.83083px_4.76015px_-2.33333px_rgba(0,0,0,0.09),0px_8px_20.8px_-3.5px_rgba(0,0,0,0.043),0px_-2px_9px_0px_inset_rgba(255,255,255,0.49),0px_0px_0px_2px_rgba(0,0,0,0.2)]
