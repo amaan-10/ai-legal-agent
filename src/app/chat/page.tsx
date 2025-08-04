@@ -12,7 +12,6 @@ import {
   FileText,
   Gavel,
   ChevronRight,
-  Plus,
   Settings,
   HelpCircle,
   MessageSquare,
@@ -20,13 +19,28 @@ import {
   Menu,
   X,
   SquarePen,
+  Shield,
+  ChevronDown,
+  Settings2,
+  Upload,
+  FileUp,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useResponsiveState } from "@/lib/useResponsiveState";
 import { useStreamChat } from "@/hooks/useStreamChat";
-import ReactMarkdown from "react-markdown";
 import TypingMarkdown from "@/components/TypingMarkdown";
+
+type SectionType = "chat" | "document" | "compliance";
+type DeviceType = "mobile" | "tablet" | "desktop";
+
+interface LegalAIInterfaceProps {
+  deviceType?: DeviceType;
+  input?: string;
+  isLoading?: boolean;
+  handleSubmit?: (e: React.FormEvent) => void;
+  handleInputChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+}
 
 export default function ChatBotComponent() {
   const {
@@ -144,6 +158,232 @@ export default function ChatBotComponent() {
     }
   };
 
+  const [activeSection, setActiveSection] = useState<SectionType>("chat");
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [documentInput, setDocumentInput] = useState("");
+  const [complianceType, setComplianceType] = useState("");
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  const sections = [
+    {
+      id: "chat" as SectionType,
+      title: "AI-Powered Legal Insights",
+      icon: MessageSquare,
+      description: "Ask questions about Indian laws and regulations",
+    },
+    {
+      id: "document" as SectionType,
+      title: "Automated Document Review",
+      icon: FileText,
+      description: "Upload or analyze legal documents",
+    },
+    {
+      id: "compliance" as SectionType,
+      title: "Instant Compliance Reports",
+      icon: Shield,
+      description: "Generate compliance reports for your business",
+    },
+  ];
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setIsDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const handleSectionSelect = (sectionId: SectionType) => {
+    setActiveSection(sectionId);
+    setIsDropdownOpen(false);
+  };
+
+  const getCurrentSectionTitle = () => {
+    return (
+      sections.find((section) => section.id === activeSection)?.title ||
+      "Legal Tools"
+    );
+  };
+
+  const getPlaceholderText = () => {
+    switch (activeSection) {
+      case "chat":
+        return deviceType === "desktop"
+          ? "Ask about Indian laws, legal procedures, rights, or regulations..."
+          : deviceType === "tablet"
+          ? "Ask about Indian laws or legal procedures..."
+          : "Ask about Indian laws...";
+      case "document":
+        return "Describe the document you want to analyze or upload it below...";
+      case "compliance":
+        return "Describe your business or compliance requirements...";
+      default:
+        return "Ask anything...";
+    }
+  };
+
+  const handleDocumentSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log("Document review:", documentInput);
+  };
+
+  const handleComplianceSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log("Compliance report for:", complianceType);
+  };
+
+  const renderChatSection = () => (
+    <div className="flex-[1_0_0px] relative text-left h-auto w-full opacity-100">
+      <textarea
+        value={input}
+        onChange={handleInputChange}
+        placeholder={
+          deviceType === "desktop"
+            ? "Ask about Indian laws, legal procedures, rights, or regulations..."
+            : deviceType === "tablet"
+            ? "Ask about Indian laws or legal procedures..."
+            : deviceType === "mobile"
+            ? "Ask about Indian laws procedures..."
+            : ""
+        }
+        disabled={isLoading}
+        rows={1}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" && !e.shiftKey) {
+            e.preventDefault();
+            handleSubmit(e as any);
+          }
+        }}
+        className="w-full p-[12px_20px_12px_20px] bg-transparent text-left font-inter font-normal text-[#111111] focus-visible:outline-none resize-none focus:outline-none focus:border-transparent disabled:opacity-50 text-base leading-relaxed min-h-[44px] overflow-hidden"
+        style={{
+          height: "auto",
+          minHeight:
+            typeof window !== "undefined" && window.innerWidth < 640
+              ? "44px"
+              : "48px",
+        }}
+        onInput={(e) => {
+          const target = e.target as HTMLTextAreaElement;
+          target.style.height = "auto";
+          const lineHeight = 24;
+          const maxRows = 4;
+          const maxHeight = lineHeight * maxRows;
+          if (target.scrollHeight <= maxHeight) {
+            target.style.overflowY = "hidden";
+          } else {
+            target.style.overflowY = "auto";
+          }
+          target.style.height = Math.min(target.scrollHeight, maxHeight) + "px";
+        }}
+      />
+    </div>
+  );
+
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+
+  const handleClick = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      // onFileSelect(e.target.files[0]);
+    }
+  };
+
+  const renderDocumentSection = () => (
+    <div className="flex-[1_0_0px] relative w-full">
+      <div className="flex flex-row gap-3 p-3 w-full">
+        <div className="flex items-center gap-2">
+          <input
+            type="file"
+            ref={fileInputRef}
+            accept=".pdf,.doc,.docx,.txt"
+            className="hidden"
+            onChange={handleFileChange}
+          />
+
+          {/* Icon Button */}
+          <button
+            type="button"
+            onClick={handleClick}
+            className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg shadow-md transition-all"
+          >
+            <FileUp size={20} />
+          </button>
+          <span className="text-gray-400">or</span>
+        </div>
+        <textarea
+          value={documentInput}
+          onChange={(e) => setDocumentInput(e.target.value)}
+          placeholder="Paste your document content here for legal analysis..."
+          disabled={isLoading}
+          rows={1}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" && !e.shiftKey) {
+              e.preventDefault();
+              handleSubmit(e as any);
+            }
+          }}
+          className="w-full p-[12px_20px_12px_20px] bg-transparent text-left font-inter font-normal text-[#111111] focus-visible:outline-none resize-none focus:outline-none focus:border-transparent disabled:opacity-50 text-base leading-relaxed min-h-[44px] overflow-hidden"
+          style={{
+            height: "auto",
+            minHeight:
+              typeof window !== "undefined" && window.innerWidth < 640
+                ? "44px"
+                : "48px",
+          }}
+          onInput={(e) => {
+            const target = e.target as HTMLTextAreaElement;
+            target.style.height = "auto";
+            const lineHeight = 24;
+            const maxRows = 4;
+            const maxHeight = lineHeight * maxRows;
+            if (target.scrollHeight <= maxHeight) {
+              target.style.overflowY = "hidden";
+            } else {
+              target.style.overflowY = "auto";
+            }
+            target.style.height = Math.min(target.scrollHeight, maxHeight) + "px";
+          }}
+        />
+      </div>
+    </div>
+  );
+
+  const renderComplianceSection = () => (
+    <div className="flex-[1_0_0px] relative">
+      <div className="p-3">
+        <select
+          value={complianceType}
+          onChange={(e) => setComplianceType(e.target.value)}
+          className="w-full p-[12px_20px] bg-transparent text-left font-inter font-normal text-[#111111] focus-visible:outline-none focus:outline-none focus:border-transparent text-base leading-relaxed min-h-[44px]"
+        >
+          <option value="">Select compliance area...</option>
+          <option value="data-protection">
+            Data Protection & Privacy Laws
+          </option>
+          <option value="labor-law">Labor Law Compliance</option>
+          <option value="tax-compliance">Tax & GST Compliance</option>
+          <option value="corporate-governance">Corporate Governance</option>
+          <option value="environmental">Environmental Law Compliance</option>
+          <option value="financial-regulations">
+            Financial Regulations (RBI/SEBI)
+          </option>
+          <option value="consumer-protection">Consumer Protection Act</option>
+          <option value="contract-law">Contract Law Analysis</option>
+        </select>
+      </div>
+    </div>
+  );
+
   const deviceType = useResponsiveState();
 
   // Close mobile menu when clicking outside
@@ -171,7 +411,7 @@ export default function ChatBotComponent() {
             transition={{ type: "spring", stiffness: 210, damping: 70 }}
             className="flex flex-row flex-none items-center gap-[13px] h-min w-full overflow-visible p-[7px] relative rounded-[25px] sm:rounded-[45px] bg-white shadow-[0_0_14px_0_rgba(0,0,0,0.05)] opacity-100"
           >
-            <div className="flex-[1_0_0px] h-auto relative w-px">
+            <div className="flex-[1_0_0px] h-auto relative">
               <div
                 className="flex flex-col items-center gap-6 sm:gap-[32px] h-min w-full overflow-hidden p-6 sm:p-[48px] relative rounded-[20px] sm:rounded-[35px] opacity-100"
                 style={{
@@ -747,71 +987,94 @@ export default function ChatBotComponent() {
         </div>
 
         {/* Chat Input */}
-        <div className="px-4 pb-4 safe-area-inset-bottom">
-          <div className="w-full max-w-4xl flex justify-self-center">
+        <div className="px-4 pb-4 safe-area-inset-bottom w-full">
+          <div className="w-full max-w-4xl flex flex-col justify-self-center gap-2">
+            {/* Input Area */}
             <form
               onSubmit={handleSubmit}
               className="relative flex flex-row flex-nowrap items-start justify-center gap-0 p-0 w-full h-min flex-none overflow-visible rounded-[17px] opacity-100"
             >
               <label
                 data-border="true"
-                className="relative flex flex-row flex-nowrap items-center justify-center gap-[7px] md:gap-6 py-[2px] pr-[7px] h-min w-[1px] flex-[1_0_0px] rounded-[23px] opacity-100 shadow-[0_2px_20px_0_rgba(0,0,0,0.07)] bg-[linear-gradient(180deg,rgba(255,255,255,1)_50%,rgba(254,254,254,1)_100%)] border border-solid border-[rgb(240,236,231)]"
+                className="relative flex flex-col flex-nowrap items-center justify-center py-[2px] pr-[7px] h-min flex-[1_0_0px] rounded-[23px] opacity-100 shadow-[0_2px_20px_0_rgba(0,0,0,0.07)] bg-[linear-gradient(180deg,rgba(255,255,255,1)_50%,rgba(254,254,254,1)_100%)] border border-solid border-[rgb(240,236,231)]"
               >
-                <div className="flex-[1_0_0px] relative text-left h-auto w-full md:w-[1px] opacity-100 ">
-                  <textarea
-                    value={input}
-                    onChange={handleInputChange}
-                    placeholder={
-                      deviceType === "desktop"
-                        ? "Ask about Indian laws, legal procedures, rights, or regulations..."
-                        : deviceType === "tablet"
-                        ? "Ask about Indian laws or legal procedures..."
-                        : deviceType === "mobile"
-                        ? "Ask about Indian laws procedures..."
-                        : ""
-                    }
-                    disabled={isLoading}
-                    rows={1}
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter" && !e.shiftKey) {
-                        e.preventDefault();
-                        handleSubmit(e as any);
-                      }
-                    }}
-                    className="w-full p-[12px_20px_12px_20px] bg-transparent text-left font-inter font-normal text-[#111111] focus-visible:outline-none resize-none focus:outline-none focus:border-transparent disabled:opacity-50 text-base leading-relaxed min-h-[44px] overflow-hidden"
-                    style={{
-                      height: "auto",
-                      minHeight: window.innerWidth < 640 ? "44px" : "48px",
-                    }}
-                    onInput={(e) => {
-                      const target = e.target as HTMLTextAreaElement;
-                      target.style.height = "auto";
-                      const lineHeight = 24;
-                      const maxRows = 4;
-                      const maxHeight = lineHeight * maxRows;
+                {activeSection === "chat" && renderChatSection()}
+                {activeSection === "document" && renderDocumentSection()}
+                {activeSection === "compliance" && renderComplianceSection()}
 
-                      if (target.scrollHeight <= maxHeight) {
-                        target.style.overflowY = "hidden";
-                      } else {
-                        target.style.overflowY = "auto";
-                      }
-
-                      target.style.height =
-                        Math.min(target.scrollHeight, maxHeight) + "px";
-                    }}
-                  />
-                </div>
-                <div className="flex-none h-auto relative">
-                  <button
-                    type="submit"
-                    disabled={isLoading || !input.trim()}
-                    className="opacity-100 rounded-[15px] md:rounded-[20px] bg-gradient-to-r from-[#111111] to-[#111111] hover:from-[#494949] hover:to-[#494949] active:from-[#494949] active:to-[#494949] disabled:from-[#989897] disabled:to-[#989897] border border-solid border-[#989897] shadow-[0px_0.48175px_1.25255px_-1.16667px_rgba(0,0,0,0.1),0px_1.83083px_4.76015px_-2.33333px_rgba(0,0,0,0.09),0px_8px_20.8px_-3.5px_rgba(0,0,0,0.043),0px_-2px_9px_0px_inset_rgba(255,255,255,0.49),0px_0px_0px_2px_rgba(0,0,0,0.2)] flex flex-row flex-nowrap items-center self-center justify-center content-center gap-2 cursor-pointer h-[44px] px-[22px] md:px-[20px] py-[22px] md:py-[13px] relative overflow-visible disabled:cursor-not-allowed transition-all duration-200 hover:scale-[1.025] active:scale-[0.975] touch-manipulation"
+                {/* Tools Dropdown */}
+                <div className="flex flex-row w-full px-3 pb-4 justify-between">
+                  <div
+                    className="relative flex items-center gap-1"
+                    ref={dropdownRef}
                   >
-                    <Send className="w-4 h-4 text-white" />
-                    <span className="text-sm md:text-[15px] text-white font-urbanist font-medium hidden md:inline">
-                      Ask Legal AI
-                    </span>
-                  </button>
+                    <button
+                      type="button"
+                      onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                      className={`flex gap-2 items-center text-sm font-medium text-gray-700 hover:text-gray-900 transition-colors hover:bg-[#F0ECE7] ${
+                        isDropdownOpen ? "bg-[#F3F3F1]" : ""
+                      } p-2 rounded-full`}
+                    >
+                      <Settings2 className="w-4 h-4" />
+                      {/* <span className="hidden md:inline">Tools</span> */}
+                    </button>
+                    {/* Dropdown Menu */}
+                    {isDropdownOpen && (
+                      <div className="absolute bottom-full left-0 mt-2 w-72 bg-gray-900 rounded-2xl shadow-xl border border-gray-700 z-50 overflow-hidden">
+                        <div className="p-2">
+                          {sections.map((section) => {
+                            const Icon = section.icon;
+                            return (
+                              <button
+                                key={section.id}
+                                onClick={() => handleSectionSelect(section.id)}
+                                className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left transition-colors ${
+                                  activeSection === section.id
+                                    ? "bg-gray-700 text-white"
+                                    : "text-gray-300 hover:bg-gray-800 hover:text-white"
+                                }`}
+                              >
+                                <Icon className="w-5 h-5 flex-shrink-0" />
+                                <div>
+                                  <div className="font-medium text-sm">
+                                    {section.title}
+                                  </div>
+                                  <div className="text-xs text-gray-400">
+                                    {section.description}
+                                  </div>
+                                </div>
+                              </button>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    )}
+                    <div
+                      data-separator="true"
+                      className="bg-[#616161] w-px h-[13px]"
+                    ></div>
+                    {/* Current Section Indicator */}
+                    <div className="text-sm pl-2 text-gray-600 font-medium">
+                      {getCurrentSectionTitle()}
+                    </div>
+                  </div>
+
+                  <div className="flex-none h-auto relative">
+                    <button
+                      type="submit"
+                      disabled={isLoading || !input.trim()}
+                      className="opacity-100 rounded-[15px] md:rounded-[20px] bg-gradient-to-r from-[#111111] to-[#111111] hover:from-[#494949] hover:to-[#494949] active:from-[#494949] active:to-[#494949] disabled:from-[#989897] disabled:to-[#989897] border border-solid border-[#989897] shadow-[0px_0.48175px_1.25255px_-1.16667px_rgba(0,0,0,0.1),0px_1.83083px_4.76015px_-2.33333px_rgba(0,0,0,0.09),0px_8px_20.8px_-3.5px_rgba(0,0,0,0.043),0px_-2px_9px_0px_inset_rgba(255,255,255,0.49),0px_0px_0px_2px_rgba(0,0,0,0.2)] flex flex-row flex-nowrap items-center self-center justify-center content-center gap-2 cursor-pointer h-[44px] px-[22px] md:px-[20px] py-[22px] md:py-[13px] relative overflow-visible disabled:cursor-not-allowed transition-all duration-200 hover:scale-[1.025] active:scale-[0.975] touch-manipulation"
+                    >
+                      <Send className="w-4 h-4 text-white" />
+                      <span className="text-sm md:text-[15px] text-white font-urbanist font-medium hidden md:inline">
+                        {activeSection === "chat"
+                          ? "Ask Legal AI"
+                          : activeSection === "document"
+                          ? "Analyze"
+                          : "Generate Report"}
+                      </span>
+                    </button>
+                  </div>
                 </div>
               </label>
             </form>
