@@ -54,3 +54,81 @@ It supports answering legal queries, summarizing laws, providing case recommenda
 ```bash
 git clone https://github.com/yourusername/nyayik.git
 cd nyayik
+```
+
+### **2️⃣ Install Frontend Dependencies**
+```bash
+cd frontend
+npm install
+```
+### **3️⃣ Install Backend Dependencies**
+```bash
+cd backend
+pip install -r requirements.txt
+```
+### **4️⃣ Set Environment Variables**
+Create a .env file in both frontend and backend with:
+```bash
+OPENAI_API_KEY=your_openai_key
+PINECONE_API_KEY=your_pinecone_key
+PINECONE_ENVIRONMENT=gcp-starter
+```
+### **5️⃣ Run Backend**
+```bash
+cd backend
+python app.py
+```
+### **6️⃣ Run Frontend**
+```bash
+cd frontend
+npm run dev
+```
+---
+
+## 📂 Project Structure
+```
+nyayik/
+│
+├── frontend/               # Next.js Frontend
+│   ├── components/         # React Components
+│   ├── pages/              # Next.js Pages
+│   ├── styles/             # Tailwind Styles
+│
+├── backend/                # Flask Backend
+│   ├── app.py              # API Entry Point
+│   ├── routes/             # API Routes
+│   ├── services/           # LangChain, Pinecone Services
+│
+├── README.md               # Project Documentation
+```
+---
+
+## 📖 Usage
+### Ask Legal Questions
+- Open chatbot.
+
+- Type your question, e.g., "What are the legal rights of a tenant in India?".
+
+- Receive AI-generated advice instantly.
+
+### Review Legal Documents
+- Click Upload Document.
+
+- Select .pdf, .doc, .docx, or .txt file.
+
+- AI analyzes and returns:
+
+  - Summary
+
+  - Key clauses
+
+  - Risks & compliance checks
+
+  - Suggested actions
+
+---
+
+## 🛡️ Disclaimer
+Nyayik is not a substitute for professional legal advice.
+The information provided is for educational and informational purposes only.
+Always consult a qualified lawyer for legal matters.
