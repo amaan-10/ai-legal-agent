@@ -240,7 +240,7 @@ const Header = () => {
                       onClick={(e) => {
                         if (session) {
                           e.preventDefault();
-                          signOut({ callbackUrl: "/login" });
+                          signOut({ callbackUrl: "/auth/sign-up" });
                         }
                       }}
                     >
