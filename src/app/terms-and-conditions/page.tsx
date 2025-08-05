@@ -14,7 +14,7 @@ const TnC = () => {
           data-framer-name="Light"
         >
           <div
-            className="absolute left-[-100px] md:left-[-120px] lg:left-[-80px] top-[-100px] md:top-[-100px] lg:top-[-70px] z-[1] w-[434px] scale-90 md:scale-50 lg:scale-0 h-auto flex-none cursor-none"
+            className="absolute left-[-100px] md:left-[-120px] lg:left-[-80px] top-[-100px] md:top-[-100px] lg:top-[-70px] z-[1] w-[434px] scale-90 md:scale-50 lg:scale-100 h-auto flex-none cursor-none"
             style={{ transform: "rotateY(180deg)" }}
           >
             <div
@@ -172,7 +172,7 @@ const TnC = () => {
               </div>
             </div>
           </div>
-          <div className="absolute right-[-182px] md:right-[-120px] lg:right-[-80px] top-[-100px] md:top-[-100px] lg:top-[-70px] z-[1] w-[434px] scale-[0.49] md:scale-50 lg:scale-0 h-auto flex-none cursor-none">
+          <div className="absolute right-[-182px] md:right-[-120px] lg:right-[-80px] top-[-100px] md:top-[-100px] lg:top-[-70px] z-[1] w-[434px] scale-[0.49] md:scale-50 lg:scale-100 h-auto flex-none cursor-none">
             <div
               className="relative h-[331px] w-full overflow-hidden opacity-100"
               data-framer-name="Variant 1"
@@ -346,26 +346,58 @@ const TnC = () => {
               <motion.div
                 initial={{ opacity: 0, y: 15 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{
-                  type: "spring",
-                  stiffness: 210,
-                  damping: 70,
-                  delay: 0.2,
-                  duration: 0.7,
-                  bounce: 0.2,
-                }}
-                viewport={{ once: true, amount: 0.2 }}
+                transition={{ type: "spring", stiffness: 210, damping: 70 }}
+                viewport={{ once: true, amount: 0.6 }}
+                className="flex-none h-auto w-auto relative opacity-100"
+              >
+                <span
+                  className="flex flex-row items-center justify-center gap-[10px] p-[8px_25px] w-min h-min relative overflow-hidden rounded-[30px] opacity-100 border-[1.5px] border-solid border-[#f3f3f1] bg-[#fefefe] shadow-none no-underline"
+                  data-border="true"
+                  data-framer-name="Label Section"
+                >
+                  <div
+                    className="flex flex-row items-center justify-center gap-0 w-min h-min relative overflow-visible p-0 flex-none order-1 opacity-100"
+                    data-framer-name="Right"
+                  >
+                    <div
+                      className="flex flex-col justify-start flex-shrink-0 flex-none h-auto w-auto relative whitespace-pre outline-none opacity-100"
+                      data-framer-component-type="RichTextContainer"
+                    >
+                      <p
+                        className=" text-[15px] lg:text-base text-[#37312f] font-normal font-urbanist"
+                        data-styles-preset="NFQi0OUa3"
+                      >
+                        TnC
+                      </p>
+                    </div>
+                  </div>
+                </span>
+              </motion.div>
+
+              <div                
                 className="outline-none flex flex-col justify-start opacity-100 shrink-0 will-change-transform transform-none"
                 data-framer-appear-id="1y0grpn"
                 data-framer-component-type="RichTextContainer"
               >
-                <h1
-                  className="text-[32px] md:text-[38px] lg:text-[64px] font-urbanist font-bold text-[#111111]"
+                <motion.h2
+                  initial={{ opacity: 0, y: 15 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{
+                    type: "spring",
+                    stiffness: 210,
+                    damping: 70,
+                    delay: 0.2,
+                    duration: 0.7,
+                    bounce: 0.2,
+                  }}
+                  viewport={{ once: true, amount: 0.2 }}
+                  className="text-[32px] md:text-[38px] lg:text-[64px] font-urbanist font-semibold text-[#111111]"
                   data-styles-preset="GgqUQ2id8"
                 >
                   Terms &amp; Conditions
-                </h1>
-              </motion.div>
+                </motion.h2>
+              </div>
+
               <motion.div
                 initial={{ opacity: 0, y: 15 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -383,7 +415,7 @@ const TnC = () => {
                 data-framer-component-type="RichTextContainer"
               >
                 <p className="text-lg font-normal text-[#616161] font-urbanist text-center">
-                  Welcome to Nyāyik, your AI-powered Legal Agent/Advisor. These
+                  Welcome to Nyayik, your AI-powered Legal Advisor. These
                   Terms and Conditions outline the rules and regulations for the
                   use of our platform and services.
                 </p>

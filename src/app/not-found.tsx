@@ -12,7 +12,7 @@ export default function NotFound() {
           data-framer-name="Light"
         >
           <div
-            className="absolute left-[-100px] md:left-[-120px] lg:left-[-80px] top-[-100px] md:top-[-100px] lg:top-[-70px] z-[1] w-[434px] scale-90 md:scale-50 lg:scale-0 h-auto flex-none cursor-none"
+            className="absolute left-[-100px] md:left-[-120px] lg:left-[-80px] top-[-100px] md:top-[-100px] lg:top-[-70px] z-[1] w-[434px] scale-90 md:scale-50 lg:scale-100 h-auto flex-none cursor-none"
             style={{ transform: "rotateY(180deg)" }}
           >
             <div
@@ -170,7 +170,7 @@ export default function NotFound() {
               </div>
             </div>
           </div>
-          <div className="absolute right-[-182px] md:right-[-120px] lg:right-[-80px] top-[-100px] md:top-[-100px] lg:top-[-70px] z-[1] w-[434px] scale-[0.49] md:scale-50 lg:scale-0 h-auto flex-none cursor-none">
+          <div className="absolute right-[-182px] md:right-[-120px] lg:right-[-80px] top-[-100px] md:top-[-100px] lg:top-[-70px] z-[1] w-[434px] scale-[0.49] md:scale-50 lg:scale-100 h-auto flex-none cursor-none">
             <div
               className="relative h-[331px] w-full overflow-hidden opacity-100"
               data-framer-name="Variant 1"
@@ -378,7 +378,7 @@ export default function NotFound() {
                     bounce: 0.2,
                   }}
                   data-framer-appear-id="8tw8ga"
-                  className="absolute top-[-98px] md:top-[-43px] lg:top-0 left-[calc(50%-485.5px)] w-[971px] h-[280px] scale-[0.4] md:scale-[0.7] lg:scale-0 opacity-100 will-change-transform flex-[0_0_auto] z-0"
+                  className="absolute top-[-98px] md:top-[-43px] lg:top-0 left-[calc(50%-485.5px)] w-[971px] h-[280px] scale-[0.4] md:scale-[0.7] lg:scale-100 opacity-100 will-change-transform flex-[0_0_auto] z-0"
                 >
                   <div
                     className="flex flex-col items-center place-content-center gap-[13px] overflow-hidden p-0 relative w-full h-full bg-white opacity-100"

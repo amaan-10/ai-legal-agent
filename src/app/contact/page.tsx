@@ -18,7 +18,7 @@ const Contact = () => {
           data-framer-name="Light"
         >
           <div
-            className="absolute left-[-100px] md:left-[-120px] lg:left-[-80px] top-[-100px] md:top-[-100px] lg:top-[-70px] z-[1] w-[434px] scale-90 md:scale-50 lg:scale-0 h-auto flex-none cursor-none"
+            className="absolute left-[-100px] md:left-[-120px] lg:left-[-80px] top-[-100px] md:top-[-100px] lg:top-[-70px] z-[1] w-[434px] scale-90 md:scale-50 lg:scale-100 h-auto flex-none cursor-none"
             style={{ transform: "rotateY(180deg)" }}
           >
             <div
@@ -176,7 +176,7 @@ const Contact = () => {
               </div>
             </div>
           </div>
-          <div className="absolute right-[-182px] md:right-[-120px] lg:right-[-80px] top-[-100px] md:top-[-100px] lg:top-[-70px] z-[1] w-[434px] scale-[0.49] md:scale-50 lg:scale-0 h-auto flex-none cursor-none">
+          <div className="absolute right-[-182px] md:right-[-120px] lg:right-[-80px] top-[-100px] md:top-[-100px] lg:top-[-70px] z-[1] w-[434px] scale-[0.49] md:scale-50 lg:scale-100 h-auto flex-none cursor-none">
             <div
               className="relative h-[331px] w-full overflow-hidden opacity-100"
               data-framer-name="Variant 1"

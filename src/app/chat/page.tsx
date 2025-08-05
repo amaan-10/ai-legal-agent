@@ -5,42 +5,31 @@ import { useRef, useEffect, useState } from "react";
 import {
   Send,
   Scale,
-  User,
   Copy,
   BookOpen,
   AlertTriangle,
   FileText,
   Gavel,
   ChevronRight,
-  Settings,
-  HelpCircle,
   MessageSquare,
   RefreshCw,
   Menu,
   X,
   SquarePen,
   Shield,
-  ChevronDown,
   Settings2,
-  Upload,
-  FileUp,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useResponsiveState } from "@/lib/useResponsiveState";
 import { useStreamChat } from "@/hooks/useStreamChat";
 import TypingMarkdown from "@/components/TypingMarkdown";
+import FileUploadBtn from "@/components/FileUploadBtn";
+import { useSession } from "next-auth/react";
+import InitialAvatar from "@/components/InitialAvatar";
+import ProfileDropdown from "@/components/ProfileDropdown";
 
 type SectionType = "chat" | "document" | "compliance";
-type DeviceType = "mobile" | "tablet" | "desktop";
-
-interface LegalAIInterfaceProps {
-  deviceType?: DeviceType;
-  input?: string;
-  isLoading?: boolean;
-  handleSubmit?: (e: React.FormEvent) => void;
-  handleInputChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
-}
 
 export default function ChatBotComponent() {
   const {
@@ -98,30 +87,15 @@ export default function ChatBotComponent() {
     }
   };
 
-  const formatTime = (timestamp: string | Date) => {
-    try {
-      const date = timestamp instanceof Date ? timestamp : new Date(timestamp);
-      if (isNaN(date.getTime())) return ""; // invalid date
-      return new Intl.DateTimeFormat("en-IN", {
-        hour: "2-digit",
-        minute: "2-digit",
-        hour12: true,
-        timeZone: "Asia/Kolkata",
-      }).format(date);
-    } catch {
-      return "";
-    }
-  };
-
   const legalSuggestions = [
+    "Consumer Protection Act",
+    "Intellectual property rights",
     "Property law in India",
     "Labour law compliance",
     "GST regulations",
     "Family law matters",
     "Criminal procedure code",
     "Contract law basics",
-    "Consumer Protection Act",
-    "Intellectual property rights",
   ];
 
   const quickActions = [
@@ -163,6 +137,11 @@ export default function ChatBotComponent() {
   const [documentInput, setDocumentInput] = useState("");
   const [complianceType, setComplianceType] = useState("");
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const { data: session } = useSession();
+
+  console.log(session?.user?.name);
+  const userName = session?.user?.name || "Guest";
+  const email = session?.user?.email || "";
 
   const sections = [
     {
@@ -212,33 +191,6 @@ export default function ChatBotComponent() {
     );
   };
 
-  const getPlaceholderText = () => {
-    switch (activeSection) {
-      case "chat":
-        return deviceType === "desktop"
-          ? "Ask about Indian laws, legal procedures, rights, or regulations..."
-          : deviceType === "tablet"
-          ? "Ask about Indian laws or legal procedures..."
-          : "Ask about Indian laws...";
-      case "document":
-        return "Describe the document you want to analyze or upload it below...";
-      case "compliance":
-        return "Describe your business or compliance requirements...";
-      default:
-        return "Ask anything...";
-    }
-  };
-
-  const handleDocumentSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log("Document review:", documentInput);
-  };
-
-  const handleComplianceSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log("Compliance report for:", complianceType);
-  };
-
   const renderChatSection = () => (
     <div className="flex-[1_0_0px] relative text-left h-auto w-full opacity-100">
       <textarea
@@ -286,38 +238,11 @@ export default function ChatBotComponent() {
     </div>
   );
 
-  const fileInputRef = useRef<HTMLInputElement | null>(null);
-
-  const handleClick = () => {
-    fileInputRef.current?.click();
-  };
-
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      // onFileSelect(e.target.files[0]);
-    }
-  };
-
   const renderDocumentSection = () => (
     <div className="flex-[1_0_0px] relative w-full">
-      <div className="flex flex-row gap-3 p-3 w-full">
-        <div className="flex items-center gap-2">
-          <input
-            type="file"
-            ref={fileInputRef}
-            accept=".pdf,.doc,.docx,.txt"
-            className="hidden"
-            onChange={handleFileChange}
-          />
-
-          {/* Icon Button */}
-          <button
-            type="button"
-            onClick={handleClick}
-            className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg shadow-md transition-all"
-          >
-            <FileUp size={20} />
-          </button>
+      <div className="flex flex-row p-3 w-full">
+        <div className="flex items-center gap-3">
+          <FileUploadBtn onFileSelect={(file) => console.log(file)} />
           <span className="text-gray-400">or</span>
         </div>
         <textarea
@@ -332,7 +257,7 @@ export default function ChatBotComponent() {
               handleSubmit(e as any);
             }
           }}
-          className="w-full p-[12px_20px_12px_20px] bg-transparent text-left font-inter font-normal text-[#111111] focus-visible:outline-none resize-none focus:outline-none focus:border-transparent disabled:opacity-50 text-base leading-relaxed min-h-[44px] overflow-hidden"
+          className="w-full p-3 bg-transparent text-left font-inter font-normal text-[#111111] focus-visible:outline-none resize-none focus:outline-none focus:border-transparent disabled:opacity-50 text-base leading-relaxed min-h-[44px] overflow-hidden"
           style={{
             height: "auto",
             minHeight:
@@ -351,7 +276,8 @@ export default function ChatBotComponent() {
             } else {
               target.style.overflowY = "auto";
             }
-            target.style.height = Math.min(target.scrollHeight, maxHeight) + "px";
+            target.style.height =
+              Math.min(target.scrollHeight, maxHeight) + "px";
           }}
         />
       </div>
@@ -654,20 +580,14 @@ export default function ChatBotComponent() {
         <div className="flex-1" />
 
         {/* Sidebar Footer */}
-        <div className="p-4 border-t border-gray-200">
-          <div className="space-y-2">
-            <button className="w-full text-left p-2 hover:bg-gray-50 active:bg-gray-100 rounded-lg transition-colors flex items-center gap-3">
-              <Settings className="w-4 h-4 text-gray-500" />
-              {(!sidebarCollapsed || mobileMenuOpen) && (
-                <span className="text-sm text-gray-700">Settings</span>
-              )}
-            </button>
-            <button className="w-full text-left p-2 hover:bg-gray-50 active:bg-gray-100 rounded-lg transition-colors flex items-center gap-3">
-              <HelpCircle className="w-4 h-4 text-gray-500" />
-              {(!sidebarCollapsed || mobileMenuOpen) && (
-                <span className="text-sm text-gray-700">Help & Support</span>
-              )}
-            </button>
+        <div className="p-2 border-t border-gray-200">
+          <div className="cursor-pointer">
+            <ProfileDropdown
+              userName={userName}
+              email={email}
+              sidebarCollapsed={sidebarCollapsed}
+              mobileMenuOpen={mobileMenuOpen}
+            />
           </div>
         </div>
       </div>
@@ -743,8 +663,13 @@ export default function ChatBotComponent() {
                       className="text-[#616161] font-normal text-sm lg:text-base text-center"
                     >
                       I can help you understand Indian laws and legal
-                      procedures. Ask me about various legal topics or choose
-                      from the suggestions below.
+                      procedures.{" "}
+                      {activeSection === "chat" &&
+                        "Ask me about various legal topics or choose from the suggestions below."}
+                      {activeSection === "document" &&
+                        "Upload your documents for instant AI-powered review."}
+                      {activeSection === "compliance" &&
+                        "Request to generate instant compliance reports."}
                     </motion.p>
                   </div>
                 </div>
@@ -767,64 +692,67 @@ export default function ChatBotComponent() {
                     Based on Indian Constitution, IPC, CPC, CrPC & other acts
                   </span>
                 </motion.div>
-
-                <motion.div
-                  initial={{ opacity: 0, y: 15 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{
-                    type: "spring",
-                    stiffness: 210,
-                    damping: 70,
-                    delay: 0.8,
-                    duration: 0.7,
-                  }}
-                  viewport={{ once: true, amount: 0.6 }}
-                  className="grid grid-cols-1 md:grid-cols-3 gap-3 w-full max-w-2xl pb-3 px-4"
-                >
-                  {legalSuggestions.slice(0, 3).map((suggestion, index) => (
-                    <button
-                      key={index}
-                      onClick={() => handleSuggestionClick(suggestion)}
-                      className="p-3 sm:p-4 bg-white border border-gray-200 rounded-2xl hover:border-amber-300 hover:bg-amber-50 active:bg-amber-100 transition-all duration-200 text-left group"
+                {activeSection === "chat" && (
+                  <>
+                    <motion.div
+                      initial={{ opacity: 0, y: 15 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      transition={{
+                        type: "spring",
+                        stiffness: 210,
+                        damping: 70,
+                        delay: 0.8,
+                        duration: 0.7,
+                      }}
+                      viewport={{ once: true, amount: 0.6 }}
+                      className="grid grid-cols-1 md:grid-cols-3 gap-3 w-full max-w-2xl pb-3 px-4"
                     >
-                      <div className="flex items-center gap-3">
-                        <MessageSquare className="w-4 h-4 text-amber-600" />
-                        <span className="text-xs sm:text-sm text-gray-700 group-hover:text-gray-900">
-                          {suggestion}
-                        </span>
-                      </div>
-                    </button>
-                  ))}
-                </motion.div>
+                      {legalSuggestions.slice(0, 3).map((suggestion, index) => (
+                        <button
+                          key={index}
+                          onClick={() => handleSuggestionClick(suggestion)}
+                          className="p-3 sm:p-4 bg-white border border-gray-200 rounded-2xl hover:border-amber-300 hover:bg-amber-50 active:bg-amber-100 transition-all duration-200 text-left group"
+                        >
+                          <div className="flex items-center gap-3">
+                            <MessageSquare className="w-4 h-4 text-amber-600" />
+                            <span className="text-xs sm:text-sm text-gray-700 group-hover:text-gray-900">
+                              {suggestion}
+                            </span>
+                          </div>
+                        </button>
+                      ))}
+                    </motion.div>
 
-                <motion.div
-                  initial={{ opacity: 0, y: 15 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{
-                    type: "spring",
-                    stiffness: 210,
-                    damping: 70,
-                    delay: 1,
-                    duration: 0.7,
-                  }}
-                  viewport={{ once: true, amount: 0.6 }}
-                  className="grid grid-cols-1 md:grid-cols-2 gap-3 w-full max-w-2xl px-4"
-                >
-                  {legalSuggestions.slice(3, 5).map((suggestion, index) => (
-                    <button
-                      key={index}
-                      onClick={() => handleSuggestionClick(suggestion)}
-                      className="p-3 sm:p-4 bg-white border border-gray-200 rounded-2xl hover:border-amber-300 hover:bg-amber-50 active:bg-amber-100 transition-all duration-200 text-left group"
+                    <motion.div
+                      initial={{ opacity: 0, y: 15 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      transition={{
+                        type: "spring",
+                        stiffness: 210,
+                        damping: 70,
+                        delay: 1,
+                        duration: 0.7,
+                      }}
+                      viewport={{ once: true, amount: 0.6 }}
+                      className="grid grid-cols-1 md:grid-cols-2 gap-3 w-full max-w-2xl px-4"
                     >
-                      <div className="flex items-center gap-3">
-                        <MessageSquare className="w-4 h-4 text-amber-600" />
-                        <span className="text-xs sm:text-sm text-gray-700 group-hover:text-gray-900">
-                          {suggestion}
-                        </span>
-                      </div>
-                    </button>
-                  ))}
-                </motion.div>
+                      {legalSuggestions.slice(3, 5).map((suggestion, index) => (
+                        <button
+                          key={index}
+                          onClick={() => handleSuggestionClick(suggestion)}
+                          className="p-3 sm:p-4 bg-white border border-gray-200 rounded-2xl hover:border-amber-300 hover:bg-amber-50 active:bg-amber-100 transition-all duration-200 text-left group"
+                        >
+                          <div className="flex items-center gap-3">
+                            <MessageSquare className="w-4 h-4 text-amber-600" />
+                            <span className="text-xs sm:text-sm text-gray-700 group-hover:text-gray-900">
+                              {suggestion}
+                            </span>
+                          </div>
+                        </button>
+                      ))}
+                    </motion.div>
+                  </>
+                )}
               </div>
             ) : (
               <div className="space-y-4 sm:space-y-6">
@@ -841,10 +769,15 @@ export default function ChatBotComponent() {
                     {/* Avatar */}
                     <div className="flex-shrink-0">
                       {message.role === "user" ? (
-                        <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center">
-                          <User className="w-5 h-5 text-white" />
-                        </div>
+                        <InitialAvatar
+                          name={userName}
+                          size={40}
+                          bgColor="#2563EB"
+                        />
                       ) : (
+                        // <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center">
+                        //   <User className="w-5 h-5 text-white" />
+                        // </div>
                         <div className="w-10 h-10 bg-[#FE6A2E] rounded-full flex items-center justify-center">
                           <Image
                             src="/images/logo-orange.png"
@@ -994,10 +927,7 @@ export default function ChatBotComponent() {
               onSubmit={handleSubmit}
               className="relative flex flex-row flex-nowrap items-start justify-center gap-0 p-0 w-full h-min flex-none overflow-visible rounded-[17px] opacity-100"
             >
-              <label
-                data-border="true"
-                className="relative flex flex-col flex-nowrap items-center justify-center py-[2px] pr-[7px] h-min flex-[1_0_0px] rounded-[23px] opacity-100 shadow-[0_2px_20px_0_rgba(0,0,0,0.07)] bg-[linear-gradient(180deg,rgba(255,255,255,1)_50%,rgba(254,254,254,1)_100%)] border border-solid border-[rgb(240,236,231)]"
-              >
+              <div className="relative flex flex-col flex-nowrap items-center justify-center py-[2px] pr-[7px] h-min flex-[1_0_0px] rounded-[23px] opacity-100 shadow-[0_2px_20px_0_rgba(0,0,0,0.07)] bg-[linear-gradient(180deg,rgba(255,255,255,1)_50%,rgba(254,254,254,1)_100%)] border border-solid border-[rgb(240,236,231)]">
                 {activeSection === "chat" && renderChatSection()}
                 {activeSection === "document" && renderDocumentSection()}
                 {activeSection === "compliance" && renderComplianceSection()}
@@ -1020,18 +950,18 @@ export default function ChatBotComponent() {
                     </button>
                     {/* Dropdown Menu */}
                     {isDropdownOpen && (
-                      <div className="absolute bottom-full left-0 mt-2 w-72 bg-gray-900 rounded-2xl shadow-xl border border-gray-700 z-50 overflow-hidden">
-                        <div className="p-2">
+                      <div className="absolute bottom-full left-0 mt-2 w-72 bg-gray-50 rounded-2xl shadow-xl border border-gray-200 z-50 overflow-hidden">
+                        <div className="p-2 -mb-1">
                           {sections.map((section) => {
                             const Icon = section.icon;
                             return (
                               <button
                                 key={section.id}
                                 onClick={() => handleSectionSelect(section.id)}
-                                className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left transition-colors ${
+                                className={`w-full flex items-center gap-3 px-4 py-3 mb-1 rounded-xl text-left transition-colors ${
                                   activeSection === section.id
-                                    ? "bg-gray-700 text-white"
-                                    : "text-gray-300 hover:bg-gray-800 hover:text-white"
+                                    ? "text-gray-700 bg-gray-300"
+                                    : "text-gray-700 hover:bg-gray-200 hover:text-gray-900"
                                 }`}
                               >
                                 <Icon className="w-5 h-5 flex-shrink-0" />
@@ -1076,7 +1006,7 @@ export default function ChatBotComponent() {
                     </button>
                   </div>
                 </div>
-              </label>
+              </div>
             </form>
           </div>
         </div>
