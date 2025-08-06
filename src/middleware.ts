@@ -1,20 +1,19 @@
+import { withAuth } from "next-auth/middleware";
 import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
 
-export async function middleware(req: NextRequest) {
-
-  const token = req.cookies.get("next-auth.session-token")?.value;
-
-  if (req.nextUrl.pathname.startsWith("/chat")) {
-    if (!token) {
-      const signInUrl = new URL("/auth/sign-in", req.url);
-      return NextResponse.redirect(signInUrl);
+export default withAuth(
+  function middleware(req) {
+    if (!req.nextauth.token) {
+      return NextResponse.redirect(new URL("/auth/sign-in", req.url));
     }
+  },
+  {
+    callbacks: {
+      authorized: ({ token }) => !!token,
+    },
   }
-
-  return NextResponse.next();
-}
+);
 
 export const config = {
-  matcher: ["/chat/:path*"],
+  matcher: ["/chat"],
 };
