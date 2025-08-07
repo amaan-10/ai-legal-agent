@@ -29,15 +29,15 @@ export function useStreamChat() {
     setIsLoading(true);
 
     try {
-      const res = await fetch("/api/chat", {
+      const res = await fetch("/api/chat/insights", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ messages: [...messages, userMsg] }),
       });
 
       if (!res.ok) throw new Error(`HTTP error: ${res.status}`);
+      const assistantData = await res.json();
 
-      const assistantData = await res.json(); // returns {id, role, content, createdAt}
       setMessages((prev) => [...prev, assistantData]);
     } catch (err) {
       console.error("Chat error:", err);
@@ -47,12 +47,47 @@ export function useStreamChat() {
     }
   }
 
+  async function handleFileSubmit(file: File, question: string) {
+    if (!file || !question.trim()) return;
+
+    const userMsg: ChatMessage = {
+      id: crypto.randomUUID(),
+      role: "user",
+      content: question,
+      createdAt: new Date().toISOString(),
+    };
+
+    setMessages((prev) => [...prev, userMsg]);
+    setInput("");
+    setIsLoading(true);
+
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("question", question);
+
+    try {
+      const res = await fetch("/api/chat/review", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!res.ok) throw new Error(`HTTP error: ${res.status}`);
+      const assistantData = await res.json();
+
+      setMessages((prev) => [...prev, assistantData]);
+    } catch (err) {
+      console.error("File upload error:", err);
+      setError("Something went wrong during document review.");
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
   function handleInputChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
     setInput(e.target.value);
   }
 
-
-   function reload() {
+  function reload() {
     if (messages.length > 0) {
       handleSubmit();
     }
@@ -63,8 +98,9 @@ export function useStreamChat() {
     input,
     handleInputChange,
     handleSubmit,
+    handleFileSubmit,
     isLoading,
     error,
-    reload
+    reload,
   };
 }
