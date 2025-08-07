@@ -78,7 +78,7 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = ({
 
         {/* Dropdown Menu */}
         {isOpen && (
-          <div className="absolute left-0 bottom-[calc(100%+0.5rem)] mb-1 w-60 lg:w-64 bg-white rounded-2xl shadow-lg border border-gray-100 z-50">
+          <div className="absolute left-0 bottom-[calc(100%+0.5rem)] mb-1 min-w-64 md:min-w-60 lg:min-w-64 bg-white rounded-2xl shadow-lg border border-gray-100 z-50">
             <div className="p-2">
               {/* User Profile Section */}
               <div className="flex items-center gap-3 p-2">
