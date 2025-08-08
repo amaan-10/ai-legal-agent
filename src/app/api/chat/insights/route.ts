@@ -69,7 +69,7 @@ export async function POST(req: Request) {
     );
 
   } catch (err) {
-    console.error("Error in /api/chat:", err);
+    console.error("Error in /api/chat/insights:", err);
     return new Response(JSON.stringify({ error: "Something went wrong" }), { status: 500 });
   }
 }
