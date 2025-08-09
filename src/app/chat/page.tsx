@@ -12,12 +12,12 @@ import {
   Gavel,
   ChevronRight,
   MessageSquare,
-  RefreshCw,
   Menu,
   X,
   SquarePen,
   Shield,
   Settings2,
+  MessageCircleX,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -28,6 +28,7 @@ import FileUploadBtn from "@/components/FileUploadBtn";
 import { useSession } from "next-auth/react";
 import InitialAvatar from "@/components/InitialAvatar";
 import ProfileDropdown from "@/components/ProfileDropdown";
+import ReactMarkdown from "react-markdown";
 
 type SectionType = "chat" | "document" | "compliance";
 
@@ -37,6 +38,7 @@ export default function ChatBotComponent() {
     input,
     handleInputChange,
     handleSubmit,
+    handleFileSubmit,
     isLoading,
     error,
     reload,
@@ -70,12 +72,12 @@ export default function ChatBotComponent() {
     scrollToBottom();
   }, [messages]);
 
-  useEffect(() => {
-    console.log("Messages updated:", messages.length);
-    console.log("Message:", messages);
-    console.log("Is loading:", isLoading);
-    console.log("Error:", error);
-  }, [messages, isLoading, error]);
+  // useEffect(() => {
+  //   console.log("Messages updated:", messages.length);
+  //   console.log("Message:", messages);
+  //   console.log("Is loading:", isLoading);
+  //   console.log("Error:", error);
+  // }, [messages, isLoading, error]);
 
   const copyToClipboard = async (text: string, messageId: string) => {
     try {
@@ -134,12 +136,18 @@ export default function ChatBotComponent() {
 
   const [activeSection, setActiveSection] = useState<SectionType>("chat");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [documentInput, setDocumentInput] = useState("");
   const [complianceType, setComplianceType] = useState("");
   const dropdownRef = useRef<HTMLDivElement>(null);
   const { data: session } = useSession();
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
 
-  console.log(session?.user?.name);
+  useEffect(() => {
+    if (input === "" && textareaRef.current) {
+      textareaRef.current.style.height = "auto";
+      textareaRef.current.style.overflowY = "hidden";
+    }
+  }, [input]);
+
   const userName = session?.user?.name || "Guest";
   const email = session?.user?.email || "";
 
@@ -194,6 +202,7 @@ export default function ChatBotComponent() {
   const renderChatSection = () => (
     <div className="flex-[1_0_0px] relative text-left h-auto w-full opacity-100">
       <textarea
+        ref={textareaRef}
         value={input}
         onChange={handleInputChange}
         placeholder={
@@ -225,7 +234,7 @@ export default function ChatBotComponent() {
           const target = e.target as HTMLTextAreaElement;
           target.style.height = "auto";
           const lineHeight = 24;
-          const maxRows = 4;
+          const maxRows = 8;
           const maxHeight = lineHeight * maxRows;
           if (target.scrollHeight <= maxHeight) {
             target.style.overflowY = "hidden";
@@ -238,26 +247,96 @@ export default function ChatBotComponent() {
     </div>
   );
 
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+
+  const getFileIcon = (fileType: string) => {
+    if (fileType.includes("pdf"))
+      return (
+        <Image
+          src={"/images/pdf.png"}
+          alt="PDF Icon"
+          width={512}
+          height={512}
+        />
+      );
+    if (fileType.includes("word") || fileType.includes("docx"))
+      return (
+        <Image
+          src={"/images/word.png"}
+          alt="Word Icon"
+          width={512}
+          height={512}
+        />
+      );
+    if (fileType.includes("text") || fileType.includes("plain"))
+      return (
+        <Image
+          src={"/images/text.png"}
+          alt="Text Icon"
+          width={512}
+          height={512}
+        />
+      );
+    return (
+      <Image
+        src={"/images/file.png"}
+        alt="File Icon"
+        width={512}
+        height={512}
+      />
+    );
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files?.length) {
+      setSelectedFile(e.target.files[0]);
+    }
+  };
+
+  const handleReviewClick = (e?: React.FormEvent<HTMLFormElement>) => {
+    e?.preventDefault();
+    setSelectedFile(null);
+    if (selectedFile && input.trim()) {
+      handleFileSubmit(selectedFile, input);
+    } else {
+      alert("Please select a file and ask a question.");
+    }
+  };
+
   const renderDocumentSection = () => (
     <div className="flex-[1_0_0px] relative w-full">
+      {selectedFile && (
+        <div className="ml-4 mt-2 flex items-center space-x-2 w-min px-3 py-2 transition-colors rounded-[30px] bg-[linear-gradient(180deg,_rgb(243,243,241)_54.93%,_rgb(250,250,247)_100%)]">
+          <span className="w-6 h-6">{getFileIcon(selectedFile.type)}</span>
+          <div className="text-sm truncate max-w-xs">{selectedFile.name}</div>
+          <button
+            onClick={() => setSelectedFile(null)}
+            className="ml-auto text-red-500 hover:text-red-700 text-xs"
+          >
+            <X className="w-4 h-4" />
+          </button>
+        </div>
+      )}
+
       <div className="flex flex-row p-3 w-full">
         <div className="flex items-center gap-3">
-          <FileUploadBtn onFileSelect={(file) => console.log(file)} />
-          <span className="text-gray-400">or</span>
+          <FileUploadBtn onFileSelect={handleFileChange} />
         </div>
         <textarea
-          value={documentInput}
-          onChange={(e) => setDocumentInput(e.target.value)}
-          placeholder="Paste your document content here for legal analysis..."
+          ref={textareaRef}
+          value={input}
+          onChange={handleInputChange}
+          placeholder="Upload and Ask your question about the document..."
           disabled={isLoading}
           rows={1}
           onKeyDown={(e) => {
             if (e.key === "Enter" && !e.shiftKey) {
               e.preventDefault();
-              handleSubmit(e as any);
+
+              handleReviewClick(e as any);
             }
           }}
-          className="w-full p-3 bg-transparent text-left font-inter font-normal text-[#111111] focus-visible:outline-none resize-none focus:outline-none focus:border-transparent disabled:opacity-50 text-base leading-relaxed min-h-[44px] overflow-hidden"
+          className="w-full p-3 bg-transparent text-left font-inter font-normal text-[#111111] focus-visible:outline-none resize-none focus:outline-none focus:border-transparent disabled:opacity-50 text-base leading-relaxed min-h-[44px] overflow-hidden placeholder:text-sm md:placeholder:text-base"
           style={{
             height: "auto",
             minHeight:
@@ -269,7 +348,7 @@ export default function ChatBotComponent() {
             const target = e.target as HTMLTextAreaElement;
             target.style.height = "auto";
             const lineHeight = 24;
-            const maxRows = 4;
+            const maxRows = 8;
             const maxHeight = lineHeight * maxRows;
             if (target.scrollHeight <= maxHeight) {
               target.style.overflowY = "hidden";
@@ -767,7 +846,7 @@ export default function ChatBotComponent() {
                     }`}
                   >
                     {/* Avatar */}
-                    <div className="flex-shrink-0">
+                    <div className="flex-shrink-0 hidden md:flex">
                       {message.role === "user" ? (
                         <InitialAvatar
                           name={userName}
@@ -775,9 +854,6 @@ export default function ChatBotComponent() {
                           bgColor="#2563EB"
                         />
                       ) : (
-                        // <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center">
-                        //   <User className="w-5 h-5 text-white" />
-                        // </div>
                         <div className="w-10 h-10 bg-[#FE6A2E] rounded-full flex items-center justify-center">
                           <Image
                             src="/images/logo-orange.png"
@@ -792,54 +868,124 @@ export default function ChatBotComponent() {
 
                     {/* Message Content */}
                     <div
-                      className={`flex flex-col gap-2 max-w-[85%] sm:max-w-[80%] group ${
+                      className={`flex flex-col gap-2 max-w-[100%] md:max-w-[85%] group ${
                         message.role === "user" ? "items-end" : "items-start"
                       }`}
                     >
-                      <div
-                        className={`relative rounded-2xl ${
-                          message.role === "user"
-                            ? " bg-white shadow-md text-[#494949] font-urbanist py-4 px-5 font-medium"
-                            : "bg-white border border-gray-200 py-4 px-5"
-                        }`}
-                      >
-                        <TypingMarkdown content={message.content} />
-
-                        {/* Legal Disclaimer for AI responses */}
-                        {message.role === "assistant" && (
-                          <div className="mt-3 pt-3 border-t border-gray-100">
-                            <div className="flex items-center gap-2 text-xs text-amber-700">
-                              <AlertTriangle className="w-3 h-3" />
-                              <span>
-                                Informational only - Consult a lawyer for legal
-                                advice
-                              </span>
+                      {message.attachment && (
+                        <div className="flex flex-row flex-nowrap items-center content-center justify-center gap-[10px] p-1 w-full h-min relative flex-[1_0_0px] lg:flex-none rounded-[31px] bg-white shadow-[0_0_14px_0_rgba(0,0,0,0.05)]">
+                          <div
+                            className="flex items-center space-x-2 w-min px-3 py-2 transition-colors flex-row flex-nowrap content-center justify-center gap-[10px] p-[45px_38px] h-min relative flex-[1_0_0px] rounded-[28px] overflow-hidden"
+                            style={{
+                              background:
+                                "linear-gradient(180deg,#ffffff 50%,rgb(248,249,250) 100%)",
+                              borderWidth: "1px",
+                              borderColor: "#f8f9fa",
+                              borderStyle: "solid",
+                              willChange: "transform",
+                            }}
+                          >
+                            <span className="w-6 h-6">
+                              {getFileIcon(message.attachment?.type ?? "")}
+                            </span>
+                            <div className="text-sm truncate max-w-xs">
+                              {message.attachment?.name}
                             </div>
                           </div>
-                        )}
+                        </div>
+                      )}
+                      <div
+                        className={`relative ${
+                          message.role === "user"
+                            ? `bg-white shadow-md text-[#494949] font-urbanist py-4 px-5 font-medium ${
+                                message.attachment
+                                  ? "rounded-2xl rounded-tr-md"
+                                  : "rounded-2xl"
+                              }`
+                            : "flex flex-row flex-nowrap items-center content-center justify-center gap-[10px] p-1 w-full h-min relative flex-[1_0_0px] lg:flex-none rounded-[31px] bg-white shadow-[0_0_14px_0_rgba(0,0,0,0.05)]"
+                        }`}
+                      >
+                        <div
+                          className={`relative rounded-2xl ${
+                            message.role === "user"
+                              ? ""
+                              : "flex flex-col flex-nowrap items-center content-center justify-center gap-[10px] p-[30px_25px] h-min relative flex-[1_0_0px] rounded-[28px] overflow-hidden"
+                          }`}
+                          style={
+                            message.role === "user"
+                              ? {}
+                              : {
+                                  background: message.isError
+                                    ? "linear-gradient(180deg, #FDECEA 50%, #F9DCDC 100%)"
+                                    : "linear-gradient(180deg,#ffffff 50%,rgb(248,249,250) 100%)",
+                                  borderWidth: "1px",
+                                  borderColor: message.isError
+                                    ? "#EF9A9A"
+                                    : "#f8f9fa",
+                                  borderStyle: "solid",
+                                  willChange: "transform",
+                                }
+                          }
+                        >
+                          {message.role === "user" &&
+                          activeSection === "document" ? (
+                            <ReactMarkdown>{message.content}</ReactMarkdown>
+                          ) : (
+                            <>
+                              {message.isError && (
+                                <MessageCircleX className="w-5 h-5 mr-2 text-[#C62828]" />
+                              )}
+                              <TypingMarkdown
+                                content={message.content}
+                                className={`${
+                                  message.isError ? "text-[#C62828]" : ""
+                                }`}
+                              />
+                            </>
+                          )}
+
+                          {/* Legal Disclaimer for AI responses */}
+                          {message.role === "assistant" && !message.isError && (
+                            <div className="mt-3 pt-3 border-t border-gray-100">
+                              <div className="flex items-center gap-2 text-xs text-amber-700">
+                                <AlertTriangle className="w-3 h-3" />
+                                <span>
+                                  Informational only - Consult a lawyer for
+                                  legal advice
+                                </span>
+                              </div>
+                            </div>
+                          )}
+                        </div>
                       </div>
                       {/* Message Actions */}
                       {message.role === "assistant" ? (
-                        <div className="opacity-100 transition-opacity">
-                          <div className="flex items-center gap-1">
-                            <button
-                              onClick={() =>
-                                copyToClipboard(message.content, message.id)
-                              }
-                              className="p-1.5 bg-transparent hover:bg-gray-200 active:bg-gray-300 rounded-lg transition-colors"
-                              title="Copy message"
-                            >
-                              <Copy className="w-3 md:w-4 h-3 md:h-4 text-gray-600" />
-                            </button>
-                            {copiedMessageId === message.id && (
-                              <span className="text-xs text-green-600 ml-2">
-                                Copied!
-                              </span>
-                            )}
-                          </div>
-                        </div>
+                        <>
+                          {!message.isError ? (
+                            <div className="opacity-100 transition-opacity">
+                              <div className="flex items-center gap-1">
+                                <button
+                                  onClick={() =>
+                                    copyToClipboard(message.content, message.id)
+                                  }
+                                  className="p-1.5 bg-transparent hover:bg-gray-200 active:bg-gray-300 rounded-lg transition-colors"
+                                  title="Copy message"
+                                >
+                                  <Copy className="w-3 md:w-4 h-3 md:h-4 text-gray-600" />
+                                </button>
+                                {copiedMessageId === message.id && (
+                                  <span className="text-xs text-green-600 ml-2">
+                                    Copied!
+                                  </span>
+                                )}
+                              </div>
+                            </div>
+                          ) : (
+                            ""
+                          )}
+                        </>
                       ) : (
-                        <div className="opacity-0 group-hover:opacity-100 transition-opacity">
+                        <div className="opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity">
                           <div className="flex items-center gap-1">
                             {copiedMessageId === message.id && (
                               <span className="text-xs text-green-600 mr-2">
@@ -869,50 +1015,45 @@ export default function ChatBotComponent() {
                     animate={{ opacity: 1, y: 0 }}
                     className="flex gap-3 sm:gap-4"
                   >
-                    <div className="w-7 h-7 sm:w-8 sm:h-8 bg-gradient-to-br from-amber-500 to-orange-600 rounded-lg flex items-center justify-center">
-                      <Scale className="w-3 h-3 sm:w-4 sm:h-4 text-white" />
+                    <div className="w-10 h-10 bg-[#FE6A2E] rounded-full hidden md:flex items-center justify-center">
+                      <Image
+                        src="/images/logo-orange.png"
+                        alt="Logo"
+                        className="w-8 h-8 rounded-full"
+                        width={50}
+                        height={50}
+                      />
                     </div>
                     <div className="flex flex-col gap-2">
-                      <span className="text-xs sm:text-sm font-medium text-gray-900">
-                        Legal AI Advisor
-                      </span>
-                      <div className="bg-white border border-gray-200 p-3 sm:p-4 rounded-2xl">
-                        <div className="flex items-center gap-1">
-                          <div className="w-2 h-2 bg-amber-600 rounded-full animate-bounce"></div>
-                          <div
-                            className="w-2 h-2 bg-amber-600 rounded-full animate-bounce"
-                            style={{ animationDelay: "0.1s" }}
-                          ></div>
-                          <div
-                            className="w-2 h-2 bg-amber-600 rounded-full animate-bounce"
-                            style={{ animationDelay: "0.2s" }}
-                          ></div>
+                      <div className="relative flex flex-row flex-nowrap items-center content-center justify-center gap-[10px] p-1 w-full h-min flex-[1_0_0px] lg:flex-none rounded-[31px] bg-white shadow-[0_0_14px_0_rgba(0,0,0,0.05)]">
+                        <div
+                          className="flex flex-col flex-nowrap items-center content-center justify-center gap-[10px] p-[18px_15px] h-min relative flex-[1_0_0px] rounded-[28px] overflow-hidden"
+                          style={{
+                            background:
+                              "linear-gradient(180deg,#ffffff 50%,rgb(248,249,250) 100%)",
+                            borderWidth: "1px",
+                            borderColor: "#f8f9fa",
+                            borderStyle: "solid",
+                            willChange: "transform",
+                          }}
+                        >
+                          <div className="flex items-center gap-1">
+                            <div className="w-2 h-2 bg-amber-600 rounded-full animate-bounce"></div>
+                            <div
+                              className="w-2 h-2 bg-amber-600 rounded-full animate-bounce"
+                              style={{ animationDelay: "0.1s" }}
+                            ></div>
+                            <div
+                              className="w-2 h-2 bg-amber-600 rounded-full animate-bounce"
+                              style={{ animationDelay: "0.2s" }}
+                            ></div>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </motion.div>
                 )}
 
-                {/* Error Display */}
-                {error && (
-                  <div className="flex justify-center">
-                    <div className="bg-red-50 border border-red-200 p-4 rounded-2xl max-w-md">
-                      <div className="flex items-center gap-2 mb-3">
-                        <AlertTriangle className="w-4 h-4 text-red-600" />
-                        <p className="text-sm text-red-700">
-                          Sorry, there was an error processing your request.
-                        </p>
-                      </div>
-                      <button
-                        onClick={handleRetry}
-                        className="flex items-center gap-2 px-3 py-2 bg-red-100 hover:bg-red-200 active:bg-red-300 rounded-lg text-sm text-red-700 transition-colors"
-                      >
-                        <RefreshCw className="w-3 h-3" />
-                        Try Again
-                      </button>
-                    </div>
-                  </div>
-                )}
                 <div ref={messagesEndRef} />
               </div>
             )}
@@ -924,7 +1065,9 @@ export default function ChatBotComponent() {
           <div className="w-full max-w-4xl flex flex-col justify-self-center gap-2">
             {/* Input Area */}
             <form
-              onSubmit={handleSubmit}
+              onSubmit={
+                activeSection === "document" ? handleReviewClick : handleSubmit
+              }
               className="relative flex flex-row flex-nowrap items-start justify-center gap-0 p-0 w-full h-min flex-none overflow-visible rounded-[17px] opacity-100"
             >
               <div className="relative flex flex-col flex-nowrap items-center justify-center py-[2px] pr-[7px] h-min flex-[1_0_0px] rounded-[23px] opacity-100 shadow-[0_2px_20px_0_rgba(0,0,0,0.07)] bg-[linear-gradient(180deg,rgba(255,255,255,1)_50%,rgba(254,254,254,1)_100%)] border border-solid border-[rgb(240,236,231)]">
