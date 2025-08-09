@@ -6,14 +6,16 @@ import { useState, useEffect } from "react";
 
 interface TypingMarkdownProps {
   content: string;
-  delayPerChunk?: number; // ms per chunk
-  chunkSize?: number; // characters revealed per step
+  className?: string;
+  delayPerChunk?: number;
+  chunkSize?: number;
 }
 
 export default function TypingMarkdown({
   content,
-  delayPerChunk = 5, // super fast
-  chunkSize = 4, // reveal 4 chars at a time
+  className,
+  delayPerChunk = 5,
+  chunkSize = 4,
 }: TypingMarkdownProps) {
   const [displayedText, setDisplayedText] = useState("");
 
@@ -21,7 +23,7 @@ export default function TypingMarkdown({
     let i = 0;
     const interval = setInterval(() => {
       i += chunkSize;
-      setDisplayedText(content.slice(0, i)); // ✅ take from start → no skipping
+      setDisplayedText(content.slice(0, i));
       if (i >= content.length) {
         clearInterval(interval);
       }
@@ -35,7 +37,7 @@ export default function TypingMarkdown({
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.1 }}
-      className="prose prose-neutral max-w-none"
+      className={`prose prose-neutral max-w-none ${className}`}
     >
       <ReactMarkdown>{displayedText}</ReactMarkdown>
     </motion.div>

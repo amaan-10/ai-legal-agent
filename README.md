@@ -1,4 +1,9 @@
-# ⚖️ Nyayik – AI Legal Advisor
+<!-- # ⚖️ Nyayik – AI Legal Advisor -->
+
+<div align="center">
+  <img src="public/images/Nyāyik.png" width="69" height="66"/>
+  
+</div>
 
 Nyayik is an **AI-powered legal advisory platform** that helps users get instant, intelligent, and context-aware legal insights.  
 It supports answering legal queries, summarizing laws, providing case recommendations, and reviewing legal documents automatically.

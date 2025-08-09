@@ -49,7 +49,6 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = ({
   };
 
   const handleMenuItemClick = (item: string) => {
-    console.log(`Clicked: ${item}`);
     setIsOpen(false);
   };
 

@@ -3,7 +3,12 @@ import { useState } from "react";
 export interface ChatMessage {
   id: string;
   role: "user" | "assistant";
+  attachment?: {
+    name: string;
+    type: string;
+  };
   content: string;
+  isError?: boolean;
   createdAt: string;
 }
 
@@ -41,18 +46,30 @@ export function useStreamChat() {
       setMessages((prev) => [...prev, assistantData]);
     } catch (err) {
       console.error("Chat error:", err);
+      setMessages((prev) => [
+        ...prev,
+        {
+          id: crypto.randomUUID(),
+          role: "assistant",
+          content: "Sorry, there was an error processing your request.",
+          isError: true,
+          createdAt: new Date().toISOString(),
+        },
+      ]);
       setError("Something went wrong.");
     } finally {
       setIsLoading(false);
     }
   }
 
-  async function handleFileSubmit(file: File, question: string) {
+  async function handleFileSubmit(file: File, question: string, e?: React.FormEvent<HTMLFormElement>) {
+    e?.preventDefault();
     if (!file || !question.trim()) return;
 
     const userMsg: ChatMessage = {
       id: crypto.randomUUID(),
       role: "user",
+      attachment: file ? { name: file.name, type: file.type } : undefined,
       content: question,
       createdAt: new Date().toISOString(),
     };
@@ -77,6 +94,16 @@ export function useStreamChat() {
       setMessages((prev) => [...prev, assistantData]);
     } catch (err) {
       console.error("File upload error:", err);
+      setMessages((prev) => [
+        ...prev,
+        {
+          id: crypto.randomUUID(),
+          role: "assistant",
+          content: "Sorry, there was an error processing your request.",
+          isError: true,
+          createdAt: new Date().toISOString(),
+        },
+      ]);
       setError("Something went wrong during document review.");
     } finally {
       setIsLoading(false);
@@ -92,7 +119,6 @@ export function useStreamChat() {
       handleSubmit();
     }
   }
-
   return {
     messages,
     input,
