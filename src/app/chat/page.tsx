@@ -250,6 +250,7 @@ export default function ChatBotComponent() {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
   const getFileIcon = (fileType: string) => {
+    console.log("File type:", fileType);
     if (fileType.includes("pdf"))
       return (
         <Image
@@ -262,7 +263,7 @@ export default function ChatBotComponent() {
     if (fileType.includes("word") || fileType.includes("docx"))
       return (
         <Image
-          src={"/images/word.png"}
+          src={"/images/doc.png"}
           alt="Word Icon"
           width={512}
           height={512}
@@ -271,7 +272,7 @@ export default function ChatBotComponent() {
     if (fileType.includes("text") || fileType.includes("plain"))
       return (
         <Image
-          src={"/images/text.png"}
+          src={"/images/txt.png"}
           alt="Text Icon"
           width={512}
           height={512}

@@ -5,6 +5,15 @@ import { nanoid } from "nanoid";
 import pdfParse from "pdf-parse";
 import mammoth from "mammoth";
 
+async function geminiOCRFromPDF(buffer: Buffer) {
+  const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+  const result = await model.generateContent([
+    { inlineData: { data: buffer.toString("base64"), mimeType: "application/pdf" } },
+    { text: "Extract all text from this scanned legal document." }
+  ]);
+  return result.response.text();
+}
+
 export const POST = async (req: NextRequest) => {
   try {
     const formData = await req.formData();
@@ -17,13 +26,15 @@ export const POST = async (req: NextRequest) => {
 
     const buffer = Buffer.from(await file.arrayBuffer());
     const fileName = file.name.toLowerCase();
-
     let documentText = "";
 
-    // Parse based on file type
     if (fileName.endsWith(".pdf")) {
       const parsed = await pdfParse(buffer);
-      documentText = parsed.text;
+      if (parsed.text && parsed.text.trim().length > 50) {
+        documentText = parsed.text; // digital PDF
+      } else {
+        documentText = await geminiOCRFromPDF(buffer); // scanned PDF
+      }
     } else if (fileName.endsWith(".docx")) {
       const result = await mammoth.extractRawText({ buffer });
       documentText = result.value;
@@ -38,18 +49,19 @@ export const POST = async (req: NextRequest) => {
     }
 
     const prompt = `
-      You are a Indian Legal Advisor. Carefully review the following legal document and answer the user's query using clear and structured Markdown formatting.
+You are an Indian Legal Advisor. Carefully review the following legal document and answer the user's query using clear and structured Markdown formatting.
 
-      ---
-      ### 📄 Document:
-      ${documentText}
+---
+### 📄 Document:
+${documentText}
 
-      ---
-      ### ❓ User's Question:
-      ${question}
+---
+### ❓ User's Question:
+${question}
 
-      ---
-      ### ✅ Legal Review:`.trim();
+---
+### ✅ Legal Review:
+`.trim();
 
     const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
     const result = await model.generateContent(prompt);
@@ -61,6 +73,7 @@ export const POST = async (req: NextRequest) => {
       content: responseText,
       createdAt: new Date().toISOString(),
     });
+
   } catch (err) {
     console.error("❌ Backend error:", err);
     return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
