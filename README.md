@@ -1,7 +1,7 @@
 <!-- # ⚖️ Nyayik – AI Legal Advisor -->
 
 <div align="center">
-  <img src="public/images/Nyāyik.png" width="69" height="66"/>
+  <img src="public/images/Nyāyik.png" width="200" height="200"/>
   
 </div>
 
