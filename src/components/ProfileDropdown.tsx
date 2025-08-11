@@ -7,9 +7,13 @@ import {
   ChevronRight,
   Settings2,
   CircleUser,
+  FileText,
+  Contact,
+  ClipboardPenLine,
 } from "lucide-react";
 import InitialAvatar from "./InitialAvatar";
 import { signOut } from "next-auth/react";
+import SettingsDialog from "./SettingsDailog";
 
 interface ProfileDropdownProps {
   userName: string;
@@ -52,6 +56,9 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = ({
     setIsOpen(false);
   };
 
+  const [showHelpSubmenu, setShowHelpSubmenu] = useState(false);
+  const [showSettingsDialog, setShowSettingsDialog] = useState(false);
+
   return (
     <div
       className={`flex items-center justify-start hover:bg-gray-100 rounded-xl ${
@@ -61,7 +68,13 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = ({
       <div className="relative w-full" ref={dropdownRef}>
         {/* Profile Avatar Trigger */}
 
-        <div onClick={toggleDropdown} className="p-[6px_10px_6px_8px]">
+        <div
+          onClick={() => {
+            toggleDropdown();
+            setShowHelpSubmenu(false);
+          }}
+          className="p-[6px_10px_6px_8px]"
+        >
           <div className="flex items-center gap-3">
             <InitialAvatar name={userName} size={32} bgColor="#2563EB" />
             {(!sidebarCollapsed || mobileMenuOpen) && (
@@ -88,17 +101,7 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = ({
               {/* Menu Items */}
               <div className="">
                 <button
-                  onClick={() => handleMenuItemClick("Customize ChatGPT")}
-                  className="w-full flex items-center gap-3 p-2 rounded-lg text-left hover:bg-gray-50 transition-colors focus:outline-none focus:bg-gray-50"
-                >
-                  <Settings2 className="h-4 w-4 text-gray-700" />
-                  <span className="text-gray-700 text-sm font-medium">
-                    Customize Nyayik
-                  </span>
-                </button>
-
-                <button
-                  onClick={() => handleMenuItemClick("Settings")}
+                  onClick={() => setShowSettingsDialog(true)}
                   className="w-full flex items-center gap-3 p-2 rounded-lg text-left hover:bg-gray-50 transition-colors focus:outline-none focus:bg-gray-50"
                 >
                   <Settings className="h-4 w-4 text-gray-700" />
@@ -106,6 +109,11 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = ({
                     Settings
                   </span>
                 </button>
+                {showSettingsDialog && (
+                  <SettingsDialog
+                    onClose={() => setShowSettingsDialog(false)}
+                  />
+                )}
               </div>
 
               {/* Separator */}
@@ -114,7 +122,7 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = ({
               {/* Help and Logout */}
               <div className="">
                 <button
-                  onClick={() => handleMenuItemClick("Help")}
+                  onClick={() => setShowHelpSubmenu(!showHelpSubmenu)}
                   className="w-full flex items-center justify-between p-2 rounded-lg text-left hover:bg-gray-50 transition-colors focus:outline-none focus:bg-gray-50"
                 >
                   <div className="flex items-center gap-3">
@@ -125,6 +133,38 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = ({
                   </div>
                   <ChevronRight className="h-3 w-3 text-gray-400" />
                 </button>
+
+                {showHelpSubmenu && (
+                  <div className="absolute top-14 left-64 w-56 bg-white rounded-2xl shadow-lg p-2">
+                    <button
+                      onClick={() => handleMenuItemClick("Settings")}
+                      className="w-full flex items-center gap-3 p-2 rounded-lg text-left hover:bg-gray-100 transition-colors focus:outline-none focus:bg-gray-50"
+                    >
+                      <FileText className="h-4 w-4 text-gray-700" />
+                      <span className="text-gray-700 text-sm font-medium">
+                        Terms & Conditions
+                      </span>
+                    </button>
+                    <button
+                      onClick={() => handleMenuItemClick("Settings")}
+                      className="w-full flex items-center gap-3 p-2 rounded-lg text-left hover:bg-gray-100 transition-colors focus:outline-none focus:bg-gray-50"
+                    >
+                      <Contact className="h-4 w-4 text-gray-700" />
+                      <span className="text-gray-700 text-sm font-medium">
+                        Contact Us
+                      </span>
+                    </button>
+                    <button
+                      onClick={() => handleMenuItemClick("Settings")}
+                      className="w-full flex items-center gap-3 p-2 rounded-lg text-left hover:bg-gray-100 transition-colors focus:outline-none focus:bg-gray-50"
+                    >
+                      <ClipboardPenLine className="h-4 w-4 text-gray-700" />
+                      <span className="text-gray-700 text-sm font-medium">
+                        Release Notes
+                      </span>
+                    </button>
+                  </div>
+                )}
 
                 <button
                   onClick={() => signOut({ callbackUrl: "/auth/sign-up" })}
