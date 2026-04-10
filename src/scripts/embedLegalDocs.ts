@@ -5,6 +5,7 @@ dotenv.config({ path: path.resolve(process.cwd(), ".env.local") });
 
 import { GoogleGenerativeAIEmbeddings } from "@langchain/google-genai";
 import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
+import { PineconeStore } from "@langchain/pinecone";
 import { getPineconeIndex } from "../lib/pinecone";
 
 async function run() {
@@ -17,7 +18,7 @@ async function run() {
 
   const embeddings = new GoogleGenerativeAIEmbeddings({
     apiKey: process.env.GEMINI_API_KEY!,
-    modelName: "text-embedding-004",
+    modelName: "gemini-embedding-001",
   });
 
   const index = getPineconeIndex();
@@ -29,36 +30,35 @@ async function run() {
     console.log(`📄 Processing file: ${file}`);
     const text = fs.readFileSync(path.join(docsDir, file), "utf8");
 
-    // ✅ Split large docs into chunks
     const splitter = new RecursiveCharacterTextSplitter({
-      chunkSize: 2000, // characters
+      chunkSize: 2000,
       chunkOverlap: 200,
     });
-    const chunks = await splitter.splitText(text);
 
-    console.log(`   ➡️ Split into ${chunks.length} chunks`);
+    // ✅ Create LangChain 'Document' objects instead of raw strings.
+    // This allows us to pass metadata directly into the vector store.
+    const docs = await splitter.createDocuments(
+      [text],
+      [{ source: file }], // Injects the filename into the metadata of every chunk
+    );
 
-    let counter = 0;
-    for (const chunk of chunks) {
-      counter++;
-      try {
-        const vector = await embeddings.embedQuery(chunk);
-        await index.upsert([
-          {
-            id: `${file}-${counter}`,
-            values: vector,
-            metadata: { source: file, text: chunk },
-          },
-        ]);
-      } catch (err) {
-        console.error(`❌ Error embedding chunk ${counter} of ${file}:`, err);
-      }
+    console.log(`   ➡️ Split into ${docs.length} chunks. Batch uploading...`);
+
+    try {
+      // ✅ PineconeStore automatically batches the embeddings and upserts!
+      await PineconeStore.fromDocuments(docs, embeddings, {
+        pineconeIndex: index,
+      });
+      console.log(`   ✅ Successfully embedded and uploaded ${file}`);
+    } catch (err) {
+      console.error(`❌ Error processing ${file}:`, err);
     }
   }
 
-  console.log("✅ All documents embedded successfully.");
+  console.log("🎉 All documents embedded successfully.");
 }
 
 run().catch((err) => {
   console.error("❌ Error embedding documents:", err);
 });
+// to run this script, use: `npx tsx src/scripts/embedLegalDocs.ts`
