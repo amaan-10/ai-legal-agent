@@ -5,8 +5,10 @@ dotenv.config({ path: path.resolve(process.cwd(), ".env.local") });
 
 import { GoogleGenerativeAIEmbeddings } from "@langchain/google-genai";
 import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
-import { PineconeStore } from "@langchain/pinecone";
 import { getPineconeIndex } from "../lib/pinecone";
+
+// 🕒 Utility function to pause execution
+const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 async function run() {
   if (!process.env.PINECONE_API_KEY) {
@@ -16,9 +18,11 @@ async function run() {
     throw new Error("❌ Missing GEMINI_API_KEY in .env.local");
   }
 
+  // maxConcurrency: 1 prevents LangChain from sending parallel requests
   const embeddings = new GoogleGenerativeAIEmbeddings({
     apiKey: process.env.GEMINI_API_KEY!,
     modelName: "gemini-embedding-001",
+    maxConcurrency: 1,
   });
 
   const index = getPineconeIndex();
@@ -35,30 +39,61 @@ async function run() {
       chunkOverlap: 200,
     });
 
-    // ✅ Create LangChain 'Document' objects instead of raw strings.
-    // This allows us to pass metadata directly into the vector store.
-    const docs = await splitter.createDocuments(
-      [text],
-      [{ source: file }], // Injects the filename into the metadata of every chunk
-    );
+    const docs = await splitter.createDocuments([text], [{ source: file }]);
 
-    console.log(`   ➡️ Split into ${docs.length} chunks. Batch uploading...`);
+    console.log(`   ➡️ Split into ${docs.length} chunks.`);
 
-    try {
-      // ✅ PineconeStore automatically batches the embeddings and upserts!
-      await PineconeStore.fromDocuments(docs, embeddings, {
-        pineconeIndex: index,
-      });
-      console.log(`   ✅ Successfully embedded and uploaded ${file}`);
-    } catch (err) {
-      console.error(`❌ Error processing ${file}:`, err);
+    // 🚨 Drastically reduced batch size to stay under the 100 RPM limit
+    const batchSize = 60;
+
+    for (let i = 0; i < docs.length; i += batchSize) {
+      const batch = docs.slice(i, i + batchSize);
+      const texts = batch.map((doc) => doc.pageContent);
+
+      try {
+        console.log(
+          `   ⏳ Requesting embeddings for chunks ${i + 1} to ${Math.min(i + batchSize, docs.length)}...`,
+        );
+
+        const vectors = await embeddings.embedDocuments(texts);
+
+        if (!vectors || vectors.length === 0 || vectors[0].length === 0) {
+          console.error(
+            `🚨 ERROR: API returned empty vectors. RPM limit likely hit.`,
+          );
+          break;
+        }
+
+        const pineconeRecords = batch.map((doc, idx) => ({
+          id: `${file}-chunk-${i + idx}`,
+          values: vectors[idx],
+          metadata: {
+            source: doc.metadata.source,
+            text: doc.pageContent,
+          },
+        }));
+
+        await index.upsert(pineconeRecords);
+        console.log(`      ✓ Successfully pushed to Pinecone.`);
+
+        // 🛑 The Magic Sauce: Force the script to wait 60 seconds before the next batch
+        if (i + batchSize < docs.length) {
+          console.log(
+            `   ⏱️  Waiting 60 seconds for API RPM limit to reset...`,
+          );
+          await sleep(60000);
+        }
+      } catch (err: any) {
+        console.error(`❌ Detailed Error:`, err?.message || err);
+        break;
+      }
     }
+    console.log(`   ✅ Finished processing ${file}\n`);
   }
 
-  console.log("🎉 All documents embedded successfully.");
+  console.log("🎉 All documents processed.");
 }
 
 run().catch((err) => {
-  console.error("❌ Error embedding documents:", err);
+  console.error("❌ Fatal Error:", err);
 });
-// to run this script, use: `npx tsx src/scripts/embedLegalDocs.ts`
